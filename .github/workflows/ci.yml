@@ -14,7 +14,7 @@ env:
   RUBY_VERSION: 2.6.x
 
 jobs:
-  BuildAndTest:
+  BuildAndTests:
     name: Build & Tests
     runs-on: macOS-latest
     env:
