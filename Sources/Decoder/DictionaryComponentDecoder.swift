@@ -130,7 +130,7 @@ extension DictionaryComponentDecoder {
                 return -T.infinity
 
             case let .convertFromString(_, _, nan) where string == nan:
-                return -T.nan
+                return T.nan
 
             case .convertFromString, .throw:
                 break
