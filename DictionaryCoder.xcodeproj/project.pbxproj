@@ -371,8 +371,8 @@
 				C013EB0023E1E0AF00F12CCB /* Encoder */,
 				C013EAF123E1E0AE00F12CCB /* Tools */,
 				C0A01A1423CB8FF300AC2C3A /* .swiftlint.yml */,
-				C057F01223CB8EEB00C2D895 /* Info.plist */,
 				C057F01123CB8EEB00C2D895 /* DictionaryCoder.h */,
+				C057F01223CB8EEB00C2D895 /* Info.plist */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
