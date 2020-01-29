@@ -95,10 +95,6 @@ let package = Package(
 )
 ```
 
-### Manually
-If you prefer not to use dependency managers, you can integrate DictionaryCoder into your project manually
-by adding the [DictionaryCoder](DictionaryCoder) folder to your Xcode project.
-
 ## Communication
 - If you need help, open an issue.
 - If you found a bug, open an issue.
