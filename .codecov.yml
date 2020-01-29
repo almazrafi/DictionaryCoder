@@ -1,0 +1,20 @@
+coverage:
+  precision: 2
+  round: down
+  range: "70...100"
+
+  status:
+    project:
+      default:
+        threshold: 1.0%
+    changes:
+      default:
+        threshold: 1.0%
+    patch: off
+
+comment:
+  layout: "flags, files"
+  behavior: new
+
+ignore:
+  - Tests

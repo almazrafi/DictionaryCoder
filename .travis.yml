@@ -1,0 +1,50 @@
+language: swift
+osx_image: xcode11
+
+rvm: 2.6.3
+gemfile: Gemfile
+
+env:
+  global:
+    - LC_CTYPE=en_US.UTF-8
+    - LANG=en_US.UTF-8
+
+    - PROJECT='DictionaryCoder.xcodeproj'
+
+    - IOS_SCHEME='DictionaryCoder iOS'
+    - IOS_DESTINATION='platform=iOS Simulator,OS=13.0,name=iPhone 11'
+    - IOS_BUILD_LOG_PATH='xcodebuild-ios.json'
+
+    - MACOS_SCHEME='DictionaryCoder macOS'
+    - MACOS_DESTINATION='platform=macOS'
+    - MACOS_BUILD_LOG_PATH='xcodebuild-macos.json'
+
+    - TVOS_SCHEME='DictionaryCoder tvOS'
+    - TVOS_DESTINATION='platform=tvOS Simulator,OS=13.0,name=Apple TV 4K'
+    - TVOS_BUILD_LOG_PATH='xcodebuild-tvos.json'
+
+    - SKIP_SWIFTLINT=TRUE
+
+install:
+  - gem update bundler
+  - bundle install --without=documentation
+
+script:
+  - set -o pipefail
+  - swift --version
+
+  - xcodebuild clean build test -project "$PROJECT" -scheme "$IOS_SCHEME" -destination "$IOS_DESTINATION" | XCPRETTY_JSON_FILE_OUTPUT="$IOS_BUILD_LOG_PATH" xcpretty -f `xcpretty-json-formatter`
+  - bash <(curl -s https://codecov.io/bash) -cF ios -J 'DictionaryCoder'
+
+  - xcodebuild clean build test -project "$PROJECT" -scheme "$MACOS_SCHEME" -destination "$MACOS_DESTINATION" | XCPRETTY_JSON_FILE_OUTPUT="$MACOS_BUILD_LOG_PATH" xcpretty -f `xcpretty-json-formatter`
+  - bash <(curl -s https://codecov.io/bash) -cF osx -J 'DictionaryCoder'
+
+  - xcodebuild clean build test -project "$PROJECT" -scheme "$TVOS_SCHEME" -destination "$TVOS_DESTINATION" | XCPRETTY_JSON_FILE_OUTPUT="$TVOS_BUILD_LOG_PATH" xcpretty -f `xcpretty-json-formatter`
+  - bash <(curl -s https://codecov.io/bash) -cF tvos -J 'DictionaryCoder'
+
+  - bundle exec pod lib lint --skip-tests --allow-warnings
+  - bundle exec danger --remove-previous-comments
+
+branches:
+  only:
+    - master
