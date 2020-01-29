@@ -1,5 +1,5 @@
 # DictionaryCoder
-[![Travis CI](https://travis-ci.com/almazrafi/DictionaryCoder.svg?branch=master)](https://travis-ci.com/almazrafi/DictionaryCoder)
+[![Build Status](https://github.com/almazrafi/DictionaryCoder/workflows/CI/badge.svg?branch=master)](https://github.com/almazrafi/DictionaryCoder/actions)
 [![Codecov](https://codecov.io/gh/almazrafi/DictionaryCoder/branch/master/graph/badge.svg)](https://codecov.io/gh/almazrafi/DictionaryCoder)
 [![Cocoapods](https://img.shields.io/cocoapods/v/DictionaryCoder.svg?style=flat)](http://cocoapods.org/pods/DictionaryCoder)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-Compatible-brightgreen.svg?style=flat)](https://github.com/Carthage/Carthage)
