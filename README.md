@@ -26,8 +26,8 @@ let user = User(id: 123, name: "Neo")
 let dictionary = try DictionaryEncoder().encode(user)
 
 // Decode from [String: Any]
-let dictionary = ["id": 123, "name": "Neo"]
-let user = try DictionaryDecoder() .decode(User.self, from: dictionary)
+let dictionary: [String : Any] = ["id": 123, "name": "Neo"]
+let user = try DictionaryDecoder().decode(User.self, from: dictionary)
 ```
 
 ## Installation
