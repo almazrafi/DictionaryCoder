@@ -1,5 +1,5 @@
 language: swift
-osx_image: xcode11.3
+osx_image: xcode11
 
 rvm: 2.6.3
 gemfile: Gemfile
@@ -24,9 +24,12 @@ env:
     - TVOS_SCHEME='DictionaryCoder tvOS'
     - TVOS_DESTINATION='platform=tvOS Simulator,OS=13.0,name=Apple TV 4K'
     - TVOS_BUILD_LOG_PATH='xcodebuild-tvos.json'
-    - TVOS_SDK=appletvsimulator13.0
+    - TVOS_SDK='appletvsimulator13.0'
 
     - SKIP_SWIFTLINT=TRUE
+
+before_install:
+  - gem install bundler
 
 install:
   - gem update bundler
@@ -36,13 +39,13 @@ script:
   - set -o pipefail
   - swift --version
 
-  - xcodebuild clean build test -project "$PROJECT" -scheme "$IOS_SCHEME" -sdk $IOS_SDK -destination "$IOS_DESTINATION" | XCPRETTY_JSON_FILE_OUTPUT="$IOS_BUILD_LOG_PATH" xcpretty -f `xcpretty-json-formatter`
+  - xcodebuild clean build test -project "$PROJECT" -scheme "$IOS_SCHEME" -sdk "$IOS_SDK" -destination "$IOS_DESTINATION" | XCPRETTY_JSON_FILE_OUTPUT="$IOS_BUILD_LOG_PATH" xcpretty -f `xcpretty-json-formatter`
   - bash <(curl -s https://codecov.io/bash) -cF ios -J 'DictionaryCoder'
 
-  - xcodebuild clean build test -project "$PROJECT" -scheme "$MACOS_SCHEME" -sdk $MACOS_SDK -destination "$MACOS_DESTINATION" | XCPRETTY_JSON_FILE_OUTPUT="$MACOS_BUILD_LOG_PATH" xcpretty -f `xcpretty-json-formatter`
+  - xcodebuild clean build test -project "$PROJECT" -scheme "$MACOS_SCHEME" -sdk "$MACOS_SDK" -destination "$MACOS_DESTINATION" | XCPRETTY_JSON_FILE_OUTPUT="$MACOS_BUILD_LOG_PATH" xcpretty -f `xcpretty-json-formatter`
   - bash <(curl -s https://codecov.io/bash) -cF osx -J 'DictionaryCoder'
 
-  - xcodebuild clean build test -project "$PROJECT" -scheme "$TVOS_SCHEME" -sdk $TVOS_SDK -destination "$TVOS_DESTINATION" | XCPRETTY_JSON_FILE_OUTPUT="$TVOS_BUILD_LOG_PATH" xcpretty -f `xcpretty-json-formatter`
+  - xcodebuild clean build test -project "$PROJECT" -scheme "$TVOS_SCHEME" -sdk "$TVOS_SDK" -destination "$TVOS_DESTINATION" | XCPRETTY_JSON_FILE_OUTPUT="$TVOS_BUILD_LOG_PATH" xcpretty -f `xcpretty-json-formatter`
   - bash <(curl -s https://codecov.io/bash) -cF tvos -J 'DictionaryCoder'
 
   - bundle exec pod lib lint --skip-tests --allow-warnings
