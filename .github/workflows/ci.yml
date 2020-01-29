@@ -59,6 +59,7 @@ jobs:
 
   Podspec:
     name: Lint podspec
+    runs-on: macOS-latest
     steps:
       - uses: actions/checkout@v2
       - name: Ruby
