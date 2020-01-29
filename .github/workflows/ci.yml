@@ -14,8 +14,8 @@ env:
   RUBY_VERSION: 2.6.x
 
 jobs:
-  BuildAndTest:
-    name: Build & Test
+  BuildAndTests:
+    name: Build & Tests
     runs-on: macOS-latest
     env:
       XCODE_PROJECT: DictionaryCoder.xcodeproj
@@ -29,6 +29,8 @@ jobs:
       TVOS_DESTINATION: OS=13.3,name=Apple TV 4K
       TVOS_BUILD_LOG_PATH: xcodebuild-tvos.json
       SKIP_SWIFTLINT: TRUE
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      DANGER_GITHUB_API_TOKEN: ${{ secrets.DANGER_GITHUB_API_TOKEN }}
     steps:
       - uses: actions/checkout@v2
       - name: Ruby
@@ -56,8 +58,6 @@ jobs:
           xcodebuild clean build test -project "$PROJECT" -scheme "$TVOS_SCHEME" -destination "$TVOS_DESTINATION" | XCPRETTY_JSON_FILE_OUTPUT="$TVOS_BUILD_LOG_PATH" xcpretty -f `xcpretty-json-formatter`
           bash <(curl -s https://codecov.io/bash) -cF tvos -J 'DictionaryCoder'
       - name: Danger
-        env:
-          DANGER_GITHUB_API_TOKEN: ${{ secrets.DANGER_GITHUB_API_TOKEN }}
         run: bundle exec danger --remove-previous-comments
 
   Cocoapods:
@@ -73,7 +73,7 @@ jobs:
         run: |
           gem install bundler
           bundle install --without=documentation
-      - name: Linter
+      - name: Linting
         run: bundle exec pod lib lint --skip-tests --allow-warnings
 
   SPM:
@@ -83,5 +83,5 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build
         run: swift build
-      - name: Test
+      - name: Tests
         run: swift test
