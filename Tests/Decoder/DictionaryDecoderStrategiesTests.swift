@@ -90,6 +90,7 @@ final class DictionaryDecoderStrategiesTests: XCTestCase, DictionaryDecoderTesti
         assertDecoderSucceeds(decoding: [String: Date].self, from: dictionary)
     }
 
+    @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
     func testThatDecoderSucceedsWhenDecodingDateFromISO8601Format() {
         decoder.dateDecodingStrategy = .iso8601
 
@@ -98,6 +99,7 @@ final class DictionaryDecoderStrategiesTests: XCTestCase, DictionaryDecoderTesti
         assertDecoderSucceeds(decoding: [String: Date].self, from: dictionary)
     }
 
+    @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
     func testThatDecoderFailsWhenDecodingInvalidDateFromISO8601Format() {
         decoder.dateDecodingStrategy = .iso8601
 
