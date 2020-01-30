@@ -9,6 +9,7 @@
 [![Swift](https://img.shields.io/badge/Swift-5.0-orange.svg)](https://swift.org)
 [![License](https://img.shields.io/github/license/almazrafi/DictionaryCoder.svg)](https://opensource.org/licenses/MIT)
 
+Test
 ## Requirements
 - iOS 10.0+ / macOS 10.12+ / watchOS 3.0+ / tvOS 10.0+
 - Xcode 10.2+
