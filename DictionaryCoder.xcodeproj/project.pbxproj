@@ -109,7 +109,6 @@
 		C0A01A4123CB912C00AC2C3A /* DictionaryCoder.h in Headers */ = {isa = PBXBuildFile; fileRef = C057F01123CB8EEB00C2D895 /* DictionaryCoder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C0A01A5023CB92EB00AC2C3A /* DictionaryCoder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0A01A4723CB92EB00AC2C3A /* DictionaryCoder.framework */; };
 		C0A01A5E23CB92F200AC2C3A /* DictionaryCoder.h in Headers */ = {isa = PBXBuildFile; fileRef = C057F01123CB8EEB00C2D895 /* DictionaryCoder.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C0A01A6723CB9B5900AC2C3A /* Brewfile in Resources */ = {isa = PBXBuildFile; fileRef = C0A01A6623CB9B5900AC2C3A /* Brewfile */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -588,7 +587,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C0A01A6723CB9B5900AC2C3A /* Brewfile in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
