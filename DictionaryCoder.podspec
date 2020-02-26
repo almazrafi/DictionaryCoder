@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name = "DictionaryCoder"
-  spec.version = "1.0.0"
+  spec.version = "1.0.1"
   spec.summary = "Swift Encoder and Decoder for dictionaries"
 
   spec.homepage = "https://github.com/almazrafi/DictionaryCoder"
