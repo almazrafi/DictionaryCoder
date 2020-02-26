@@ -1,5 +1,8 @@
 def report_xcode_summary(platform:)
     path = "xcodebuild-#{platform.downcase}.json"
+
+    return if !File.exist?(path)
+
     data = File.read(path)
     json = JSON.parse(data)
 
@@ -24,3 +27,4 @@ swiftlint.lint_files(fail_on_error: true, inline_mode: true)
 report_xcode_summary(platform: "iOS")
 report_xcode_summary(platform: "macOS")
 report_xcode_summary(platform: "tvOS")
+report_xcode_summary(platform: "watchOS")

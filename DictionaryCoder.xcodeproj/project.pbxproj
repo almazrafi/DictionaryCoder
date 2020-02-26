@@ -7,6 +7,32 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C006F1AA2406B1F000C3F783 /* DictionaryDataDecodingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C013EAFA23E1E0AF00F12CCB /* DictionaryDataDecodingStrategy.swift */; };
+		C006F1AB2406B1F000C3F783 /* DictionaryDateDecodingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C013EAF923E1E0AE00F12CCB /* DictionaryDateDecodingStrategy.swift */; };
+		C006F1AC2406B1F000C3F783 /* DictionaryKeyDecodingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C013EAF823E1E0AE00F12CCB /* DictionaryKeyDecodingStrategy.swift */; };
+		C006F1AD2406B1F000C3F783 /* DictionaryNonConformingFloatDecodingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C013EAFB23E1E0AF00F12CCB /* DictionaryNonConformingFloatDecodingStrategy.swift */; };
+		C006F1AE2406B1F500C3F783 /* DictionaryComponentDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C013EAFC23E1E0AF00F12CCB /* DictionaryComponentDecoder.swift */; };
+		C006F1AF2406B1F500C3F783 /* DictionaryDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C013EAF523E1E0AE00F12CCB /* DictionaryDecoder.swift */; };
+		C006F1B02406B1F500C3F783 /* DictionaryDecodingOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C013EAFF23E1E0AF00F12CCB /* DictionaryDecodingOptions.swift */; };
+		C006F1B12406B1F500C3F783 /* DictionaryKeyedDecodingContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C013EAF623E1E0AE00F12CCB /* DictionaryKeyedDecodingContainer.swift */; };
+		C006F1B22406B1F500C3F783 /* DictionarySingleValueDecodingContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C013EAFD23E1E0AF00F12CCB /* DictionarySingleValueDecodingContainer.swift */; };
+		C006F1B32406B1F500C3F783 /* DictionaryUnkeyedDecodingContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C013EAFE23E1E0AF00F12CCB /* DictionaryUnkeyedDecodingContainer.swift */; };
+		C006F1B42406B1FA00C3F783 /* DictionaryDataEncodingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C013EB0423E1E0AF00F12CCB /* DictionaryDataEncodingStrategy.swift */; };
+		C006F1B52406B1FA00C3F783 /* DictionaryDateEncodingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C013EB0323E1E0AF00F12CCB /* DictionaryDateEncodingStrategy.swift */; };
+		C006F1B62406B1FA00C3F783 /* DictionaryKeyEncodingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C013EB0223E1E0AF00F12CCB /* DictionaryKeyEncodingStrategy.swift */; };
+		C006F1B72406B1FA00C3F783 /* DictionaryNonConformingFloatEncodingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C013EB0523E1E0AF00F12CCB /* DictionaryNonConformingFloatEncodingStrategy.swift */; };
+		C006F1B82406B1FE00C3F783 /* DictionaryAnyKeyedEncodingContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C013EB0623E1E0AF00F12CCB /* DictionaryAnyKeyedEncodingContainer.swift */; };
+		C006F1B92406B1FE00C3F783 /* DictionaryComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C013EB0E23E1E0AF00F12CCB /* DictionaryComponent.swift */; };
+		C006F1BA2406B1FE00C3F783 /* DictionaryComponentContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C013EB0A23E1E0AF00F12CCB /* DictionaryComponentContainer.swift */; };
+		C006F1BB2406B1FE00C3F783 /* DictionaryComponentEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C013EB0D23E1E0AF00F12CCB /* DictionaryComponentEncoder.swift */; };
+		C006F1BC2406B1FE00C3F783 /* DictionaryEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C013EB0823E1E0AF00F12CCB /* DictionaryEncoder.swift */; };
+		C006F1BD2406B1FE00C3F783 /* DictionaryEncodingOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C013EB0B23E1E0AF00F12CCB /* DictionaryEncodingOptions.swift */; };
+		C006F1BE2406B1FE00C3F783 /* DictionaryKeyedEncodingContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C013EB0C23E1E0AF00F12CCB /* DictionaryKeyedEncodingContainer.swift */; };
+		C006F1BF2406B1FE00C3F783 /* DictionarySingleValueEncodingContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C013EB0923E1E0AF00F12CCB /* DictionarySingleValueEncodingContainer.swift */; };
+		C006F1C02406B1FE00C3F783 /* DictionaryUnkeyedEncodingContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C013EB0723E1E0AF00F12CCB /* DictionaryUnkeyedEncodingContainer.swift */; };
+		C006F1C12406B20400C3F783 /* AnyCodingKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = C013EAF323E1E0AE00F12CCB /* AnyCodingKey.swift */; };
+		C006F1C22406B20400C3F783 /* Optional+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C013EB5A23E1E23B00F12CCB /* Optional+Extensions.swift */; };
+		C006F1C32406B20400C3F783 /* RangeReplaceableCollection+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C013EAF223E1E0AE00F12CCB /* RangeReplaceableCollection+Extensions.swift */; };
 		C013EB0F23E1E0AF00F12CCB /* RangeReplaceableCollection+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C013EAF223E1E0AE00F12CCB /* RangeReplaceableCollection+Extensions.swift */; };
 		C013EB1023E1E0AF00F12CCB /* RangeReplaceableCollection+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C013EAF223E1E0AE00F12CCB /* RangeReplaceableCollection+Extensions.swift */; };
 		C013EB1123E1E0AF00F12CCB /* RangeReplaceableCollection+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C013EAF223E1E0AE00F12CCB /* RangeReplaceableCollection+Extensions.swift */; };
@@ -137,6 +163,7 @@
 
 /* Begin PBXFileReference section */
 		C0007FFA23CBAAA5005F95E0 /* .swift-version */ = {isa = PBXFileReference; lastKnownFileType = text; path = ".swift-version"; sourceTree = "<group>"; };
+		C006F1A22406B13E00C3F783 /* DictionaryCoder.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DictionaryCoder.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C013EAF223E1E0AE00F12CCB /* RangeReplaceableCollection+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RangeReplaceableCollection+Extensions.swift"; sourceTree = "<group>"; };
 		C013EAF323E1E0AE00F12CCB /* AnyCodingKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyCodingKey.swift; sourceTree = "<group>"; };
 		C013EAF523E1E0AE00F12CCB /* DictionaryDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryDecoder.swift; sourceTree = "<group>"; };
@@ -195,6 +222,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		C006F19F2406B13E00C3F783 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C057F00B23CB8EEB00C2D895 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -357,6 +391,7 @@
 				C0A01A3123CB90F200AC2C3A /* DictionaryCoder Tests macOS.xctest */,
 				C0A01A4723CB92EB00AC2C3A /* DictionaryCoder.framework */,
 				C0A01A4F23CB92EB00AC2C3A /* DictionaryCoder Tests tvOS.xctest */,
+				C006F1A22406B13E00C3F783 /* DictionaryCoder.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -388,6 +423,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		C006F19D2406B13E00C3F783 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C057F00923CB8EEB00C2D895 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -415,6 +457,25 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		C006F1A12406B13E00C3F783 /* DictionaryCoder watchOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C006F1A92406B13E00C3F783 /* Build configuration list for PBXNativeTarget "DictionaryCoder watchOS" */;
+			buildPhases = (
+				C006F1C42406B21000C3F783 /* SwiftLint */,
+				C006F19D2406B13E00C3F783 /* Headers */,
+				C006F19E2406B13E00C3F783 /* Sources */,
+				C006F19F2406B13E00C3F783 /* Frameworks */,
+				C006F1A02406B13E00C3F783 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "DictionaryCoder watchOS";
+			productName = "DictionaryCoder watchOS";
+			productReference = C006F1A22406B13E00C3F783 /* DictionaryCoder.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		C057F00D23CB8EEB00C2D895 /* DictionaryCoder iOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C057F02223CB8EEB00C2D895 /* Build configuration list for PBXNativeTarget "DictionaryCoder iOS" */;
@@ -536,6 +597,9 @@
 				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = "Almaz Ibragimov";
 				TargetAttributes = {
+					C006F1A12406B13E00C3F783 = {
+						CreatedOnToolsVersion = 11.3.1;
+					};
 					C057F00D23CB8EEB00C2D895 = {
 						CreatedOnToolsVersion = 11.3;
 						LastSwiftMigration = 1130;
@@ -575,6 +639,7 @@
 				C057F00D23CB8EEB00C2D895 /* DictionaryCoder iOS */,
 				C0A01A2823CB90F200AC2C3A /* DictionaryCoder macOS */,
 				C0A01A4623CB92EB00AC2C3A /* DictionaryCoder tvOS */,
+				C006F1A12406B13E00C3F783 /* DictionaryCoder watchOS */,
 				C057F01623CB8EEB00C2D895 /* DictionaryCoder Tests iOS */,
 				C0A01A3023CB90F200AC2C3A /* DictionaryCoder Tests macOS */,
 				C0A01A4E23CB92EB00AC2C3A /* DictionaryCoder Tests tvOS */,
@@ -583,6 +648,13 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		C006F1A02406B13E00C3F783 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C057F00C23CB8EEB00C2D895 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -628,6 +700,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		C006F1C42406B21000C3F783 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "sh Scripts/swiftlint.sh\n";
+		};
 		C0A01A2323CB907300AC2C3A /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -685,6 +775,39 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		C006F19E2406B13E00C3F783 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C006F1BB2406B1FE00C3F783 /* DictionaryComponentEncoder.swift in Sources */,
+				C006F1C22406B20400C3F783 /* Optional+Extensions.swift in Sources */,
+				C006F1AC2406B1F000C3F783 /* DictionaryKeyDecodingStrategy.swift in Sources */,
+				C006F1C12406B20400C3F783 /* AnyCodingKey.swift in Sources */,
+				C006F1C32406B20400C3F783 /* RangeReplaceableCollection+Extensions.swift in Sources */,
+				C006F1B52406B1FA00C3F783 /* DictionaryDateEncodingStrategy.swift in Sources */,
+				C006F1BD2406B1FE00C3F783 /* DictionaryEncodingOptions.swift in Sources */,
+				C006F1B12406B1F500C3F783 /* DictionaryKeyedDecodingContainer.swift in Sources */,
+				C006F1B32406B1F500C3F783 /* DictionaryUnkeyedDecodingContainer.swift in Sources */,
+				C006F1BC2406B1FE00C3F783 /* DictionaryEncoder.swift in Sources */,
+				C006F1B42406B1FA00C3F783 /* DictionaryDataEncodingStrategy.swift in Sources */,
+				C006F1B02406B1F500C3F783 /* DictionaryDecodingOptions.swift in Sources */,
+				C006F1B22406B1F500C3F783 /* DictionarySingleValueDecodingContainer.swift in Sources */,
+				C006F1AE2406B1F500C3F783 /* DictionaryComponentDecoder.swift in Sources */,
+				C006F1AA2406B1F000C3F783 /* DictionaryDataDecodingStrategy.swift in Sources */,
+				C006F1AD2406B1F000C3F783 /* DictionaryNonConformingFloatDecodingStrategy.swift in Sources */,
+				C006F1B82406B1FE00C3F783 /* DictionaryAnyKeyedEncodingContainer.swift in Sources */,
+				C006F1AF2406B1F500C3F783 /* DictionaryDecoder.swift in Sources */,
+				C006F1B62406B1FA00C3F783 /* DictionaryKeyEncodingStrategy.swift in Sources */,
+				C006F1BE2406B1FE00C3F783 /* DictionaryKeyedEncodingContainer.swift in Sources */,
+				C006F1C02406B1FE00C3F783 /* DictionaryUnkeyedEncodingContainer.swift in Sources */,
+				C006F1B92406B1FE00C3F783 /* DictionaryComponent.swift in Sources */,
+				C006F1BA2406B1FE00C3F783 /* DictionaryComponentContainer.swift in Sources */,
+				C006F1B72406B1FA00C3F783 /* DictionaryNonConformingFloatEncodingStrategy.swift in Sources */,
+				C006F1BF2406B1FE00C3F783 /* DictionarySingleValueEncodingContainer.swift in Sources */,
+				C006F1AB2406B1F000C3F783 /* DictionaryDateDecodingStrategy.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C057F00A23CB8EEB00C2D895 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -844,6 +967,62 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		C006F1A72406B13E00C3F783 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Sources/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.almazrafi.DictionaryCoder;
+				PRODUCT_NAME = DictionaryCoder;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TVOS_DEPLOYMENT_TARGET = 10.0;
+				WATCHOS_DEPLOYMENT_TARGET = 3.0;
+			};
+			name = Debug;
+		};
+		C006F1A82406B13E00C3F783 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Sources/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.almazrafi.DictionaryCoder;
+				PRODUCT_NAME = DictionaryCoder;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TVOS_DEPLOYMENT_TARGET = 10.0;
+				WATCHOS_DEPLOYMENT_TARGET = 3.0;
+			};
+			name = Release;
+		};
 		C057F02023CB8EEB00C2D895 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -986,7 +1165,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.almazrafi.DictionaryCoder;
 				PRODUCT_NAME = DictionaryCoder;
 				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TVOS_DEPLOYMENT_TARGET = 10.0;
@@ -1085,7 +1263,6 @@
 				PRODUCT_NAME = DictionaryCoder;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TVOS_DEPLOYMENT_TARGET = 10.0;
 				WATCHOS_DEPLOYMENT_TARGET = 3.0;
@@ -1185,7 +1362,6 @@
 				PRODUCT_NAME = DictionaryCoder;
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 10.0;
@@ -1268,6 +1444,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		C006F1A92406B13E00C3F783 /* Build configuration list for PBXNativeTarget "DictionaryCoder watchOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C006F1A72406B13E00C3F783 /* Debug */,
+				C006F1A82406B13E00C3F783 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		C057F00823CB8EEB00C2D895 /* Build configuration list for PBXProject "DictionaryCoder" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
