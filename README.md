@@ -61,7 +61,7 @@ $ brew install carthage
 
 To integrate DictionaryCoder into your Xcode project using Carthage, specify it in your `Cartfile`:
 ```ogdl
-github "almazrafi/DictionaryCoder" ~> 1.0.0
+github "almazrafi/DictionaryCoder" ~> 1.0.1
 ```
 
 Finally run `carthage update` to build the framework and drag the built `DictionaryCoder.framework` into your Xcode project.
@@ -72,7 +72,7 @@ The [Swift Package Manager](https://swift.org/package-manager/) is a tool for ma
 To integrate DictionaryCoder into your Xcode project using Swift Package Manager,
 add the following as a dependency to your `Package.swift`:
 ```swift
-.package(url: "https://github.com/almazrafi/DictionaryCoder.git", from: "1.0.0")
+.package(url: "https://github.com/almazrafi/DictionaryCoder.git", from: "1.0.1")
 ```
 and then specify `"DictionaryCoder"` as a dependency of the Target in which you wish to use DictionaryCoder.
 
@@ -87,7 +87,7 @@ let package = Package(
         .library(name: "MyPackage", targets: ["MyPackage"])
     ],
     dependencies: [
-        .package(url: "https://github.com/almazrafi/DictionaryCoder.git", from: "1.0.0")
+        .package(url: "https://github.com/almazrafi/DictionaryCoder.git", from: "1.0.1")
     ],
     targets: [
         .target(name: "MyPackage", dependencies: ["DictionaryCoder"])
