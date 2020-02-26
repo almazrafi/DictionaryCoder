@@ -29,6 +29,9 @@ jobs:
       TVOS_SCHEME: DictionaryCoder tvOS
       TVOS_DESTINATION: OS=13.3,name=Apple TV 4K
       TVOS_BUILD_LOG_PATH: xcodebuild-tvos.json
+      WATCHOS_SCHEME: DictionaryCoder watchOS
+      WATCHOS_DESTINATION: OS=6.1.1,name=Apple Watch Series 5 - 44mm
+      WATCHOS_BUILD_LOG_PATH: xcodebuild-watchos.json
       SKIP_SWIFTLINT: TRUE
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       DANGER_GITHUB_API_TOKEN: ${{ secrets.DANGER_GITHUB_API_TOKEN }}
@@ -42,21 +45,25 @@ jobs:
         run: |
           gem install bundler
           bundle install --without=documentation
-      - name: Swift version
+      - name: Preparation
         run: |
           set -o pipefail
           swift --version
-      - name: Tests - iOS
+      - name: Test iOS
         run: |
           xcodebuild clean build test -project "$XCODE_PROJECT" -scheme "$IOS_SCHEME" -destination "$IOS_DESTINATION" | XCPRETTY_JSON_FILE_OUTPUT="$IOS_BUILD_LOG_PATH" xcpretty -f `xcpretty-json-formatter`
           bash <(curl -s https://codecov.io/bash) -cF ios -J 'DictionaryCoder'
-      - name: Tests - macOS
+      - name: Test macOS
         run: |
           xcodebuild clean build test -project "$XCODE_PROJECT" -scheme "$MACOS_SCHEME" -destination "$MACOS_DESTINATION" | XCPRETTY_JSON_FILE_OUTPUT="$MACOS_BUILD_LOG_PATH" xcpretty -f `xcpretty-json-formatter`
           bash <(curl -s https://codecov.io/bash) -cF osx -J 'DictionaryCoder'
-      - name: Tests - tvOS
+      - name: Test tvOS
         run: |
           xcodebuild clean build test -project "$XCODE_PROJECT" -scheme "$TVOS_SCHEME" -destination "$TVOS_DESTINATION" | XCPRETTY_JSON_FILE_OUTPUT="$TVOS_BUILD_LOG_PATH" xcpretty -f `xcpretty-json-formatter`
+          bash <(curl -s https://codecov.io/bash) -cF tvos -J 'DictionaryCoder'
+      - name: Build watchOS
+        run: |
+          xcodebuild clean build test -project "$XCODE_PROJECT" -scheme "$WATCHOS_SCHEME" -destination "$WATCHOS_DESTINATION" | XCPRETTY_JSON_FILE_OUTPUT="$WATCHOS_BUILD_LOG_PATH" xcpretty -f `xcpretty-json-formatter`
           bash <(curl -s https://codecov.io/bash) -cF tvos -J 'DictionaryCoder'
       - name: Danger
         run: bundle exec danger --remove-previous-comments
@@ -84,5 +91,5 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build
         run: swift build
-      - name: Tests
+      - name: Test
         run: swift test
