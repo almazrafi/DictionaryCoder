@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C006F1A12406B13E00C3F783"
-               BuildableName = "DictionaryCoder_watchOS.framework"
+               BuildableName = "DictionaryCoder.framework"
                BlueprintName = "DictionaryCoder watchOS"
                ReferencedContainer = "container:DictionaryCoder.xcodeproj">
             </BuildableReference>
@@ -51,7 +51,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C006F1A12406B13E00C3F783"
-            BuildableName = "DictionaryCoder_watchOS.framework"
+            BuildableName = "DictionaryCoder.framework"
             BlueprintName = "DictionaryCoder watchOS"
             ReferencedContainer = "container:DictionaryCoder.xcodeproj">
          </BuildableReference>

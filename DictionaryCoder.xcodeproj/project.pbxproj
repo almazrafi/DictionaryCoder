@@ -984,7 +984,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.almazrafi.DictionaryCoder-watchOS";
+				PRODUCT_BUNDLE_IDENTIFIER = com.almazrafi.DictionaryCoder;
 				PRODUCT_NAME = DictionaryCoder;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -1012,7 +1012,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.almazrafi.DictionaryCoder-watchOS";
+				PRODUCT_BUNDLE_IDENTIFIER = com.almazrafi.DictionaryCoder;
 				PRODUCT_NAME = DictionaryCoder;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -1165,7 +1165,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.almazrafi.DictionaryCoder;
 				PRODUCT_NAME = DictionaryCoder;
 				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TVOS_DEPLOYMENT_TARGET = 10.0;
@@ -1264,7 +1263,6 @@
 				PRODUCT_NAME = DictionaryCoder;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TVOS_DEPLOYMENT_TARGET = 10.0;
 				WATCHOS_DEPLOYMENT_TARGET = 3.0;
@@ -1364,7 +1362,6 @@
 				PRODUCT_NAME = DictionaryCoder;
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 10.0;
