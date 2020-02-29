@@ -63,8 +63,7 @@ jobs:
           bash <(curl -s https://codecov.io/bash) -cF tvos -J 'DictionaryCoder'
       - name: Build watchOS
         run: |
-          xcodebuild clean build test -project "$XCODE_PROJECT" -scheme "$WATCHOS_SCHEME" -destination "$WATCHOS_DESTINATION" | XCPRETTY_JSON_FILE_OUTPUT="$WATCHOS_BUILD_LOG_PATH" xcpretty -f `xcpretty-json-formatter`
-          bash <(curl -s https://codecov.io/bash) -cF tvos -J 'DictionaryCoder'
+          xcodebuild clean build -project "$XCODE_PROJECT" -scheme "$WATCHOS_SCHEME" -destination "$WATCHOS_DESTINATION" | XCPRETTY_JSON_FILE_OUTPUT="$WATCHOS_BUILD_LOG_PATH" xcpretty -f `xcpretty-json-formatter`
       - name: Danger
         run: bundle exec danger --remove-previous-comments
 
