@@ -154,6 +154,19 @@ extension DictionaryComponentDecoder {
         throw DecodingError.invalidComponent(component, at: codingPath, expectation: T.self)
     }
 
+    private func decodeURL(from component: Any?) throws -> URL {
+        guard let url = URL(string: try decodePrimitiveValue(from: component)) else {
+            let errorContext = DecodingError.Context(
+                codingPath: codingPath,
+                debugDescription: "String is not valid URL."
+            )
+
+            throw DecodingError.dataCorrupted(errorContext)
+        }
+
+        return url
+    }
+
     // MARK: -
 
     internal func decodeNilComponent(_ component: Any?) -> Bool {
@@ -223,6 +236,9 @@ extension DictionaryComponentDecoder {
 
         case is Data.Type:
             return try decodeData(from: component) as! T
+
+        case is URL.Type:
+            return try decodeURL(from: component) as! T
 
         default:
             return try decodeNonPrimitiveValue(from: component)
