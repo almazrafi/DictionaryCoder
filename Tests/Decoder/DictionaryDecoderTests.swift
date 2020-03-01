@@ -142,6 +142,15 @@ final class DictionaryDecoderTests: XCTestCase, DictionaryDecoderTesting {
         assertDecoderSucceeds(decoding: [String: String].self, from: dictionary)
     }
 
+    func testThatDecoderSucceedsWhenDecodingStringToURLDictionary() {
+        let dictionary = [
+            "foo": "https://swift.org",
+            "bar": "https://apple.com"
+        ]
+
+        assertDecoderSucceeds(decoding: [String: URL].self, from: dictionary)
+    }
+
     func testThatDecoderSucceedsWhenDecodingStringToArrayDictionary() {
         let dictionary: [String: [Int?]] = [
             "foo": [1, 2, 3],
@@ -538,6 +547,20 @@ final class DictionaryDecoderTests: XCTestCase, DictionaryDecoderTesting {
         assertDecoderFails(decoding: Int.self, from: dictionary) { error in
             switch error {
             case let DecodingError.typeMismatch(type, _) where type is Int.Type:
+                return true
+
+            default:
+                return false
+            }
+        }
+    }
+
+    func testThatDecoderFailsWhenDecodingInvalidURL() {
+        let dictionary = ["foobar": "invalid url"]
+
+        assertDecoderFails(decoding: [String: URL].self, from: dictionary) { error in
+            switch error {
+            case DecodingError.dataCorrupted:
                 return true
 
             default:

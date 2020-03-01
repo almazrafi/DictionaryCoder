@@ -109,6 +109,10 @@ extension DictionaryComponentEncoder {
         }
     }
 
+    private func encodeURL(_ url: URL) throws -> DictionaryComponent {
+        return encodePrimitiveValue(url.absoluteString)
+    }
+
     // MARK: -
 
     internal func encodeNilComponent() -> DictionaryComponent {
@@ -178,6 +182,9 @@ extension DictionaryComponentEncoder {
 
         case let data as Data:
             return try encodeData(data)
+
+        case let url as URL:
+            return try encodeURL(url)
 
         default:
             return try encodeNonPrimitiveValue(value)

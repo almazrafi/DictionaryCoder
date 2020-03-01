@@ -142,6 +142,15 @@ final class DictionaryEncoderTests: XCTestCase, DictionaryEncoderTesting {
         assertEncoderSucceeds(encoding: value)
     }
 
+    func testThatEncoderSucceedsWhenEncodingStringToURLDictionary() {
+        let value = [
+            "foo": URL(string: "https://swift.org")!,
+            "bar": URL(string: "https://apple.com")!
+        ]
+
+        assertEncoderSucceeds(encoding: value)
+    }
+
     func testThatEncoderSucceedsWhenEncodingStringToArrayDictionary() {
         let value: [String: [Int?]] = [
             "foo": [1, 2, 3],
