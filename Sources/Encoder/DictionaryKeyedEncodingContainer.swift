@@ -7,6 +7,7 @@ internal final class DictionaryKeyedEncodingContainer<Key: CodingKey>:
     // MARK: - Instance Properties
 
     internal let container: DictionaryAnyKeyedEncodingContainer
+    internal private(set) var codingPath: [CodingKey]
 
     internal var options: DictionaryEncodingOptions {
         container.options
@@ -16,14 +17,11 @@ internal final class DictionaryKeyedEncodingContainer<Key: CodingKey>:
         container.userInfo
     }
 
-    internal var codingPath: [CodingKey] {
-        container.codingPath
-    }
-
     // MARK: - Initializers
 
     internal init(container: DictionaryAnyKeyedEncodingContainer) {
         self.container = container
+        self.codingPath = container.codingPath
     }
 
     // MARK: - Instance Methods
@@ -77,11 +75,17 @@ internal final class DictionaryKeyedEncodingContainer<Key: CodingKey>:
     }
 
     internal func encode(_ value: Double, forKey key: Key) throws {
-        container.collectComponent(try encodeComponentValue(value), forKey: key)
+        codingPath.append(key)
+        defer { codingPath.removeLast() }
+
+        return container.collectComponent(try encodeComponentValue(value), forKey: key)
     }
 
     internal func encode(_ value: Float, forKey key: Key) throws {
-        container.collectComponent(try encodeComponentValue(value), forKey: key)
+        codingPath.append(key)
+        defer { codingPath.removeLast() }
+
+        return container.collectComponent(try encodeComponentValue(value), forKey: key)
     }
 
     internal func encode(_ value: String, forKey key: Key) throws {
@@ -89,7 +93,10 @@ internal final class DictionaryKeyedEncodingContainer<Key: CodingKey>:
     }
 
     internal func encode<T: Encodable>(_ value: T, forKey key: Key) throws {
-        container.collectComponent(try encodeComponentValue(value), forKey: key)
+        codingPath.append(key)
+        defer { codingPath.removeLast() }
+
+        return container.collectComponent(try encodeComponentValue(value), forKey: key)
     }
 
     internal func nestedContainer<NestedKey: CodingKey>(
