@@ -6,13 +6,13 @@
 [![SPM compatible](https://img.shields.io/badge/SPM-Compatible-brightgreen.svg?style=flat)](https://swift.org/package-manager/)
 [![Platforms](https://img.shields.io/cocoapods/p/DictionaryCoder.svg?style=flat)](https://developer.apple.com/discover/)
 [![Xcode](https://img.shields.io/badge/Xcode-11-blue.svg)](https://developer.apple.com/xcode)
-[![Swift](https://img.shields.io/badge/Swift-5.0-orange.svg)](https://swift.org)
+[![Swift](https://img.shields.io/badge/Swift-5.1-orange.svg)](https://swift.org)
 [![License](https://img.shields.io/github/license/almazrafi/DictionaryCoder.svg)](https://opensource.org/licenses/MIT)
 
 ## Requirements
 - iOS 10.0+ / macOS 10.12+ / watchOS 3.0+ / tvOS 10.0+
 - Xcode 10.2+
-- Swift 5.0+
+- Swift 5.1+
 
 ## Usage
 ```swift
@@ -33,12 +33,12 @@ let user = try DictionaryDecoder().decode(User.self, from: dictionary)
 ## Installation
 ### CocoaPods
 [CocoaPods](http://cocoapods.org) is a dependency manager for Cocoa projects. You can install it with the following command:
-```bash
+``` bash
 $ gem install cocoapods
 ```
 
 To integrate DictionaryCoder into your Xcode project using [CocoaPods](http://cocoapods.org), specify it in your `Podfile`:
-```ruby
+``` ruby
 platform :ios, '10.0'
 use_frameworks!
 
@@ -48,19 +48,19 @@ end
 ```
 
 Finally run the following command:
-```bash
+``` bash
 $ pod install
 ```
 
 ### Carthage
 [Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks. You can install Carthage with Homebrew using the following command:
-```bash
+``` bash
 $ brew update
 $ brew install carthage
 ```
 
 To integrate DictionaryCoder into your Xcode project using Carthage, specify it in your `Cartfile`:
-```ogdl
+``` ogdl
 github "almazrafi/DictionaryCoder" ~> 1.0.4
 ```
 
@@ -71,14 +71,14 @@ The [Swift Package Manager](https://swift.org/package-manager/) is a tool for ma
 
 To integrate DictionaryCoder into your Xcode project using Swift Package Manager,
 add the following as a dependency to your `Package.swift`:
-```swift
+``` swift
 .package(url: "https://github.com/almazrafi/DictionaryCoder.git", from: "1.0.4")
 ```
 and then specify `"DictionaryCoder"` as a dependency of the Target in which you wish to use DictionaryCoder.
 
 Here's an example `Package.swift`:
-```swift
-// swift-tools-version:5.0
+``` swift
+// swift-tools-version:5.1
 import PackageDescription
 
 let package = Package(

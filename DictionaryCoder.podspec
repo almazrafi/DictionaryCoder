@@ -8,7 +8,7 @@ Pod::Spec.new do |spec|
   spec.author = { "Almaz Ibragimov" => "almazrafi@gmail.com" }
   spec.source = { :git => "https://github.com/almazrafi/DictionaryCoder.git", :tag => "#{spec.version}" }
 
-  spec.swift_version = '5.0'
+  spec.swift_version = '5.1'
   spec.requires_arc = true
   spec.source_files = 'Sources/**/*.swift'
 

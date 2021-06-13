@@ -32,7 +32,7 @@ jobs:
       WATCHOS_SCHEME: DictionaryCoder watchOS
       WATCHOS_DESTINATION: OS=6.1.1,name=Apple Watch Series 5 - 44mm
       WATCHOS_BUILD_LOG_PATH: xcodebuild-watchos.json
-      SKIP_SWIFTLINT: TRUE
+      SKIP_SWIFTLINT: YES
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       DANGER_GITHUB_API_TOKEN: ${{ secrets.DANGER_GITHUB_API_TOKEN }}
     steps:
