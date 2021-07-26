@@ -81,7 +81,7 @@ internal final class DictionarySingleValueDecodingContainer:
     }
 
     internal func decode(_ type: Float.Type) throws -> Float {
-         return try decodeComponentValue(component)
+        return try decodeComponentValue(component)
     }
 
     internal func decode(_ type: String.Type) throws -> String {
