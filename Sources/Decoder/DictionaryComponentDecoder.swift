@@ -170,7 +170,7 @@ extension DictionaryComponentDecoder {
     // MARK: -
 
     internal func decodeNilComponent(_ component: Any?) -> Bool {
-        return component.isNil
+        return component.isNil || component is NSNull
     }
 
     internal func decodeComponentValue(_ component: Any?) throws -> Bool {

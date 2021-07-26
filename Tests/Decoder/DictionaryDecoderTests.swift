@@ -194,6 +194,20 @@ final class DictionaryDecoderTests: XCTestCase, DictionaryDecoderTesting {
         assertDecoderSucceeds(decoding: DecodableStruct.self, from: dictionary)
     }
 
+    func testThatDecoderSucceedsWhenDecodingStructWithNSNull() {
+        struct DecodableStruct: Decodable, Equatable {
+            let foo: Bool
+            let bar: Int?
+        }
+
+        let dictionary: [String: Any] = [
+            "foo": true,
+            "bar": NSNull()
+        ]
+
+        assertDecoderSucceeds(decoding: DecodableStruct.self, from: dictionary)
+    }
+
     func testThatDecoderSucceedsWhenDecodingStructWithMultipleProperties() {
         struct DecodableStruct: Decodable, Equatable {
             let foo: Bool

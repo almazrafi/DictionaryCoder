@@ -70,7 +70,7 @@ internal class DictionaryKeyedDecodingContainer<Key: CodingKey>:
     }
 
     internal func decodeNil(forKey key: Key) throws -> Bool {
-        decodeNilComponent(try component(forKey: key))
+        return decodeNilComponent(try component(forKey: key))
     }
 
     internal func decode(_ type: Bool.Type, forKey key: Key) throws -> Bool {
