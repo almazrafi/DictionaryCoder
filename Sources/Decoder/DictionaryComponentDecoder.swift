@@ -240,9 +240,34 @@ extension DictionaryComponentDecoder {
         case is URL.Type:
             return try decodeURL(from: component) as! T
 
+            // jmj
+//        case is DecodableFromString.Type:
+//            return try decodeFromString(from: component) as! T
+            
         default:
             return try decodeNonPrimitiveValue(from: component)
         }
+    }
+}
+
+// jmj
+public protocol DecodableFromString {
+    init(codedString: String)
+}
+
+extension DictionaryComponentDecoder {
+    
+    private func decodeFromString<T: DecodableFromString>(from component: Any?)
+    throws -> T
+    {
+        guard let str: String = try decodePrimitiveValue(from: component) else {
+            let errorContext = DecodingError.Context(
+                codingPath: codingPath,
+                debugDescription: "String is not found for \(type(of:T.self))."
+            )
+            throw DecodingError.dataCorrupted(errorContext)
+        }
+        return T(codedString: str)
     }
 }
 
