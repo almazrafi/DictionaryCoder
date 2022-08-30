@@ -44,67 +44,67 @@ internal final class DictionarySingleValueEncodingContainer:
     // MARK: - SingleValueEncodingContainer
 
     internal func encodeNil() throws {
-        try collectComponent(encodeNilComponent(), for: nil)
+        try collectComponent(encodeNilComponent(at: codingPath), for: nil)
     }
 
     internal func encode(_ value: Bool) throws {
-        try collectComponent(encodeComponentValue(value), for: value)
+        try collectComponent(encodeComponentValue(value, at: codingPath), for: value)
     }
 
     internal func encode(_ value: Int) throws {
-        try collectComponent(encodeComponentValue(value), for: value)
+        try collectComponent(encodeComponentValue(value, at: codingPath), for: value)
     }
 
     internal func encode(_ value: Int8) throws {
-        try collectComponent(encodeComponentValue(value), for: value)
+        try collectComponent(encodeComponentValue(value, at: codingPath), for: value)
     }
 
     internal func encode(_ value: Int16) throws {
-        try collectComponent(encodeComponentValue(value), for: value)
+        try collectComponent(encodeComponentValue(value, at: codingPath), for: value)
     }
 
     internal func encode(_ value: Int32) throws {
-        try collectComponent(encodeComponentValue(value), for: value)
+        try collectComponent(encodeComponentValue(value, at: codingPath), for: value)
     }
 
     internal func encode(_ value: Int64) throws {
-        try collectComponent(encodeComponentValue(value), for: value)
+        try collectComponent(encodeComponentValue(value, at: codingPath), for: value)
     }
 
     internal func encode(_ value: UInt) throws {
-        try collectComponent(encodeComponentValue(value), for: value)
+        try collectComponent(encodeComponentValue(value, at: codingPath), for: value)
     }
 
     internal func encode(_ value: UInt8) throws {
-        try collectComponent(encodeComponentValue(value), for: value)
+        try collectComponent(encodeComponentValue(value, at: codingPath), for: value)
     }
 
     internal func encode(_ value: UInt16) throws {
-        try collectComponent(encodeComponentValue(value), for: value)
+        try collectComponent(encodeComponentValue(value, at: codingPath), for: value)
     }
 
     internal func encode(_ value: UInt32) throws {
-        try collectComponent(encodeComponentValue(value), for: value)
+        try collectComponent(encodeComponentValue(value, at: codingPath), for: value)
     }
 
     internal func encode(_ value: UInt64) throws {
-        try collectComponent(encodeComponentValue(value), for: value)
+        try collectComponent(encodeComponentValue(value, at: codingPath), for: value)
     }
 
     internal func encode(_ value: Double) throws {
-        try collectComponent(try encodeComponentValue(value), for: value)
+        try collectComponent(try encodeComponentValue(value, at: codingPath), for: value)
     }
 
     internal func encode(_ value: Float) throws {
-        try collectComponent(try encodeComponentValue(value), for: value)
+        try collectComponent(try encodeComponentValue(value, at: codingPath), for: value)
     }
 
     internal func encode(_ value: String) throws {
-        try collectComponent(encodeComponentValue(value), for: value)
+        try collectComponent(encodeComponentValue(value, at: codingPath), for: value)
     }
 
     internal func encode<T: Encodable>(_ value: T) throws {
-        try collectComponent(try encodeComponentValue(value), for: value)
+        try collectComponent(try encodeComponentValue(value, at: codingPath), for: value)
     }
 
     // MARK: - Encoder
@@ -152,6 +152,6 @@ internal final class DictionarySingleValueEncodingContainer:
     // MARK: - DictionaryComponentContainer
 
     internal func resolveValue() -> Any? {
-        return component?.resolveValue()
+        component?.resolveValue()
     }
 }

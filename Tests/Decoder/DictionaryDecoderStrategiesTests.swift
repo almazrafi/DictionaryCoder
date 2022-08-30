@@ -53,7 +53,7 @@ final class DictionaryDecoderStrategiesTests: XCTestCase, DictionaryDecoderTesti
     func testThatDecoderSucceedsWhenDecodingDate() {
         decoder.dateDecodingStrategy = .deferredToDate
 
-        let dictionary = ["foobar": 123.456]
+        let dictionary = ["foobar": 123_456.789]
 
         assertDecoderSucceeds(decoding: [String: Date].self, from: dictionary)
     }
@@ -85,7 +85,7 @@ final class DictionaryDecoderStrategiesTests: XCTestCase, DictionaryDecoderTesti
     func testThatDecoderSucceedsWhenDecodingDateFromSecondsSince1970() {
         decoder.dateDecodingStrategy = .secondsSince1970
 
-        let dictionary = ["foobar": 123.456]
+        let dictionary = ["foobar": 123_456.789]
 
         assertDecoderSucceeds(decoding: [String: Date].self, from: dictionary)
     }
@@ -124,7 +124,7 @@ final class DictionaryDecoderStrategiesTests: XCTestCase, DictionaryDecoderTesti
 
         decoder.dateDecodingStrategy = .formatted(dateFormatter)
 
-        let dictionary = ["foobar": "2001-01-01"]
+        let dictionary = ["foobar": "2001-01-02"]
 
         assertDecoderSucceeds(decoding: [String: Date].self, from: dictionary)
     }
@@ -161,7 +161,7 @@ final class DictionaryDecoderStrategiesTests: XCTestCase, DictionaryDecoderTesti
             return Date(timeIntervalSince1970: timeIntervalSince1970)
         }
 
-        let dictionary = ["foobar": "123.456"]
+        let dictionary = ["foobar": "123456.789"]
 
         assertDecoderSucceeds(decoding: [String: Date].self, from: dictionary)
     }

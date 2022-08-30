@@ -29,67 +29,67 @@ internal final class DictionarySingleValueDecodingContainer:
     // MARK: - Instance Methods
 
     internal func decodeNil() -> Bool {
-        return decodeNilComponent(component)
+        decodeNilComponent(from: component)
     }
 
     internal func decode(_ type: Bool.Type) throws -> Bool {
-        return try decodeComponentValue(component)
+        try decodeComponentValue(from: component, at: codingPath)
     }
 
     internal func decode(_ type: Int.Type) throws -> Int {
-        return try decodeComponentValue(component)
+        try decodeComponentValue(from: component, at: codingPath)
     }
 
     internal func decode(_ type: Int8.Type) throws -> Int8 {
-        return try decodeComponentValue(component)
+        try decodeComponentValue(from: component, at: codingPath)
     }
 
     internal func decode(_ type: Int16.Type) throws -> Int16 {
-        return try decodeComponentValue(component)
+        try decodeComponentValue(from: component, at: codingPath)
     }
 
     internal func decode(_ type: Int32.Type) throws -> Int32 {
-        return try decodeComponentValue(component)
+        try decodeComponentValue(from: component, at: codingPath)
     }
 
     internal func decode(_ type: Int64.Type) throws -> Int64 {
-        return try decodeComponentValue(component)
+        try decodeComponentValue(from: component, at: codingPath)
     }
 
     internal func decode(_ type: UInt.Type) throws -> UInt {
-        return try decodeComponentValue(component)
+        try decodeComponentValue(from: component, at: codingPath)
     }
 
     internal func decode(_ type: UInt8.Type) throws -> UInt8 {
-        return try decodeComponentValue(component)
+        try decodeComponentValue(from: component, at: codingPath)
     }
 
     internal func decode(_ type: UInt16.Type) throws -> UInt16 {
-        return try decodeComponentValue(component)
+        try decodeComponentValue(from: component, at: codingPath)
     }
 
     internal func decode(_ type: UInt32.Type) throws -> UInt32 {
-         return try decodeComponentValue(component)
+        try decodeComponentValue(from: component, at: codingPath)
     }
 
     internal func decode(_ type: UInt64.Type) throws -> UInt64 {
-        return try decodeComponentValue(component)
+        try decodeComponentValue(from: component, at: codingPath)
     }
 
     internal func decode(_ type: Double.Type) throws -> Double {
-        return try decodeComponentValue(component)
+        try decodeComponentValue(from: component, at: codingPath)
     }
 
     internal func decode(_ type: Float.Type) throws -> Float {
-        return try decodeComponentValue(component)
+        try decodeComponentValue(from: component, at: codingPath)
     }
 
     internal func decode(_ type: String.Type) throws -> String {
-        return try decodeComponentValue(component)
+        try decodeComponentValue(from: component, at: codingPath)
     }
 
     internal func decode<T: Decodable>(_ type: T.Type) throws -> T {
-        return try decodeComponentValue(component, as: type)
+        try decodeComponentValue(of: type, from: component, at: codingPath)
     }
 
     // MARK: - Decoder
@@ -123,7 +123,7 @@ internal final class DictionarySingleValueDecodingContainer:
     }
 
     internal func singleValueContainer() throws -> SingleValueDecodingContainer {
-        return self
+        self
     }
 }
 
@@ -134,7 +134,7 @@ private extension DecodingError {
     static func keyedContainerTypeMismatch(
         at codingPath: [CodingKey],
         component: Any?
-    ) -> DecodingError {
+    ) -> Self {
         let debugDescription: String
 
         switch component {
@@ -151,7 +151,7 @@ private extension DecodingError {
     static func unkeyedContainerTypeMismatch(
         at codingPath: [CodingKey],
         component: Any?
-    ) -> DecodingError {
+    ) -> Self {
         let debugDescription: String
 
         switch component {

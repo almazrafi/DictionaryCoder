@@ -94,6 +94,6 @@ internal final class DictionaryAnyKeyedEncodingContainer: DictionaryComponentCon
     // MARK: - DictionaryComponentContainer
 
     internal func resolveValue() -> Any? {
-        return components.compactMapValues { $0.resolveValue() }
+        components.compactMapValues { $0.resolveValue() }
     }
 }
