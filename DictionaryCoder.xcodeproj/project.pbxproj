@@ -290,10 +290,9 @@
 		C013EAF423E1E0AE00F12CCB /* Decoder */ = {
 			isa = PBXGroup;
 			children = (
-				C013EAF723E1E0AE00F12CCB /* Strategies */,
+				C013EAF723E1E0AE00F12CCB /* Options */,
 				C013EAFC23E1E0AF00F12CCB /* DictionaryComponentDecoder.swift */,
 				C013EAF523E1E0AE00F12CCB /* DictionaryDecoder.swift */,
-				C013EAFF23E1E0AF00F12CCB /* DictionaryDecodingOptions.swift */,
 				C013EAF623E1E0AE00F12CCB /* DictionaryKeyedDecodingContainer.swift */,
 				C013EAFD23E1E0AF00F12CCB /* DictionarySingleValueDecodingContainer.swift */,
 				C013EAFE23E1E0AF00F12CCB /* DictionaryUnkeyedDecodingContainer.swift */,
@@ -301,27 +300,27 @@
 			path = Decoder;
 			sourceTree = "<group>";
 		};
-		C013EAF723E1E0AE00F12CCB /* Strategies */ = {
+		C013EAF723E1E0AE00F12CCB /* Options */ = {
 			isa = PBXGroup;
 			children = (
 				C013EAFA23E1E0AF00F12CCB /* DictionaryDataDecodingStrategy.swift */,
 				C013EAF923E1E0AE00F12CCB /* DictionaryDateDecodingStrategy.swift */,
+				C013EAFF23E1E0AF00F12CCB /* DictionaryDecodingOptions.swift */,
 				C013EAF823E1E0AE00F12CCB /* DictionaryKeyDecodingStrategy.swift */,
 				C013EAFB23E1E0AF00F12CCB /* DictionaryNonConformingFloatDecodingStrategy.swift */,
 			);
-			path = Strategies;
+			path = Options;
 			sourceTree = "<group>";
 		};
 		C013EB0023E1E0AF00F12CCB /* Encoder */ = {
 			isa = PBXGroup;
 			children = (
-				C013EB0123E1E0AF00F12CCB /* Strategies */,
+				C013EB0123E1E0AF00F12CCB /* Options */,
 				C013EB0623E1E0AF00F12CCB /* DictionaryAnyKeyedEncodingContainer.swift */,
 				C013EB0E23E1E0AF00F12CCB /* DictionaryComponent.swift */,
 				C013EB0A23E1E0AF00F12CCB /* DictionaryComponentContainer.swift */,
 				C013EB0D23E1E0AF00F12CCB /* DictionaryComponentEncoder.swift */,
 				C013EB0823E1E0AF00F12CCB /* DictionaryEncoder.swift */,
-				C013EB0B23E1E0AF00F12CCB /* DictionaryEncodingOptions.swift */,
 				C013EB0C23E1E0AF00F12CCB /* DictionaryKeyedEncodingContainer.swift */,
 				C013EB0923E1E0AF00F12CCB /* DictionarySingleValueEncodingContainer.swift */,
 				C013EB0723E1E0AF00F12CCB /* DictionaryUnkeyedEncodingContainer.swift */,
@@ -329,15 +328,16 @@
 			path = Encoder;
 			sourceTree = "<group>";
 		};
-		C013EB0123E1E0AF00F12CCB /* Strategies */ = {
+		C013EB0123E1E0AF00F12CCB /* Options */ = {
 			isa = PBXGroup;
 			children = (
 				C013EB0423E1E0AF00F12CCB /* DictionaryDataEncodingStrategy.swift */,
 				C013EB0323E1E0AF00F12CCB /* DictionaryDateEncodingStrategy.swift */,
+				C013EB0B23E1E0AF00F12CCB /* DictionaryEncodingOptions.swift */,
 				C013EB0223E1E0AF00F12CCB /* DictionaryKeyEncodingStrategy.swift */,
 				C013EB0523E1E0AF00F12CCB /* DictionaryNonConformingFloatEncodingStrategy.swift */,
 			);
-			path = Strategies;
+			path = Options;
 			sourceTree = "<group>";
 		};
 		C013EB8823E2237500F12CCB /* Decoder */ = {
@@ -594,7 +594,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1130;
-				LastUpgradeCheck = 1130;
+				LastUpgradeCheck = 1340;
 				ORGANIZATIONNAME = "Almaz Ibragimov";
 				TargetAttributes = {
 					C006F1A12406B13E00C3F783 = {
@@ -1051,6 +1051,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -1115,6 +1116,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;

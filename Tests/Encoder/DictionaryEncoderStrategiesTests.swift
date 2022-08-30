@@ -197,6 +197,8 @@ final class DictionaryEncoderStrategiesTests: XCTestCase, DictionaryEncoderTesti
         assertEncoderSucceeds(encoding: value)
     }
 
+    // MARK: - XCTestCase
+
     override func setUp() {
         super.setUp()
 
