@@ -1,20 +1,8 @@
 def report_xcode_summary(platform:)
-    path = "xcodebuild-#{platform.downcase}.json"
+    path = "xcodebuild-#{platform.downcase}.xcresult"
 
-    return if !File.exist?(path)
-
-    data = File.read(path)
-    json = JSON.parse(data)
-
-    json["tests_summary_messages"].each { |message|
-        if !message.empty?
-            message.insert(1, " " + platform + ":")
-        end
-    }
-
-    File.open(path, "w") do |file|
-        file.puts JSON.pretty_generate(json)
-    end
+    xcode_summary.ignores_warnings = false
+    xcode_summary.inline_mode = true
 
     xcode_summary.report(path)
 end
