@@ -11,7 +11,7 @@
 
 ## Requirements
 - iOS 10.0+ / macOS 10.12+ / watchOS 3.0+ / tvOS 10.0+
-- Xcode 10.2+
+- Xcode 12.5+
 - Swift 5.1+
 
 ## Usage
