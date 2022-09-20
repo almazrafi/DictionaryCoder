@@ -4,7 +4,7 @@
 [![Cocoapods](https://img.shields.io/cocoapods/v/DictionaryCoder)](http://cocoapods.org/pods/DictionaryCoder)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-Compatible-brightgreen)](https://github.com/Carthage/Carthage)
 [![SPM compatible](https://img.shields.io/badge/SPM-Compatible-brightgreen)](https://swift.org/package-manager/)
-[![Platforms](https://img.shields.io/cocoapods/p/DictionaryCoder)](https://developer.apple.com/discover/)
+[![Platforms](https://img.shields.io/cocoapods/p/DictionaryCoder.svg?style=flat)](https://developer.apple.com/discover/)
 [![Xcode](https://img.shields.io/badge/Xcode-12-blue)](https://developer.apple.com/xcode)
 [![Swift](https://img.shields.io/badge/Swift-5.1-orange)](https://swift.org)
 [![License](https://img.shields.io/github/license/almazrafi/DictionaryCoder)](https://opensource.org/licenses/MIT)
