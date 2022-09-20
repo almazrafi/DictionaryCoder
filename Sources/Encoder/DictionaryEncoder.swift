@@ -11,6 +11,7 @@ public final class DictionaryEncoder {
     public var dateEncodingStrategy: DictionaryDateEncodingStrategy
     public var dataEncodingStrategy: DictionaryDataEncodingStrategy
     public var nonConformingFloatEncodingStrategy: DictionaryNonConformingFloatEncodingStrategy
+    public var nilEncodingStrategy: DictionaryNilEncodingStrategy
     public var keyEncodingStrategy: DictionaryKeyEncodingStrategy
     public var userInfo: [CodingUserInfoKey: Any]
 
@@ -20,12 +21,14 @@ public final class DictionaryEncoder {
         dateEncodingStrategy: DictionaryDateEncodingStrategy = .deferredToDate,
         dataEncodingStrategy: DictionaryDataEncodingStrategy = .base64,
         nonConformingFloatEncodingStrategy: DictionaryNonConformingFloatEncodingStrategy = .throw,
+        nilEncodingStrategy: DictionaryNilEncodingStrategy = .useNil,
         keyEncodingStrategy: DictionaryKeyEncodingStrategy = .useDefaultKeys,
         userInfo: [CodingUserInfoKey: Any] = [:]
     ) {
         self.dateEncodingStrategy = dateEncodingStrategy
         self.dataEncodingStrategy = dataEncodingStrategy
         self.nonConformingFloatEncodingStrategy = nonConformingFloatEncodingStrategy
+        self.nilEncodingStrategy = nilEncodingStrategy
         self.keyEncodingStrategy = keyEncodingStrategy
         self.userInfo = userInfo
     }
@@ -37,6 +40,7 @@ public final class DictionaryEncoder {
             dateEncodingStrategy: dateEncodingStrategy,
             dataEncodingStrategy: dataEncodingStrategy,
             nonConformingFloatEncodingStrategy: nonConformingFloatEncodingStrategy,
+            nilEncodingStrategy: nilEncodingStrategy,
             keyEncodingStrategy: keyEncodingStrategy
         )
 

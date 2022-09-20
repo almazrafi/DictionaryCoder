@@ -50,6 +50,16 @@ extension DictionaryComponentEncoder {
         return .value(encoder.resolveValue())
     }
 
+    private func encodeNil(at codingPath: [CodingKey]) -> DictionaryComponent {
+        switch options.nilEncodingStrategy {
+        case .useNil:
+            return encodePrimitiveValue(nil, at: codingPath)
+
+        case .useNSNull:
+            return encodePrimitiveValue(NSNull(), at: codingPath)
+        }
+    }
+
     private func encodeDate(_ date: Date, at codingPath: [CodingKey]) throws -> DictionaryComponent {
         switch options.dateEncodingStrategy {
         case .deferredToDate:
@@ -125,7 +135,7 @@ extension DictionaryComponentEncoder {
     // MARK: -
 
     internal func encodeNilComponent(at codingPath: [CodingKey]) -> DictionaryComponent {
-        encodePrimitiveValue(NSNull(), at: codingPath)
+        encodeNil(at: codingPath)
     }
 
     internal func encodeComponentValue(_ value: Bool, at codingPath: [CodingKey]) -> DictionaryComponent {

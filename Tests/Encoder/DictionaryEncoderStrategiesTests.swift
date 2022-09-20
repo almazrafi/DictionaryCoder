@@ -197,6 +197,28 @@ final class DictionaryEncoderStrategiesTests: XCTestCase, DictionaryEncoderTesti
         assertEncoderSucceeds(encoding: value)
     }
 
+    // MARK: -
+
+    func testThatEncoderSucceedsWhenEncodingNil() {
+        struct EncodableStruct: Encodable {
+            let foobar: Int? = nil
+        }
+
+        encoder.nilEncodingStrategy = .useNil
+
+        assertEncoderSucceeds(encoding: EncodableStruct())
+    }
+
+    func testThatEncoderSucceedsWhenEncodingNilToNSNull() {
+        struct EncodableStruct: Encodable {
+            let foobar: Int? = nil
+        }
+
+        encoder.nilEncodingStrategy = .useNSNull
+
+        assertEncoderSucceeds(encoding: EncodableStruct())
+    }
+
     // MARK: - XCTestCase
 
     override func setUp() {

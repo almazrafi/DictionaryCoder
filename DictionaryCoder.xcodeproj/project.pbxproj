@@ -129,6 +129,10 @@
 		C013EB8523E21A2E00F12CCB /* DictionaryEncoderTesting.swift in Sources */ = {isa = PBXBuildFile; fileRef = C013EB8423E21A2E00F12CCB /* DictionaryEncoderTesting.swift */; };
 		C013EB8623E21A2E00F12CCB /* DictionaryEncoderTesting.swift in Sources */ = {isa = PBXBuildFile; fileRef = C013EB8423E21A2E00F12CCB /* DictionaryEncoderTesting.swift */; };
 		C013EB8723E21A2E00F12CCB /* DictionaryEncoderTesting.swift in Sources */ = {isa = PBXBuildFile; fileRef = C013EB8423E21A2E00F12CCB /* DictionaryEncoderTesting.swift */; };
+		C0193BBB28D99FE900FD3CDD /* DictionaryNilEncodingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0193BBA28D99FE900FD3CDD /* DictionaryNilEncodingStrategy.swift */; };
+		C0193BBC28D99FE900FD3CDD /* DictionaryNilEncodingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0193BBA28D99FE900FD3CDD /* DictionaryNilEncodingStrategy.swift */; };
+		C0193BBD28D99FE900FD3CDD /* DictionaryNilEncodingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0193BBA28D99FE900FD3CDD /* DictionaryNilEncodingStrategy.swift */; };
+		C0193BBE28D99FE900FD3CDD /* DictionaryNilEncodingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0193BBA28D99FE900FD3CDD /* DictionaryNilEncodingStrategy.swift */; };
 		C057F01823CB8EEB00C2D895 /* DictionaryCoder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C057F00E23CB8EEB00C2D895 /* DictionaryCoder.framework */; };
 		C057F01F23CB8EEB00C2D895 /* DictionaryCoder.h in Headers */ = {isa = PBXBuildFile; fileRef = C057F01123CB8EEB00C2D895 /* DictionaryCoder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C0A01A3223CB90F200AC2C3A /* DictionaryCoder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0A01A2923CB90F200AC2C3A /* DictionaryCoder.framework */; };
@@ -196,6 +200,7 @@
 		C013EB6123E1E28700F12CCB /* DictionaryDecoderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryDecoderTests.swift; sourceTree = "<group>"; };
 		C013EB7A23E1FA1100F12CCB /* DictionaryDecoderTesting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryDecoderTesting.swift; sourceTree = "<group>"; };
 		C013EB8423E21A2E00F12CCB /* DictionaryEncoderTesting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryEncoderTesting.swift; sourceTree = "<group>"; };
+		C0193BBA28D99FE900FD3CDD /* DictionaryNilEncodingStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryNilEncodingStrategy.swift; sourceTree = "<group>"; };
 		C057F00E23CB8EEB00C2D895 /* DictionaryCoder.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DictionaryCoder.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C057F01123CB8EEB00C2D895 /* DictionaryCoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DictionaryCoder.h; sourceTree = "<group>"; };
 		C057F01223CB8EEB00C2D895 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -335,6 +340,7 @@
 				C013EB0323E1E0AF00F12CCB /* DictionaryDateEncodingStrategy.swift */,
 				C013EB0B23E1E0AF00F12CCB /* DictionaryEncodingOptions.swift */,
 				C013EB0223E1E0AF00F12CCB /* DictionaryKeyEncodingStrategy.swift */,
+				C0193BBA28D99FE900FD3CDD /* DictionaryNilEncodingStrategy.swift */,
 				C013EB0523E1E0AF00F12CCB /* DictionaryNonConformingFloatEncodingStrategy.swift */,
 			);
 			path = Options;
@@ -803,6 +809,7 @@
 				C006F1B92406B1FE00C3F783 /* DictionaryComponent.swift in Sources */,
 				C006F1BA2406B1FE00C3F783 /* DictionaryComponentContainer.swift in Sources */,
 				C006F1B72406B1FA00C3F783 /* DictionaryNonConformingFloatEncodingStrategy.swift in Sources */,
+				C0193BBE28D99FE900FD3CDD /* DictionaryNilEncodingStrategy.swift in Sources */,
 				C006F1BF2406B1FE00C3F783 /* DictionarySingleValueEncodingContainer.swift in Sources */,
 				C006F1AB2406B1F000C3F783 /* DictionaryDateDecodingStrategy.swift in Sources */,
 			);
@@ -836,6 +843,7 @@
 				C013EB2423E1E0AF00F12CCB /* DictionaryNonConformingFloatDecodingStrategy.swift in Sources */,
 				C013EB2A23E1E0AF00F12CCB /* DictionarySingleValueDecodingContainer.swift in Sources */,
 				C013EB3623E1E0AF00F12CCB /* DictionaryDateEncodingStrategy.swift in Sources */,
+				C0193BBB28D99FE900FD3CDD /* DictionaryNilEncodingStrategy.swift in Sources */,
 				C013EB3323E1E0AF00F12CCB /* DictionaryKeyEncodingStrategy.swift in Sources */,
 				C013EB1E23E1E0AF00F12CCB /* DictionaryDateDecodingStrategy.swift in Sources */,
 			);
@@ -882,6 +890,7 @@
 				C013EB2523E1E0AF00F12CCB /* DictionaryNonConformingFloatDecodingStrategy.swift in Sources */,
 				C013EB2B23E1E0AF00F12CCB /* DictionarySingleValueDecodingContainer.swift in Sources */,
 				C013EB3723E1E0AF00F12CCB /* DictionaryDateEncodingStrategy.swift in Sources */,
+				C0193BBC28D99FE900FD3CDD /* DictionaryNilEncodingStrategy.swift in Sources */,
 				C013EB3423E1E0AF00F12CCB /* DictionaryKeyEncodingStrategy.swift in Sources */,
 				C013EB1F23E1E0AF00F12CCB /* DictionaryDateDecodingStrategy.swift in Sources */,
 			);
@@ -928,6 +937,7 @@
 				C013EB2623E1E0AF00F12CCB /* DictionaryNonConformingFloatDecodingStrategy.swift in Sources */,
 				C013EB2C23E1E0AF00F12CCB /* DictionarySingleValueDecodingContainer.swift in Sources */,
 				C013EB3823E1E0AF00F12CCB /* DictionaryDateEncodingStrategy.swift in Sources */,
+				C0193BBD28D99FE900FD3CDD /* DictionaryNilEncodingStrategy.swift in Sources */,
 				C013EB3523E1E0AF00F12CCB /* DictionaryKeyEncodingStrategy.swift in Sources */,
 				C013EB2023E1E0AF00F12CCB /* DictionaryDateDecodingStrategy.swift in Sources */,
 			);
