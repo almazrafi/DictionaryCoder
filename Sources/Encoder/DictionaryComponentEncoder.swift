@@ -125,7 +125,7 @@ extension DictionaryComponentEncoder {
     // MARK: -
 
     internal func encodeNilComponent(at codingPath: [CodingKey]) -> DictionaryComponent {
-        encodePrimitiveValue(nil, at: codingPath)
+        encodePrimitiveValue(NSNull(), at: codingPath)
     }
 
     internal func encodeComponentValue(_ value: Bool, at codingPath: [CodingKey]) -> DictionaryComponent {
