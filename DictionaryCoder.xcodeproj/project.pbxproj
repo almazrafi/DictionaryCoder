@@ -994,7 +994,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.7;
+				MARKETING_VERSION = 1.0.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.almazrafi.DictionaryCoder;
 				PRODUCT_NAME = DictionaryCoder;
 				SDKROOT = watchos;
@@ -1023,7 +1023,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.7;
+				MARKETING_VERSION = 1.0.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.almazrafi.DictionaryCoder;
 				PRODUCT_NAME = DictionaryCoder;
 				SDKROOT = watchos;
@@ -1177,7 +1177,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.7;
+				MARKETING_VERSION = 1.0.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.almazrafi.DictionaryCoder;
 				PRODUCT_NAME = DictionaryCoder;
 				SKIP_INSTALL = YES;
@@ -1206,7 +1206,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.7;
+				MARKETING_VERSION = 1.0.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.almazrafi.DictionaryCoder;
 				PRODUCT_NAME = DictionaryCoder;
 				SKIP_INSTALL = YES;
@@ -1278,7 +1278,7 @@
 					"@loader_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = 1.0.7;
+				MARKETING_VERSION = 1.0.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.almazrafi.DictionaryCoder;
 				PRODUCT_NAME = DictionaryCoder;
 				SDKROOT = macosx;
@@ -1308,7 +1308,7 @@
 					"@loader_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = 1.0.7;
+				MARKETING_VERSION = 1.0.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.almazrafi.DictionaryCoder;
 				PRODUCT_NAME = DictionaryCoder;
 				SDKROOT = macosx;
@@ -1381,7 +1381,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.7;
+				MARKETING_VERSION = 1.0.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.almazrafi.DictionaryCoder;
 				PRODUCT_NAME = DictionaryCoder;
 				SDKROOT = appletvos;
@@ -1411,7 +1411,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.7;
+				MARKETING_VERSION = 1.0.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.almazrafi.DictionaryCoder;
 				PRODUCT_NAME = DictionaryCoder;
 				SDKROOT = appletvos;
