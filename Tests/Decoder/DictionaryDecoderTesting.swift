@@ -19,22 +19,20 @@ extension DictionaryDecoderTesting {
         jsonDecoder.nonConformingFloatDecodingStrategy = decoder.nonConformingFloatDecodingStrategy.jsonDecodingStrategy
 
         let data = try JSONSerialization.data(withJSONObject: dictionary, options: .fragmentsAllowed)
-        let value = try jsonDecoder.decode(T.self, from: data)
 
-        return value
+        return try jsonDecoder.decode(T.self, from: data)
     }
 
     // MARK: -
 
-    func assertDecoderSucceeds<Key: Hashable & Decodable, Value: Decodable & FloatingPoint & Equatable>(
-        decoding valueType: [Key: Value].Type,
+    func assertDecoderSucceeds<Key: Decodable & Hashable, Value: Decodable & FloatingPoint & Equatable>(
+        decoding expectedValue: [Key: Value],
         from dictionary: [String: Any],
         file: StaticString = #file,
         line: UInt = #line
     ) {
         do {
-            let expectedValue = try makeExpectedValue(valueType, from: dictionary)
-            let value = try decoder.decode(valueType, from: dictionary)
+            let value = try decoder.decode([Key: Value].self, from: dictionary)
 
             XCTAssertEqual(
                 NSDictionary(dictionary: value),
@@ -42,6 +40,41 @@ extension DictionaryDecoderTesting {
                 file: file,
                 line: line
             )
+        } catch {
+            XCTFail("Test encountered unexpected error: \(error)", file: file, line: line)
+        }
+    }
+
+    func assertDecoderSucceeds<Key: Decodable & Hashable, Value: Decodable & FloatingPoint & Equatable>(
+        decoding valueType: [Key: Value].Type,
+        from dictionary: [String: Any],
+        file: StaticString = #file,
+        line: UInt = #line
+    ) {
+        do {
+            let expectedValue = try makeExpectedValue(valueType, from: dictionary)
+
+            assertDecoderSucceeds(
+                decoding: expectedValue,
+                from: dictionary,
+                file: file,
+                line: line
+            )
+        } catch {
+            XCTFail("Test encountered unexpected error: \(error)", file: file, line: line)
+        }
+    }
+
+    func assertDecoderSucceeds<T: Decodable & Equatable>(
+        decoding expectedValue: T,
+        from dictionary: [String: Any],
+        file: StaticString = #file,
+        line: UInt = #line
+    ) {
+        do {
+            let value = try decoder.decode(T.self, from: dictionary)
+
+            XCTAssertEqual(value, expectedValue, file: file, line: line)
         } catch {
             XCTFail("Test encountered unexpected error: \(error)", file: file, line: line)
         }
@@ -55,9 +88,13 @@ extension DictionaryDecoderTesting {
     ) {
         do {
             let expectedValue = try makeExpectedValue(valueType, from: dictionary)
-            let value = try decoder.decode(valueType, from: dictionary)
 
-            XCTAssertEqual(value, expectedValue, file: file, line: line)
+            assertDecoderSucceeds(
+                decoding: expectedValue,
+                from: dictionary,
+                file: file,
+                line: line
+            )
         } catch {
             XCTFail("Test encountered unexpected error: \(error)", file: file, line: line)
         }
@@ -82,11 +119,11 @@ extension DictionaryDecoderTesting {
     }
 }
 
-private extension DictionaryKeyDecodingStrategy {
+extension DictionaryKeyDecodingStrategy {
 
     // MARK: - Instance Properties
 
-    var jsonDecodingStrategy: JSONDecoder.KeyDecodingStrategy {
+    fileprivate var jsonDecodingStrategy: JSONDecoder.KeyDecodingStrategy {
         switch self {
         case .useDefaultKeys:
             return .useDefaultKeys
@@ -97,11 +134,11 @@ private extension DictionaryKeyDecodingStrategy {
     }
 }
 
-private extension DictionaryDateDecodingStrategy {
+extension DictionaryDateDecodingStrategy {
 
     // MARK: - Instance Properties
 
-    var jsonDecodingStrategy: JSONDecoder.DateDecodingStrategy {
+    fileprivate var jsonDecodingStrategy: JSONDecoder.DateDecodingStrategy {
         switch self {
         case .deferredToDate:
             return .deferredToDate
@@ -128,11 +165,11 @@ private extension DictionaryDateDecodingStrategy {
     }
 }
 
-private extension DictionaryDataDecodingStrategy {
+extension DictionaryDataDecodingStrategy {
 
     // MARK: - Instance Properties
 
-    var jsonDecodingStrategy: JSONDecoder.DataDecodingStrategy {
+    fileprivate var jsonDecodingStrategy: JSONDecoder.DataDecodingStrategy {
         switch self {
         case .deferredToData:
             return .deferredToData
@@ -146,11 +183,11 @@ private extension DictionaryDataDecodingStrategy {
     }
 }
 
-private extension DictionaryNonConformingFloatDecodingStrategy {
+extension DictionaryNonConformingFloatDecodingStrategy {
 
     // MARK: - Instance Properties
 
-    var jsonDecodingStrategy: JSONDecoder.NonConformingFloatDecodingStrategy {
+    fileprivate var jsonDecodingStrategy: JSONDecoder.NonConformingFloatDecodingStrategy {
         switch self {
         case let .convertFromString(positiveInfinity, negativeInfinity, nan):
             return .convertFromString(

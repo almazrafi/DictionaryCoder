@@ -164,6 +164,10 @@ extension DictionaryComponentDecoder {
     }
 
     private func decodeURL(from component: Any?, at codingPath: [CodingKey]) throws -> URL {
+        if let url = component as? URL {
+            return url
+        }
+
         guard let url = URL(string: try decodePrimitiveValue(from: component, at: codingPath)) else {
             let errorContext = DecodingError.Context(
                 codingPath: codingPath,
@@ -259,11 +263,11 @@ extension DictionaryComponentDecoder {
     }
 }
 
-private extension DecodingError {
+extension DecodingError {
 
     // MARK: - Type Methods
 
-    static func invalidComponent(
+    fileprivate static func invalidComponent(
         _ component: Any?,
         of expectedType: Any.Type,
         at codingPath: [CodingKey]

@@ -207,7 +207,6 @@
 		C057F01723CB8EEB00C2D895 /* DictionaryCoder Tests iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "DictionaryCoder Tests iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C057F01E23CB8EEB00C2D895 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C07811BC2675FD15002FE9D4 /* Mintfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Mintfile; sourceTree = "<group>"; };
-		C0A01A1423CB8FF300AC2C3A /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		C0A01A1523CB8FFC00AC2C3A /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		C0A01A1623CB900800AC2C3A /* DictionaryCoder.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = DictionaryCoder.podspec; sourceTree = "<group>"; };
 		C0A01A1723CB900900AC2C3A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -408,7 +407,6 @@
 				C013EAF423E1E0AE00F12CCB /* Decoder */,
 				C013EB0023E1E0AF00F12CCB /* Encoder */,
 				C013EAF123E1E0AE00F12CCB /* Tools */,
-				C0A01A1423CB8FF300AC2C3A /* .swiftlint.yml */,
 				C057F01123CB8EEB00C2D895 /* DictionaryCoder.h */,
 				C057F01223CB8EEB00C2D895 /* Info.plist */,
 			);

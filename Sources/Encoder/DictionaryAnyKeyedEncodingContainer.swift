@@ -44,7 +44,7 @@ internal final class DictionaryAnyKeyedEncodingContainer: DictionaryComponentCon
         keyedBy keyType: NestedKey.Type,
         forKey key: Key
     ) -> DictionaryAnyKeyedEncodingContainer {
-        if case let .container(container as DictionaryAnyKeyedEncodingContainer) = components[encodeKey(key)] {
+        if case let .container(container as Self) = components[encodeKey(key)] {
             return container
         }
 

@@ -21,21 +21,44 @@ extension DictionaryEncoderTesting {
         jsonEncoder.nonConformingFloatEncodingStrategy = encoder.nonConformingFloatEncodingStrategy.jsonEncodingStrategy
 
         let data = try jsonEncoder.encode(value)
-        let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
+        let json = try JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed)
 
         return json as? [String: Any] ?? [:]
     }
 
     // MARK: -
 
-    func assertEncoderSucceeds<T: Encodable>(encoding value: T, file: StaticString = #file, line: UInt = #line) {
+    func assertEncoderSucceeds<T: Encodable>(
+        encoding value: T,
+        expecting expectedDictionary: [String: Any],
+        file: StaticString = #file,
+        line: UInt = #line
+    ) {
         do {
-            let expectedDictionary = try makeExpectedDictionary(for: value)
             let dictionary = try encoder.encode(value)
 
             XCTAssertEqual(
                 NSDictionary(dictionary: expectedDictionary),
                 NSDictionary(dictionary: dictionary),
+                file: file,
+                line: line
+            )
+        } catch {
+            XCTFail("Test encountered unexpected error: \(error)")
+        }
+    }
+
+    func assertEncoderSucceeds<T: Encodable>(
+        encoding value: T,
+        file: StaticString = #file,
+        line: UInt = #line
+    ) {
+        do {
+            let expectedDictionary = try makeExpectedDictionary(for: value)
+
+            assertEncoderSucceeds(
+                encoding: value,
+                expecting: expectedDictionary,
                 file: file,
                 line: line
             )
@@ -62,11 +85,11 @@ extension DictionaryEncoderTesting {
     }
 }
 
-private extension DictionaryKeyEncodingStrategy {
+extension DictionaryKeyEncodingStrategy {
 
     // MARK: - Instance Properties
 
-    var jsonEncodingStrategy: JSONEncoder.KeyEncodingStrategy {
+    fileprivate var jsonEncodingStrategy: JSONEncoder.KeyEncodingStrategy {
         switch self {
         case .useDefaultKeys:
             return .useDefaultKeys
@@ -77,11 +100,11 @@ private extension DictionaryKeyEncodingStrategy {
     }
 }
 
-private extension DictionaryDateEncodingStrategy {
+extension DictionaryDateEncodingStrategy {
 
     // MARK: - Instance Properties
 
-    var jsonEncodingStrategy: JSONEncoder.DateEncodingStrategy {
+    fileprivate var jsonEncodingStrategy: JSONEncoder.DateEncodingStrategy {
         switch self {
         case .deferredToDate:
             return .deferredToDate
@@ -108,11 +131,11 @@ private extension DictionaryDateEncodingStrategy {
     }
 }
 
-private extension DictionaryDataEncodingStrategy {
+extension DictionaryDataEncodingStrategy {
 
     // MARK: - Instance Properties
 
-    var jsonEncodingStrategy: JSONEncoder.DataEncodingStrategy {
+    fileprivate var jsonEncodingStrategy: JSONEncoder.DataEncodingStrategy {
         switch self {
         case .deferredToData:
             return .deferredToData
@@ -126,11 +149,11 @@ private extension DictionaryDataEncodingStrategy {
     }
 }
 
-private extension DictionaryNonConformingFloatEncodingStrategy {
+extension DictionaryNonConformingFloatEncodingStrategy {
 
     // MARK: - Instance Properties
 
-    var jsonEncodingStrategy: JSONEncoder.NonConformingFloatEncodingStrategy {
+    fileprivate var jsonEncodingStrategy: JSONEncoder.NonConformingFloatEncodingStrategy {
         switch self {
         case let .convertToString(positiveInfinity, negativeInfinity, nan):
             return .convertToString(
