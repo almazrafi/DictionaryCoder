@@ -21,21 +21,44 @@ extension DictionaryEncoderTesting {
         jsonEncoder.nonConformingFloatEncodingStrategy = encoder.nonConformingFloatEncodingStrategy.jsonEncodingStrategy
 
         let data = try jsonEncoder.encode(value)
-        let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
+        let json = try JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed)
 
         return json as? [String: Any] ?? [:]
     }
 
     // MARK: -
 
-    func assertEncoderSucceeds<T: Encodable>(encoding value: T, file: StaticString = #file, line: UInt = #line) {
+    func assertEncoderSucceeds<T: Encodable>(
+        encoding value: T,
+        expecting expectedDictionary: [String: Any],
+        file: StaticString = #file,
+        line: UInt = #line
+    ) {
         do {
-            let expectedDictionary = try makeExpectedDictionary(for: value)
             let dictionary = try encoder.encode(value)
 
             XCTAssertEqual(
                 NSDictionary(dictionary: expectedDictionary),
                 NSDictionary(dictionary: dictionary),
+                file: file,
+                line: line
+            )
+        } catch {
+            XCTFail("Test encountered unexpected error: \(error)")
+        }
+    }
+
+    func assertEncoderSucceeds<T: Encodable>(
+        encoding value: T,
+        file: StaticString = #file,
+        line: UInt = #line
+    ) {
+        do {
+            let expectedDictionary = try makeExpectedDictionary(for: value)
+
+            assertEncoderSucceeds(
+                encoding: value,
+                expecting: expectedDictionary,
                 file: file,
                 line: line
             )

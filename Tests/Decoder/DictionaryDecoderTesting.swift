@@ -25,15 +25,14 @@ extension DictionaryDecoderTesting {
 
     // MARK: -
 
-    func assertDecoderSucceeds<Key: Hashable & Decodable, Value: Decodable & FloatingPoint & Equatable>(
-        decoding valueType: [Key: Value].Type,
+    func assertDecoderSucceeds<Key: Decodable & Hashable, Value: Decodable & FloatingPoint & Equatable>(
+        decoding expectedValue: [Key: Value],
         from dictionary: [String: Any],
         file: StaticString = #file,
         line: UInt = #line
     ) {
         do {
-            let expectedValue = try makeExpectedValue(valueType, from: dictionary)
-            let value = try decoder.decode(valueType, from: dictionary)
+            let value = try decoder.decode([Key: Value].self, from: dictionary)
 
             XCTAssertEqual(
                 NSDictionary(dictionary: value),
@@ -41,6 +40,41 @@ extension DictionaryDecoderTesting {
                 file: file,
                 line: line
             )
+        } catch {
+            XCTFail("Test encountered unexpected error: \(error)", file: file, line: line)
+        }
+    }
+
+    func assertDecoderSucceeds<Key: Decodable & Hashable, Value: Decodable & FloatingPoint & Equatable>(
+        decoding valueType: [Key: Value].Type,
+        from dictionary: [String: Any],
+        file: StaticString = #file,
+        line: UInt = #line
+    ) {
+        do {
+            let expectedValue = try makeExpectedValue(valueType, from: dictionary)
+
+            assertDecoderSucceeds(
+                decoding: expectedValue,
+                from: dictionary,
+                file: file,
+                line: line
+            )
+        } catch {
+            XCTFail("Test encountered unexpected error: \(error)", file: file, line: line)
+        }
+    }
+
+    func assertDecoderSucceeds<T: Decodable & Equatable>(
+        decoding expectedValue: T,
+        from dictionary: [String: Any],
+        file: StaticString = #file,
+        line: UInt = #line
+    ) {
+        do {
+            let value = try decoder.decode(T.self, from: dictionary)
+
+            XCTAssertEqual(value, expectedValue, file: file, line: line)
         } catch {
             XCTFail("Test encountered unexpected error: \(error)", file: file, line: line)
         }
@@ -54,9 +88,13 @@ extension DictionaryDecoderTesting {
     ) {
         do {
             let expectedValue = try makeExpectedValue(valueType, from: dictionary)
-            let value = try decoder.decode(valueType, from: dictionary)
 
-            XCTAssertEqual(value, expectedValue, file: file, line: line)
+            assertDecoderSucceeds(
+                decoding: expectedValue,
+                from: dictionary,
+                file: file,
+                line: line
+            )
         } catch {
             XCTFail("Test encountered unexpected error: \(error)", file: file, line: line)
         }
@@ -70,7 +108,7 @@ extension DictionaryDecoderTesting {
         errorValidation: (_ error: Error) -> Bool
     ) {
         do {
-            let dictionary = try decoder.decode(valueType, from: dictionary)
+            _ = try decoder.decode(valueType, from: dictionary)
 
             XCTFail("Test encountered unexpected behavior", file: file, line: line)
         } catch {

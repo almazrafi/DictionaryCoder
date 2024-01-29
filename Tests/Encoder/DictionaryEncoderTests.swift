@@ -130,7 +130,7 @@ final class DictionaryEncoderTests: XCTestCase, DictionaryEncoderTesting {
             "bar": -45.6
         ]
 
-        assertEncoderSucceeds(encoding: value)
+        assertEncoderSucceeds(encoding: value, expecting: value)
     }
 
     func testThatEncoderSucceedsWhenEncodingStringToStringDictionary() {
