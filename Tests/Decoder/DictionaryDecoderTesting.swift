@@ -19,9 +19,8 @@ extension DictionaryDecoderTesting {
         jsonDecoder.nonConformingFloatDecodingStrategy = decoder.nonConformingFloatDecodingStrategy.jsonDecodingStrategy
 
         let data = try JSONSerialization.data(withJSONObject: dictionary, options: .fragmentsAllowed)
-        let value = try jsonDecoder.decode(T.self, from: data)
 
-        return value
+        return try jsonDecoder.decode(T.self, from: data)
     }
 
     // MARK: -
@@ -71,7 +70,7 @@ extension DictionaryDecoderTesting {
         errorValidation: (_ error: Error) -> Bool
     ) {
         do {
-            _ = try decoder.decode(valueType, from: dictionary)
+            let dictionary = try decoder.decode(valueType, from: dictionary)
 
             XCTFail("Test encountered unexpected behavior", file: file, line: line)
         } catch {
@@ -82,11 +81,11 @@ extension DictionaryDecoderTesting {
     }
 }
 
-private extension DictionaryKeyDecodingStrategy {
+extension DictionaryKeyDecodingStrategy {
 
     // MARK: - Instance Properties
 
-    var jsonDecodingStrategy: JSONDecoder.KeyDecodingStrategy {
+    fileprivate var jsonDecodingStrategy: JSONDecoder.KeyDecodingStrategy {
         switch self {
         case .useDefaultKeys:
             return .useDefaultKeys
@@ -97,11 +96,11 @@ private extension DictionaryKeyDecodingStrategy {
     }
 }
 
-private extension DictionaryDateDecodingStrategy {
+extension DictionaryDateDecodingStrategy {
 
     // MARK: - Instance Properties
 
-    var jsonDecodingStrategy: JSONDecoder.DateDecodingStrategy {
+    fileprivate var jsonDecodingStrategy: JSONDecoder.DateDecodingStrategy {
         switch self {
         case .deferredToDate:
             return .deferredToDate
@@ -128,11 +127,11 @@ private extension DictionaryDateDecodingStrategy {
     }
 }
 
-private extension DictionaryDataDecodingStrategy {
+extension DictionaryDataDecodingStrategy {
 
     // MARK: - Instance Properties
 
-    var jsonDecodingStrategy: JSONDecoder.DataDecodingStrategy {
+    fileprivate var jsonDecodingStrategy: JSONDecoder.DataDecodingStrategy {
         switch self {
         case .deferredToData:
             return .deferredToData
@@ -146,11 +145,11 @@ private extension DictionaryDataDecodingStrategy {
     }
 }
 
-private extension DictionaryNonConformingFloatDecodingStrategy {
+extension DictionaryNonConformingFloatDecodingStrategy {
 
     // MARK: - Instance Properties
 
-    var jsonDecodingStrategy: JSONDecoder.NonConformingFloatDecodingStrategy {
+    fileprivate var jsonDecodingStrategy: JSONDecoder.NonConformingFloatDecodingStrategy {
         switch self {
         case let .convertFromString(positiveInfinity, negativeInfinity, nan):
             return .convertFromString(

@@ -62,11 +62,11 @@ extension DictionaryEncoderTesting {
     }
 }
 
-private extension DictionaryKeyEncodingStrategy {
+extension DictionaryKeyEncodingStrategy {
 
     // MARK: - Instance Properties
 
-    var jsonEncodingStrategy: JSONEncoder.KeyEncodingStrategy {
+    fileprivate var jsonEncodingStrategy: JSONEncoder.KeyEncodingStrategy {
         switch self {
         case .useDefaultKeys:
             return .useDefaultKeys
@@ -77,11 +77,11 @@ private extension DictionaryKeyEncodingStrategy {
     }
 }
 
-private extension DictionaryDateEncodingStrategy {
+extension DictionaryDateEncodingStrategy {
 
     // MARK: - Instance Properties
 
-    var jsonEncodingStrategy: JSONEncoder.DateEncodingStrategy {
+    fileprivate var jsonEncodingStrategy: JSONEncoder.DateEncodingStrategy {
         switch self {
         case .deferredToDate:
             return .deferredToDate
@@ -108,11 +108,11 @@ private extension DictionaryDateEncodingStrategy {
     }
 }
 
-private extension DictionaryDataEncodingStrategy {
+extension DictionaryDataEncodingStrategy {
 
     // MARK: - Instance Properties
 
-    var jsonEncodingStrategy: JSONEncoder.DataEncodingStrategy {
+    fileprivate var jsonEncodingStrategy: JSONEncoder.DataEncodingStrategy {
         switch self {
         case .deferredToData:
             return .deferredToData
@@ -126,11 +126,11 @@ private extension DictionaryDataEncodingStrategy {
     }
 }
 
-private extension DictionaryNonConformingFloatEncodingStrategy {
+extension DictionaryNonConformingFloatEncodingStrategy {
 
     // MARK: - Instance Properties
 
-    var jsonEncodingStrategy: JSONEncoder.NonConformingFloatEncodingStrategy {
+    fileprivate var jsonEncodingStrategy: JSONEncoder.NonConformingFloatEncodingStrategy {
         switch self {
         case let .convertToString(positiveInfinity, negativeInfinity, nan):
             return .convertToString(

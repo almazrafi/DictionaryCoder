@@ -4,7 +4,7 @@ internal struct AnyCodingKey: CodingKey {
 
     // MARK: - Type Properties
 
-    internal static let `super` = AnyCodingKey("super")
+    internal static let `super` = Self("super")
 
     // MARK: - Instance Properties
 

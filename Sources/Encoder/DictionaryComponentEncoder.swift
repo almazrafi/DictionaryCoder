@@ -214,18 +214,21 @@ extension DictionaryComponentEncoder {
     }
 }
 
-private extension TimeZone {
+extension TimeZone {
 
     // MARK: - Type Properties
 
-    static let iso8601TimeZone = TimeZone(secondsFromGMT: 0)!
+    fileprivate static let iso8601TimeZone = TimeZone(secondsFromGMT: 0)!
 }
 
-private extension EncodingError {
+extension EncodingError {
 
     // MARK: - Type Methods
 
-    static func invalidFloatingPointValue<T: FloatingPoint>(_ value: T, at codingPath: [CodingKey]) -> EncodingError {
+    fileprivate static func invalidFloatingPointValue<T: FloatingPoint>(
+        _ value: T,
+        at codingPath: [CodingKey]
+    ) -> EncodingError {
         let valueDescription: String
 
         switch value {

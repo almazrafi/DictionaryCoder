@@ -35,9 +35,9 @@ final class DictionaryDecoderStrategiesTests: XCTestCase, DictionaryDecoderTesti
         decoder.keyDecodingStrategy = .custom { codingPath in
             if let codingKey = codingPath.last?.stringValue.components(separatedBy: ".").first {
                 return AnyCodingKey(codingKey)
-            } else {
-                return AnyCodingKey("unknown")
             }
+
+            return AnyCodingKey("unknown")
         }
 
         let dictionary = [
