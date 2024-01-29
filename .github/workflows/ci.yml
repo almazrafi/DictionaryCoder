@@ -15,7 +15,7 @@ env:
 jobs:
   BuildAndTests:
     name: Build & Tests
-    runs-on: firebreak
+    runs-on: macOS-13
     env:
       DEVELOPER_DIR: /Applications/Xcode_15.2.app/Contents/Developer
       XCODE_PROJECT: DictionaryCoder.xcodeproj
