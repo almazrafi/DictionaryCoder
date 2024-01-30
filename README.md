@@ -1,5 +1,5 @@
 # DictionaryCoder
-[![Build Status](https://github.com/almazrafi/DictionaryCoder/workflows/CI/badge.svg?branch=main)](https://github.com/almazrafi/DictionaryCoder/actions)
+[![Build Status](https://github.com/almazrafi/DictionaryCoder/workflows/CI/badge.svg)](https://github.com/almazrafi/DictionaryCoder/actions)
 [![Codecov](https://codecov.io/gh/almazrafi/DictionaryCoder/branch/master/graph/badge.svg)](https://codecov.io/gh/almazrafi/DictionaryCoder)
 [![Cocoapods](https://img.shields.io/cocoapods/v/DictionaryCoder)](http://cocoapods.org/pods/DictionaryCoder)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-Compatible-brightgreen)](https://github.com/Carthage/Carthage)
