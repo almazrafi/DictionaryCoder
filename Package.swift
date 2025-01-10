@@ -12,10 +12,7 @@ let package = Package(
     targets: [
         .target(
             name: "DictionaryCoder",
-            path: "Sources",
-            swiftSettings: [
-                .enableUpcomingFeature("StrictConcurrency")
-            ]
+            path: "Sources"
         ),
         .testTarget(
             name: "DictionaryCoderTests",
