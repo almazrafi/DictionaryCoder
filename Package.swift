@@ -1,4 +1,4 @@
-// swift-tools-version:5.5
+// swift-tools-version:6.0
 import PackageDescription
 
 let package = Package(
@@ -12,7 +12,10 @@ let package = Package(
     targets: [
         .target(
             name: "DictionaryCoder",
-            path: "Sources"
+            path: "Sources",
+            swiftSettings: [
+                .enableUpcomingFeature("StrictConcurrency")
+            ]
         ),
         .testTarget(
             name: "DictionaryCoderTests",
@@ -20,5 +23,5 @@ let package = Package(
             path: "Tests"
         )
     ],
-    swiftLanguageVersions: [.v5]
+    swiftLanguageVersions: [.v6]
 )
