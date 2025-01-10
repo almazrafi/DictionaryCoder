@@ -2,10 +2,6 @@ import Foundation
 
 public final class DictionaryDecoder {
 
-    // MARK: - Type Properties
-
-    public static let `default` = DictionaryDecoder()
-
     // MARK: - Instance Properties
 
     public var dateDecodingStrategy: DictionaryDateDecodingStrategy
