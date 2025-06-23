@@ -1,7 +1,7 @@
 import Foundation
 
 /// The strategies available for formatting dates when decoding them from Dictionary.
-public enum DictionaryDateDecodingStrategy {
+public enum DictionaryDateDecodingStrategy: Sendable {
 
     // MARK: - Enumeration Cases
 
@@ -22,5 +22,5 @@ public enum DictionaryDateDecodingStrategy {
     case formatted(DateFormatter)
 
     /// The strategy that formats custom dates by calling a user-defined function.
-    case custom((_ decoder: Decoder) throws -> Date)
+    case custom(@Sendable (_ decoder: Decoder) throws -> Date)
 }
