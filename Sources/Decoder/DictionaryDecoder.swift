@@ -1,14 +1,14 @@
 import Foundation
 
-public final class DictionaryDecoder {
+public final class DictionaryDecoder: Sendable {
 
     // MARK: - Instance Properties
 
-    public var dateDecodingStrategy: DictionaryDateDecodingStrategy
-    public var dataDecodingStrategy: DictionaryDataDecodingStrategy
-    public var nonConformingFloatDecodingStrategy: DictionaryNonConformingFloatDecodingStrategy
-    public var keyDecodingStrategy: DictionaryKeyDecodingStrategy
-    public var userInfo: [CodingUserInfoKey: Any]
+    public let dateDecodingStrategy: DictionaryDateDecodingStrategy
+    public let dataDecodingStrategy: DictionaryDataDecodingStrategy
+    public let nonConformingFloatDecodingStrategy: DictionaryNonConformingFloatDecodingStrategy
+    public let keyDecodingStrategy: DictionaryKeyDecodingStrategy
+    public let userInfo: [CodingUserInfoKey: Sendable]
 
     // MARK: - Initializers
 
@@ -17,7 +17,7 @@ public final class DictionaryDecoder {
         dataDecodingStrategy: DictionaryDataDecodingStrategy = .base64,
         nonConformingFloatDecodingStrategy: DictionaryNonConformingFloatDecodingStrategy = .throw,
         keyDecodingStrategy: DictionaryKeyDecodingStrategy = .useDefaultKeys,
-        userInfo: [CodingUserInfoKey: Any] = [:]
+        userInfo: [CodingUserInfoKey: Sendable] = [:]
     ) {
         self.dateDecodingStrategy = dateDecodingStrategy
         self.dataDecodingStrategy = dataDecodingStrategy

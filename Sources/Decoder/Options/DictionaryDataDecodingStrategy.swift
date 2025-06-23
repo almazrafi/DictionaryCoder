@@ -1,7 +1,7 @@
 import Foundation
 
 /// The strategies for decoding raw data.
-public enum DictionaryDataDecodingStrategy {
+public enum DictionaryDataDecodingStrategy: Sendable {
 
     // MARK: - Enumeration Cases
 
@@ -12,5 +12,5 @@ public enum DictionaryDataDecodingStrategy {
     case base64
 
     /// The strategy that decodes data using a user-defined function.
-    case custom((_ decoder: Decoder) throws -> Data)
+    case custom(@Sendable (_ decoder: Decoder) throws -> Data)
 }

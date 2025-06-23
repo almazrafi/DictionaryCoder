@@ -1,9 +1,9 @@
 import Foundation
 
-public enum DictionaryKeyEncodingStrategy {
+public enum DictionaryKeyEncodingStrategy: Sendable {
 
     // MARK: - Enumeration Cases
 
     case useDefaultKeys
-    case custom((_ codingPath: [CodingKey]) -> CodingKey)
+    case custom(@Sendable (_ codingPath: [CodingKey]) -> CodingKey)
 }

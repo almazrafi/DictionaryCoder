@@ -1,15 +1,15 @@
 import Foundation
 
-public final class DictionaryEncoder {
+public final class DictionaryEncoder: Sendable {
 
     // MARK: - Instance Properties
 
-    public var dateEncodingStrategy: DictionaryDateEncodingStrategy
-    public var dataEncodingStrategy: DictionaryDataEncodingStrategy
-    public var nonConformingFloatEncodingStrategy: DictionaryNonConformingFloatEncodingStrategy
-    public var nilEncodingStrategy: DictionaryNilEncodingStrategy
-    public var keyEncodingStrategy: DictionaryKeyEncodingStrategy
-    public var userInfo: [CodingUserInfoKey: Any]
+    public let dateEncodingStrategy: DictionaryDateEncodingStrategy
+    public let dataEncodingStrategy: DictionaryDataEncodingStrategy
+    public let nonConformingFloatEncodingStrategy: DictionaryNonConformingFloatEncodingStrategy
+    public let nilEncodingStrategy: DictionaryNilEncodingStrategy
+    public let keyEncodingStrategy: DictionaryKeyEncodingStrategy
+    public let userInfo: [CodingUserInfoKey: Sendable]
 
     // MARK: - Initializers
 
@@ -19,7 +19,7 @@ public final class DictionaryEncoder {
         nonConformingFloatEncodingStrategy: DictionaryNonConformingFloatEncodingStrategy = .throw,
         nilEncodingStrategy: DictionaryNilEncodingStrategy = .useNil,
         keyEncodingStrategy: DictionaryKeyEncodingStrategy = .useDefaultKeys,
-        userInfo: [CodingUserInfoKey: Any] = [:]
+        userInfo: [CodingUserInfoKey: Sendable] = [:]
     ) {
         self.dateEncodingStrategy = dateEncodingStrategy
         self.dataEncodingStrategy = dataEncodingStrategy
@@ -31,7 +31,7 @@ public final class DictionaryEncoder {
 
     // MARK: - Instance Methods
 
-    public func encode<T: Encodable>(_ value: T) throws -> [String: Any] {
+    public func encode<T: Encodable>(_ value: T) throws -> [String: Sendable] {
         let options = DictionaryEncodingOptions(
             dateEncodingStrategy: dateEncodingStrategy,
             dataEncodingStrategy: dataEncodingStrategy,
@@ -48,7 +48,7 @@ public final class DictionaryEncoder {
 
         try value.encode(to: encoder)
 
-        guard let dictionary = encoder.resolveValue() as? [String: Any] else {
+        guard let dictionary = encoder.resolveValue() as? [String: Sendable] else {
             let errorContext = EncodingError.Context(
                 codingPath: [],
                 debugDescription: "Root component cannot be encoded in Dictionary"

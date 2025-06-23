@@ -1,6 +1,6 @@
 import Foundation
 
-public enum DictionaryNonConformingFloatEncodingStrategy {
+public enum DictionaryNonConformingFloatEncodingStrategy: Sendable {
 
     // MARK: - Enumeration Cases
 

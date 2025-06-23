@@ -1,6 +1,6 @@
 import Foundation
 
-public enum DictionaryDateEncodingStrategy {
+public enum DictionaryDateEncodingStrategy: Sendable {
 
     // MARK: - Enumeration Cases
 
@@ -13,5 +13,5 @@ public enum DictionaryDateEncodingStrategy {
     case iso8601
 
     case formatted(DateFormatter)
-    case custom((_ date: Date, _ encoder: Encoder) throws -> Void)
+    case custom(@Sendable (_ date: Date, _ encoder: Encoder) throws -> Void)
 }

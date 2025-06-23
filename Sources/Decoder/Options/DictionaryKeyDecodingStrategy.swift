@@ -1,7 +1,7 @@
 import Foundation
 
 /// The values that determine how to decode a type’s coding keys from Dictionary keys.
-public enum DictionaryKeyDecodingStrategy {
+public enum DictionaryKeyDecodingStrategy: Sendable {
 
     // MARK: - Enumeration Cases
 
@@ -9,5 +9,5 @@ public enum DictionaryKeyDecodingStrategy {
     case useDefaultKeys
 
     /// A key decoding strategy defined by the closure you supply.
-    case custom((_ codingPath: [CodingKey]) -> CodingKey)
+    case custom(@Sendable (_ codingPath: [CodingKey]) -> CodingKey)
 }

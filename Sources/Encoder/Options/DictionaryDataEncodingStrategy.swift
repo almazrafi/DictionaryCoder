@@ -1,10 +1,10 @@
 import Foundation
 
-public enum DictionaryDataEncodingStrategy {
+public enum DictionaryDataEncodingStrategy: Sendable {
 
     // MARK: - Enumeration Cases
 
     case deferredToData
     case base64
-    case custom((_ data: Data, _ encoder: Encoder) throws -> Void)
+    case custom(@Sendable (_ data: Data, _ encoder: Encoder) throws -> Void)
 }
