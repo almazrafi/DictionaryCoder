@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C001ACA22F0274E9008C37A5 /* Mutex.swift in Sources */ = {isa = PBXBuildFile; fileRef = C001ACA12F0274E4008C37A5 /* Mutex.swift */; };
+		C001ACA32F0274E9008C37A5 /* Mutex.swift in Sources */ = {isa = PBXBuildFile; fileRef = C001ACA12F0274E4008C37A5 /* Mutex.swift */; };
+		C001ACA42F0274E9008C37A5 /* Mutex.swift in Sources */ = {isa = PBXBuildFile; fileRef = C001ACA12F0274E4008C37A5 /* Mutex.swift */; };
+		C001ACA52F0274E9008C37A5 /* Mutex.swift in Sources */ = {isa = PBXBuildFile; fileRef = C001ACA12F0274E4008C37A5 /* Mutex.swift */; };
+		C001ACA82F027A4B008C37A5 /* MutexStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C001ACA72F027A47008C37A5 /* MutexStorage.swift */; };
+		C001ACA92F027A4B008C37A5 /* MutexStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C001ACA72F027A47008C37A5 /* MutexStorage.swift */; };
+		C001ACAA2F027A4B008C37A5 /* MutexStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C001ACA72F027A47008C37A5 /* MutexStorage.swift */; };
+		C001ACAB2F027A4B008C37A5 /* MutexStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C001ACA72F027A47008C37A5 /* MutexStorage.swift */; };
 		C006F1AA2406B1F000C3F783 /* DictionaryDataDecodingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C013EAFA23E1E0AF00F12CCB /* DictionaryDataDecodingStrategy.swift */; };
 		C006F1AB2406B1F000C3F783 /* DictionaryDateDecodingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C013EAF923E1E0AE00F12CCB /* DictionaryDateDecodingStrategy.swift */; };
 		C006F1AC2406B1F000C3F783 /* DictionaryKeyDecodingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C013EAF823E1E0AE00F12CCB /* DictionaryKeyDecodingStrategy.swift */; };
@@ -134,11 +142,8 @@
 		C0193BBD28D99FE900FD3CDD /* DictionaryNilEncodingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0193BBA28D99FE900FD3CDD /* DictionaryNilEncodingStrategy.swift */; };
 		C0193BBE28D99FE900FD3CDD /* DictionaryNilEncodingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0193BBA28D99FE900FD3CDD /* DictionaryNilEncodingStrategy.swift */; };
 		C057F01823CB8EEB00C2D895 /* DictionaryCoder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C057F00E23CB8EEB00C2D895 /* DictionaryCoder.framework */; };
-		C057F01F23CB8EEB00C2D895 /* DictionaryCoder.h in Headers */ = {isa = PBXBuildFile; fileRef = C057F01123CB8EEB00C2D895 /* DictionaryCoder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C0A01A3223CB90F200AC2C3A /* DictionaryCoder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0A01A2923CB90F200AC2C3A /* DictionaryCoder.framework */; };
-		C0A01A4123CB912C00AC2C3A /* DictionaryCoder.h in Headers */ = {isa = PBXBuildFile; fileRef = C057F01123CB8EEB00C2D895 /* DictionaryCoder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C0A01A5023CB92EB00AC2C3A /* DictionaryCoder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0A01A4723CB92EB00AC2C3A /* DictionaryCoder.framework */; };
-		C0A01A5E23CB92F200AC2C3A /* DictionaryCoder.h in Headers */ = {isa = PBXBuildFile; fileRef = C057F01123CB8EEB00C2D895 /* DictionaryCoder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -167,6 +172,8 @@
 
 /* Begin PBXFileReference section */
 		C0007FFA23CBAAA5005F95E0 /* .swift-version */ = {isa = PBXFileReference; lastKnownFileType = text; path = ".swift-version"; sourceTree = "<group>"; };
+		C001ACA12F0274E4008C37A5 /* Mutex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mutex.swift; sourceTree = "<group>"; };
+		C001ACA72F027A47008C37A5 /* MutexStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MutexStorage.swift; sourceTree = "<group>"; };
 		C006F1A22406B13E00C3F783 /* DictionaryCoder.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DictionaryCoder.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C013EAF223E1E0AE00F12CCB /* RangeReplaceableCollection+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RangeReplaceableCollection+Extensions.swift"; sourceTree = "<group>"; };
 		C013EAF323E1E0AE00F12CCB /* AnyCodingKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyCodingKey.swift; sourceTree = "<group>"; };
@@ -202,10 +209,14 @@
 		C013EB8423E21A2E00F12CCB /* DictionaryEncoderTesting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryEncoderTesting.swift; sourceTree = "<group>"; };
 		C0193BBA28D99FE900FD3CDD /* DictionaryNilEncodingStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryNilEncodingStrategy.swift; sourceTree = "<group>"; };
 		C057F00E23CB8EEB00C2D895 /* DictionaryCoder.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DictionaryCoder.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C057F01123CB8EEB00C2D895 /* DictionaryCoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DictionaryCoder.h; sourceTree = "<group>"; };
 		C057F01223CB8EEB00C2D895 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C057F01723CB8EEB00C2D895 /* DictionaryCoder Tests iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "DictionaryCoder Tests iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C057F01E23CB8EEB00C2D895 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C07587FB2F0282AA00694706 /* .system-version */ = {isa = PBXFileReference; lastKnownFileType = text; path = ".system-version"; sourceTree = "<group>"; };
+		C07587FC2F0282AA00694706 /* .xcode-runtime-version */ = {isa = PBXFileReference; lastKnownFileType = text; path = ".xcode-runtime-version"; sourceTree = "<group>"; };
+		C07587FD2F0282AA00694706 /* .xcode-version */ = {isa = PBXFileReference; lastKnownFileType = text; path = ".xcode-version"; sourceTree = "<group>"; };
+		C07587FE2F0282AA00694706 /* Gemfile.lock */ = {isa = PBXFileReference; lastKnownFileType = text; path = Gemfile.lock; sourceTree = "<group>"; };
+		C07587FF2F0282AA00694706 /* Package@swift-5.9.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Package@swift-5.9.swift"; sourceTree = "<group>"; };
 		C07811BC2675FD15002FE9D4 /* Mintfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Mintfile; sourceTree = "<group>"; };
 		C0A01A1523CB8FFC00AC2C3A /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		C0A01A1623CB900800AC2C3A /* DictionaryCoder.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = DictionaryCoder.podspec; sourceTree = "<group>"; };
@@ -213,7 +224,6 @@
 		C0A01A1823CB900900AC2C3A /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		C0A01A1923CB900900AC2C3A /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		C0A01A1A23CB901C00AC2C3A /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		C0A01A1B23CB901C00AC2C3A /* .codecov.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .codecov.yml; sourceTree = "<group>"; };
 		C0A01A1C23CB901C00AC2C3A /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		C0A01A1D23CB901C00AC2C3A /* .ruby-version */ = {isa = PBXFileReference; lastKnownFileType = text; path = ".ruby-version"; sourceTree = "<group>"; };
 		C0A01A2923CB90F200AC2C3A /* DictionaryCoder.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DictionaryCoder.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -281,9 +291,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C001ACA62F027A3B008C37A5 /* Mutex */ = {
+			isa = PBXGroup;
+			children = (
+				C001ACA12F0274E4008C37A5 /* Mutex.swift */,
+				C001ACA72F027A47008C37A5 /* MutexStorage.swift */,
+			);
+			path = Mutex;
+			sourceTree = "<group>";
+		};
 		C013EAF123E1E0AE00F12CCB /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				C001ACA62F027A3B008C37A5 /* Mutex */,
 				C013EAF323E1E0AE00F12CCB /* AnyCodingKey.swift */,
 				C013EB5A23E1E23B00F12CCB /* Optional+Extensions.swift */,
 				C013EAF223E1E0AE00F12CCB /* RangeReplaceableCollection+Extensions.swift */,
@@ -372,17 +392,21 @@
 				C057F01B23CB8EEB00C2D895 /* Tests */,
 				C057F00F23CB8EEB00C2D895 /* Products */,
 				C0A01A6323CB9B0A00AC2C3A /* Scripts */,
-				C0A01A1B23CB901C00AC2C3A /* .codecov.yml */,
 				C0A01A1A23CB901C00AC2C3A /* .gitignore */,
 				C0A01A1D23CB901C00AC2C3A /* .ruby-version */,
 				C0007FFA23CBAAA5005F95E0 /* .swift-version */,
 				C0A01A1C23CB901C00AC2C3A /* .swiftlint.yml */,
+				C07587FB2F0282AA00694706 /* .system-version */,
+				C07587FC2F0282AA00694706 /* .xcode-runtime-version */,
+				C07587FD2F0282AA00694706 /* .xcode-version */,
 				C0A01A6423CB9B1600AC2C3A /* Dangerfile */,
 				C0A01A6523CB9B1600AC2C3A /* Gemfile */,
+				C07587FE2F0282AA00694706 /* Gemfile.lock */,
 				C07811BC2675FD15002FE9D4 /* Mintfile */,
 				C0A01A1623CB900800AC2C3A /* DictionaryCoder.podspec */,
 				C0A01A1923CB900900AC2C3A /* LICENSE */,
 				C0A01A1823CB900900AC2C3A /* Package.swift */,
+				C07587FF2F0282AA00694706 /* Package@swift-5.9.swift */,
 				C0A01A1723CB900900AC2C3A /* README.md */,
 			);
 			sourceTree = "<group>";
@@ -407,7 +431,6 @@
 				C013EAF423E1E0AE00F12CCB /* Decoder */,
 				C013EB0023E1E0AF00F12CCB /* Encoder */,
 				C013EAF123E1E0AE00F12CCB /* Tools */,
-				C057F01123CB8EEB00C2D895 /* DictionaryCoder.h */,
 				C057F01223CB8EEB00C2D895 /* Info.plist */,
 			);
 			path = Sources;
@@ -426,47 +449,12 @@
 		};
 /* End PBXGroup section */
 
-/* Begin PBXHeadersBuildPhase section */
-		C006F19D2406B13E00C3F783 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C057F00923CB8EEB00C2D895 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C057F01F23CB8EEB00C2D895 /* DictionaryCoder.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C0A01A2423CB90F200AC2C3A /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C0A01A4123CB912C00AC2C3A /* DictionaryCoder.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C0A01A4223CB92EB00AC2C3A /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C0A01A5E23CB92F200AC2C3A /* DictionaryCoder.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXHeadersBuildPhase section */
-
 /* Begin PBXNativeTarget section */
 		C006F1A12406B13E00C3F783 /* DictionaryCoder watchOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C006F1A92406B13E00C3F783 /* Build configuration list for PBXNativeTarget "DictionaryCoder watchOS" */;
 			buildPhases = (
 				C006F1C42406B21000C3F783 /* SwiftLint */,
-				C006F19D2406B13E00C3F783 /* Headers */,
 				C006F19E2406B13E00C3F783 /* Sources */,
 				C006F19F2406B13E00C3F783 /* Frameworks */,
 				C006F1A02406B13E00C3F783 /* Resources */,
@@ -485,7 +473,6 @@
 			buildConfigurationList = C057F02223CB8EEB00C2D895 /* Build configuration list for PBXNativeTarget "DictionaryCoder iOS" */;
 			buildPhases = (
 				C0A01A2323CB907300AC2C3A /* SwiftLint */,
-				C057F00923CB8EEB00C2D895 /* Headers */,
 				C057F00A23CB8EEB00C2D895 /* Sources */,
 				C057F00B23CB8EEB00C2D895 /* Frameworks */,
 				C057F00C23CB8EEB00C2D895 /* Resources */,
@@ -522,7 +509,6 @@
 			buildConfigurationList = C0A01A3A23CB90F200AC2C3A /* Build configuration list for PBXNativeTarget "DictionaryCoder macOS" */;
 			buildPhases = (
 				C0A01A6123CB931500AC2C3A /* SwiftLint */,
-				C0A01A2423CB90F200AC2C3A /* Headers */,
 				C0A01A2523CB90F200AC2C3A /* Sources */,
 				C0A01A2623CB90F200AC2C3A /* Frameworks */,
 				C0A01A2723CB90F200AC2C3A /* Resources */,
@@ -559,7 +545,6 @@
 			buildConfigurationList = C0A01A5823CB92EB00AC2C3A /* Build configuration list for PBXNativeTarget "DictionaryCoder tvOS" */;
 			buildPhases = (
 				C0A01A6223CB932700AC2C3A /* SwiftLint */,
-				C0A01A4223CB92EB00AC2C3A /* Headers */,
 				C0A01A4323CB92EB00AC2C3A /* Sources */,
 				C0A01A4423CB92EB00AC2C3A /* Frameworks */,
 				C0A01A4523CB92EB00AC2C3A /* Resources */,
@@ -597,8 +582,9 @@
 		C057F00523CB8EEB00C2D895 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1130;
-				LastUpgradeCheck = 1410;
+				LastUpgradeCheck = 1640;
 				ORGANIZATIONNAME = "Almaz Ibragimov";
 				TargetAttributes = {
 					C006F1A12406B13E00C3F783 = {
@@ -794,6 +780,7 @@
 				C006F1C32406B20400C3F783 /* RangeReplaceableCollection+Extensions.swift in Sources */,
 				C006F1B52406B1FA00C3F783 /* DictionaryDateEncodingStrategy.swift in Sources */,
 				C006F1BD2406B1FE00C3F783 /* DictionaryEncodingOptions.swift in Sources */,
+				C001ACAB2F027A4B008C37A5 /* MutexStorage.swift in Sources */,
 				C006F1B12406B1F500C3F783 /* DictionaryKeyedDecodingContainer.swift in Sources */,
 				C006F1B32406B1F500C3F783 /* DictionaryUnkeyedDecodingContainer.swift in Sources */,
 				C006F1BC2406B1FE00C3F783 /* DictionaryEncoder.swift in Sources */,
@@ -813,6 +800,7 @@
 				C006F1B72406B1FA00C3F783 /* DictionaryNonConformingFloatEncodingStrategy.swift in Sources */,
 				C0193BBE28D99FE900FD3CDD /* DictionaryNilEncodingStrategy.swift in Sources */,
 				C006F1BF2406B1FE00C3F783 /* DictionarySingleValueEncodingContainer.swift in Sources */,
+				C001ACA32F0274E9008C37A5 /* Mutex.swift in Sources */,
 				C006F1AB2406B1F000C3F783 /* DictionaryDateDecodingStrategy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -828,6 +816,7 @@
 				C013EB3C23E1E0AF00F12CCB /* DictionaryNonConformingFloatEncodingStrategy.swift in Sources */,
 				C013EB5723E1E0AF00F12CCB /* DictionaryComponent.swift in Sources */,
 				C013EB1223E1E0AF00F12CCB /* AnyCodingKey.swift in Sources */,
+				C001ACAA2F027A4B008C37A5 /* MutexStorage.swift in Sources */,
 				C013EB2723E1E0AF00F12CCB /* DictionaryComponentDecoder.swift in Sources */,
 				C013EB1823E1E0AF00F12CCB /* DictionaryKeyedDecodingContainer.swift in Sources */,
 				C013EB2123E1E0AF00F12CCB /* DictionaryDataDecodingStrategy.swift in Sources */,
@@ -847,6 +836,7 @@
 				C013EB3623E1E0AF00F12CCB /* DictionaryDateEncodingStrategy.swift in Sources */,
 				C0193BBB28D99FE900FD3CDD /* DictionaryNilEncodingStrategy.swift in Sources */,
 				C013EB3323E1E0AF00F12CCB /* DictionaryKeyEncodingStrategy.swift in Sources */,
+				C001ACA22F0274E9008C37A5 /* Mutex.swift in Sources */,
 				C013EB1E23E1E0AF00F12CCB /* DictionaryDateDecodingStrategy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -875,6 +865,7 @@
 				C013EB3D23E1E0AF00F12CCB /* DictionaryNonConformingFloatEncodingStrategy.swift in Sources */,
 				C013EB5823E1E0AF00F12CCB /* DictionaryComponent.swift in Sources */,
 				C013EB1323E1E0AF00F12CCB /* AnyCodingKey.swift in Sources */,
+				C001ACA82F027A4B008C37A5 /* MutexStorage.swift in Sources */,
 				C013EB2823E1E0AF00F12CCB /* DictionaryComponentDecoder.swift in Sources */,
 				C013EB1923E1E0AF00F12CCB /* DictionaryKeyedDecodingContainer.swift in Sources */,
 				C013EB2223E1E0AF00F12CCB /* DictionaryDataDecodingStrategy.swift in Sources */,
@@ -894,6 +885,7 @@
 				C013EB3723E1E0AF00F12CCB /* DictionaryDateEncodingStrategy.swift in Sources */,
 				C0193BBC28D99FE900FD3CDD /* DictionaryNilEncodingStrategy.swift in Sources */,
 				C013EB3423E1E0AF00F12CCB /* DictionaryKeyEncodingStrategy.swift in Sources */,
+				C001ACA42F0274E9008C37A5 /* Mutex.swift in Sources */,
 				C013EB1F23E1E0AF00F12CCB /* DictionaryDateDecodingStrategy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -922,6 +914,7 @@
 				C013EB3E23E1E0AF00F12CCB /* DictionaryNonConformingFloatEncodingStrategy.swift in Sources */,
 				C013EB5923E1E0AF00F12CCB /* DictionaryComponent.swift in Sources */,
 				C013EB1423E1E0AF00F12CCB /* AnyCodingKey.swift in Sources */,
+				C001ACA92F027A4B008C37A5 /* MutexStorage.swift in Sources */,
 				C013EB2923E1E0AF00F12CCB /* DictionaryComponentDecoder.swift in Sources */,
 				C013EB1A23E1E0AF00F12CCB /* DictionaryKeyedDecodingContainer.swift in Sources */,
 				C013EB2323E1E0AF00F12CCB /* DictionaryDataDecodingStrategy.swift in Sources */,
@@ -941,6 +934,7 @@
 				C013EB3823E1E0AF00F12CCB /* DictionaryDateEncodingStrategy.swift in Sources */,
 				C0193BBD28D99FE900FD3CDD /* DictionaryNilEncodingStrategy.swift in Sources */,
 				C013EB3523E1E0AF00F12CCB /* DictionaryKeyEncodingStrategy.swift in Sources */,
+				C001ACA52F0274E9008C37A5 /* Mutex.swift in Sources */,
 				C013EB2023E1E0AF00F12CCB /* DictionaryDateDecodingStrategy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -989,6 +983,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
 				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -997,6 +992,7 @@
 					"@loader_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.2.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = com.almazrafi.DictionaryCoder;
 				PRODUCT_NAME = DictionaryCoder;
 				SDKROOT = watchos;
@@ -1016,6 +1012,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
 				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1024,6 +1021,7 @@
 					"@loader_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.2.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = com.almazrafi.DictionaryCoder;
 				PRODUCT_NAME = DictionaryCoder;
 				SDKROOT = watchos;
@@ -1037,6 +1035,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -1071,6 +1070,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1105,6 +1105,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -1139,6 +1140,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -1175,6 +1177,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
 				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -1184,6 +1187,7 @@
 					"@loader_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.2.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = com.almazrafi.DictionaryCoder;
 				PRODUCT_NAME = DictionaryCoder;
 				SKIP_INSTALL = YES;
@@ -1202,6 +1206,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
 				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -1211,6 +1216,7 @@
 					"@loader_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.2.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = com.almazrafi.DictionaryCoder;
 				PRODUCT_NAME = DictionaryCoder;
 				SKIP_INSTALL = YES;
@@ -1221,7 +1227,6 @@
 		C057F02623CB8EEB00C2D895 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Tests/Info.plist;
@@ -1240,7 +1245,6 @@
 		C057F02723CB8EEB00C2D895 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Tests/Info.plist;
@@ -1268,6 +1272,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
 				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1277,6 +1282,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.5;
 				MARKETING_VERSION = 1.2.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = com.almazrafi.DictionaryCoder;
 				PRODUCT_NAME = DictionaryCoder;
 				SDKROOT = macosx;
@@ -1296,6 +1302,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
 				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1305,6 +1312,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.5;
 				MARKETING_VERSION = 1.2.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = com.almazrafi.DictionaryCoder;
 				PRODUCT_NAME = DictionaryCoder;
 				SDKROOT = macosx;
@@ -1315,7 +1323,6 @@
 		C0A01A3E23CB90F200AC2C3A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEAD_CODE_STRIPPING = YES;
@@ -1335,7 +1342,6 @@
 		C0A01A3F23CB90F200AC2C3A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEAD_CODE_STRIPPING = YES;
@@ -1363,6 +1369,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
 				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1371,6 +1378,7 @@
 					"@loader_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.2.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = com.almazrafi.DictionaryCoder;
 				PRODUCT_NAME = DictionaryCoder;
 				SDKROOT = appletvos;
@@ -1391,6 +1399,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
 				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1399,6 +1408,7 @@
 					"@loader_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.2.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = com.almazrafi.DictionaryCoder;
 				PRODUCT_NAME = DictionaryCoder;
 				SDKROOT = appletvos;
@@ -1411,7 +1421,6 @@
 		C0A01A5C23CB92EB00AC2C3A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Tests/Info.plist;
@@ -1431,7 +1440,6 @@
 		C0A01A5D23CB92EB00AC2C3A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Tests/Info.plist;

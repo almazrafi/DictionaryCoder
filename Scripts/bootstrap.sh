@@ -15,10 +15,9 @@ readonly bootstrap_path="${script_path}/Bootstrap"
 "${bootstrap_path}/bundler.sh" --update
 "${bootstrap_path}/gemfile.sh"
 
+"${bootstrap_path}/aria2.sh" --update
+"${bootstrap_path}/xcodes.sh" --update
 "${bootstrap_path}/xcode.sh"
-
-"${bootstrap_path}/swiftenv.sh" --update
-"${bootstrap_path}/swift.sh" --update
 
 "${bootstrap_path}/spm.sh"
 

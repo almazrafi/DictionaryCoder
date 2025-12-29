@@ -31,7 +31,7 @@ extension DictionaryEncoderTesting {
     func assertEncoderSucceeds<T: Encodable>(
         encoding value: T,
         expecting expectedDictionary: [String: Any],
-        file: StaticString = #file,
+        file: StaticString = #filePath,
         line: UInt = #line
     ) {
         do {
@@ -50,7 +50,7 @@ extension DictionaryEncoderTesting {
 
     func assertEncoderSucceeds<T: Encodable>(
         encoding value: T,
-        file: StaticString = #file,
+        file: StaticString = #filePath,
         line: UInt = #line
     ) {
         do {
@@ -69,7 +69,7 @@ extension DictionaryEncoderTesting {
 
     func assertEncoderFails<T: Encodable>(
         encoding value: T,
-        file: StaticString = #file,
+        file: StaticString = #filePath,
         line: UInt = #line,
         errorValidation: (_ error: Error) -> Bool
     ) {

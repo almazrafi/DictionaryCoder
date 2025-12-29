@@ -16,31 +16,28 @@ setup_shell() {
     > "${shell_profile_path}"
   fi
 
-  if [[ $(grep -L "${shell_init_line}" "${shell_profile_path}") ]]; then
+  if [[ $(grep -L "^${shell_init_line}" "${shell_profile_path}") ]]; then
     echo "${shell_init_line}" >> "${shell_profile_path}"
   fi
 }
 
 cleanup() {
-  rm -rf $doctor_temp_path;
+  rm -rf "${doctor_temp_path}"
 }
 
 trap cleanup EXIT
 
 echo "Checking ${rbenv_style}rbenv${default_style} installation:"
 
-brew_install_if_needed rbenv
+brew_install_if_needed rbenv "${arguments}"
 setup_shell "${HOME}/.zshrc"
-
-if [[ -f "${HOME}/.bash_profile" ]]; then
-  setup_shell "${HOME}/.bash_profile"
-fi
 
 eval "$(rbenv init -)"
 
 if [[ " ${arguments[*]} " == *" ${verify_flag} "* ]]; then
   echo ""
   echo "  Verifying that rbenv is properly set up..."
+
   curl -fsSL "${doctor_url}" > "${doctor_temp_path}" 2> /dev/null
   rbenv_doctor_exit_code=$?
 

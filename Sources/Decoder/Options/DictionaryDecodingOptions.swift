@@ -4,8 +4,8 @@ internal struct DictionaryDecodingOptions {
 
     // MARK: - Instance Properties
 
-    internal let dateDecodingStrategy: DictionaryDateDecodingStrategy
-    internal let dataDecodingStrategy: DictionaryDataDecodingStrategy
-    internal let nonConformingFloatDecodingStrategy: DictionaryNonConformingFloatDecodingStrategy
-    internal let keyDecodingStrategy: DictionaryKeyDecodingStrategy
+    internal var dateDecodingStrategy: DictionaryDateDecodingStrategy
+    internal var dataDecodingStrategy: DictionaryDataDecodingStrategy
+    internal var nonConformingFloatDecodingStrategy: DictionaryNonConformingFloatDecodingStrategy
+    internal var keyDecodingStrategy: DictionaryKeyDecodingStrategy
 }

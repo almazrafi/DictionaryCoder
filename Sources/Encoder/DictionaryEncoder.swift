@@ -4,12 +4,38 @@ public final class DictionaryEncoder: Sendable {
 
     // MARK: - Instance Properties
 
-    public let dateEncodingStrategy: DictionaryDateEncodingStrategy
-    public let dataEncodingStrategy: DictionaryDataEncodingStrategy
-    public let nonConformingFloatEncodingStrategy: DictionaryNonConformingFloatEncodingStrategy
-    public let nilEncodingStrategy: DictionaryNilEncodingStrategy
-    public let keyEncodingStrategy: DictionaryKeyEncodingStrategy
-    public let userInfo: [CodingUserInfoKey: Sendable]
+    private let optionsMutex: Mutex<DictionaryEncodingOptions>
+    private let userInfoMutex: Mutex<[CodingUserInfoKey: Sendable]>
+
+    public var dateEncodingStrategy: DictionaryDateEncodingStrategy {
+        get { optionsMutex.withLock { $0.dateEncodingStrategy } }
+        set { optionsMutex.withLock { $0.dateEncodingStrategy = newValue } }
+    }
+
+    public var dataEncodingStrategy: DictionaryDataEncodingStrategy {
+        get { optionsMutex.withLock { $0.dataEncodingStrategy } }
+        set { optionsMutex.withLock { $0.dataEncodingStrategy = newValue } }
+    }
+
+    public var nonConformingFloatEncodingStrategy: DictionaryNonConformingFloatEncodingStrategy {
+        get { optionsMutex.withLock { $0.nonConformingFloatEncodingStrategy } }
+        set { optionsMutex.withLock { $0.nonConformingFloatEncodingStrategy = newValue } }
+    }
+
+    public var nilEncodingStrategy: DictionaryNilEncodingStrategy {
+        get { optionsMutex.withLock { $0.nilEncodingStrategy } }
+        set { optionsMutex.withLock { $0.nilEncodingStrategy = newValue } }
+    }
+
+    public var keyEncodingStrategy: DictionaryKeyEncodingStrategy {
+        get { optionsMutex.withLock { $0.keyEncodingStrategy } }
+        set { optionsMutex.withLock { $0.keyEncodingStrategy = newValue } }
+    }
+
+    public var userInfo: [CodingUserInfoKey: Sendable] {
+        get { userInfoMutex.withLock { $0 } }
+        set { userInfoMutex.withLock { $0 = newValue } }
+    }
 
     // MARK: - Initializers
 
@@ -21,17 +47,6 @@ public final class DictionaryEncoder: Sendable {
         keyEncodingStrategy: DictionaryKeyEncodingStrategy = .useDefaultKeys,
         userInfo: [CodingUserInfoKey: Sendable] = [:]
     ) {
-        self.dateEncodingStrategy = dateEncodingStrategy
-        self.dataEncodingStrategy = dataEncodingStrategy
-        self.nonConformingFloatEncodingStrategy = nonConformingFloatEncodingStrategy
-        self.nilEncodingStrategy = nilEncodingStrategy
-        self.keyEncodingStrategy = keyEncodingStrategy
-        self.userInfo = userInfo
-    }
-
-    // MARK: - Instance Methods
-
-    public func encode<T: Encodable>(_ value: T) throws -> [String: Sendable] {
         let options = DictionaryEncodingOptions(
             dateEncodingStrategy: dateEncodingStrategy,
             dataEncodingStrategy: dataEncodingStrategy,
@@ -39,6 +54,15 @@ public final class DictionaryEncoder: Sendable {
             nilEncodingStrategy: nilEncodingStrategy,
             keyEncodingStrategy: keyEncodingStrategy
         )
+
+        self.optionsMutex = Mutex(value: options)
+        self.userInfoMutex = Mutex(value: userInfo)
+    }
+
+    // MARK: - Instance Methods
+
+    public func encode<T: Encodable>(_ value: T) throws -> [String: Sendable] {
+        let options = optionsMutex.withLock { $0 }
 
         let encoder = DictionarySingleValueEncodingContainer(
             options: options,

@@ -10,7 +10,7 @@
 [![License](https://img.shields.io/github/license/almazrafi/DictionaryCoder)](https://opensource.org/licenses/MIT)
 
 ## Requirements
-- iOS 12.0+ / macOS 10.14+ / watchOS 5.0+ / tvOS 12.0+
+- iOS 12.0+ / macOS 11.5+ / watchOS 5.0+ / tvOS 12.0+
 - Xcode 13.0+
 - Swift 5.5+
 
@@ -39,7 +39,7 @@ $ gem install cocoapods
 
 To integrate DictionaryCoder into your Xcode project using [CocoaPods](http://cocoapods.org), specify it in your `Podfile`:
 ``` ruby
-platform :ios, '12.0'
+platform :ios, '13.0'
 use_frameworks!
 
 target '<Your Target Name>' do
@@ -78,7 +78,7 @@ and then specify `"DictionaryCoder"` as a dependency of the Target in which you 
 
 Here's an example `Package.swift`:
 ``` swift
-// swift-tools-version:5.5
+// swift-tools-version:5.9
 import PackageDescription
 
 let package = Package(
