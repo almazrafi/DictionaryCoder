@@ -5,8 +5,8 @@
 [![Carthage compatible](https://img.shields.io/badge/Carthage-Compatible-brightgreen)](https://github.com/Carthage/Carthage)
 [![SPM compatible](https://img.shields.io/badge/SPM-Compatible-brightgreen)](https://swift.org/package-manager/)
 [![Platforms](https://img.shields.io/cocoapods/p/DictionaryCoder)](https://developer.apple.com/discover/)
-[![Xcode](https://img.shields.io/badge/Xcode-13-blue)](https://developer.apple.com/xcode)
-[![Swift](https://img.shields.io/badge/Swift-5.5-orange)](https://swift.org)
+[![Xcode](https://img.shields.io/badge/Xcode-16-blue)](https://developer.apple.com/xcode)
+[![Swift](https://img.shields.io/badge/Swift-5.9-orange)](https://swift.org)
 [![License](https://img.shields.io/github/license/almazrafi/DictionaryCoder)](https://opensource.org/licenses/MIT)
 
 ## Requirements
