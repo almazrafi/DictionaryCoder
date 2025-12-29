@@ -10,7 +10,7 @@ plain_version() {
 
 echo "Checking ${macos_style}macOS${default_style} version:"
 
-readonly macos_required_version='11.3.0'
+readonly macos_required_version=$(cat "${root_path}"/.system-version)
 readonly macos_version=$(/usr/bin/sw_vers -productVersion  2>&1)
 
 if [ "$(plain_version ${macos_version})" -lt "$(plain_version ${macos_required_version})" ]; then

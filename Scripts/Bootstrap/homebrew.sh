@@ -14,7 +14,7 @@ setup_shell() {
     > "${shell_profile_path}"
   fi
 
-  if [[ $(grep -L "${shell_init_line}" "${shell_profile_path}") ]]; then
+  if [[ $(grep -L "^${shell_init_line}" "${shell_profile_path}") ]]; then
     echo "${shell_init_line}" >> "${shell_profile_path}"
   fi
 }

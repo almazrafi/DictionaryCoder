@@ -15,11 +15,11 @@ setup_shell() {
     > "${shell_profile_path}"
   fi
 
-  if [[ $(grep -L "${shell_mint_path_line}" "${shell_profile_path}") ]]; then
+  if [[ $(grep -L "^${shell_mint_path_line}" "${shell_profile_path}") ]]; then
     echo "${shell_mint_path_line}" >> "${shell_profile_path}"
   fi
 
-  if [[ $(grep -L "${shell_mint_link_path_line}" "${shell_profile_path}") ]]; then
+  if [[ $(grep -L "^${shell_mint_link_path_line}" "${shell_profile_path}") ]]; then
     echo "${shell_mint_link_path_line}" >> "${shell_profile_path}"
   fi
 }
@@ -28,9 +28,5 @@ echo "Checking ${mint_style}Mint${default_style} installation:"
 
 brew_install_if_needed mint "$arguments"
 setup_shell "${HOME}/.zshrc"
-
-if [[ -f "${HOME}/.bash_profile" ]]; then
-  setup_shell "${HOME}/.bash_profile"
-fi
 
 echo ""
