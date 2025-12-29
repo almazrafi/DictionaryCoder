@@ -11,8 +11,8 @@
 
 ## Requirements
 - iOS 12.0+ / macOS 11.5+ / watchOS 5.0+ / tvOS 12.0+
-- Xcode 13.0+
-- Swift 5.5+
+- Xcode 16.4+
+- Swift 5.9+
 
 ## Usage
 ```swift
