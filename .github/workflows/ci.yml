@@ -17,19 +17,19 @@ jobs:
     name: Build & Tests
     runs-on: macOS-15
     env:
-      DEVELOPER_DIR: /Applications/Xcode_16.2.0.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_16.4.app
       XCODE_PROJECT: DictionaryCoder.xcodeproj
       IOS_SCHEME: DictionaryCoder iOS
-      IOS_DESTINATION: OS=18.1,name=iPhone 16
+      IOS_DESTINATION: OS=18.5,name=iPhone 16
       IOS_RESULT_PATH: xcodebuild-ios.xcresult
       MACOS_SCHEME: DictionaryCoder macOS
       MACOS_DESTINATION: platform=macOS
       MACOS_RESULT_PATH: xcodebuild-macos.xcresult
       TVOS_SCHEME: DictionaryCoder tvOS
-      TVOS_DESTINATION: OS=18.1,name=Apple TV
+      TVOS_DESTINATION: OS=18.5,name=Apple TV
       TVOS_RESULT_PATH: xcodebuild-tvos.xcresult
       WATCHOS_SCHEME: DictionaryCoder watchOS
-      WATCHOS_DESTINATION: OS=11.1,name=Apple Watch Series 10 (45mm)
+      WATCHOS_DESTINATION: OS=11.5,name=Apple Watch Series 10 (45mm)
       WATCHOS_RESULT_PATH: xcodebuild-watchos.xcresult
       SKIP_SWIFTLINT: YES
       DANGER_GITHUB_API_TOKEN: ${{ secrets.DANGER_GITHUB_API_TOKEN }}
@@ -84,6 +84,8 @@ jobs:
   Cocoapods:
     name: Cocoapods
     runs-on: macOS-15
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_16.4.app
     steps:
       - uses: actions/checkout@v3
       - uses: ruby/setup-ruby@v1
@@ -97,6 +99,8 @@ jobs:
   SPM:
     name: Swift Package Manager
     runs-on: macOS-15
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_16.4.app
     steps:
       - uses: actions/checkout@v3
       - name: Build
