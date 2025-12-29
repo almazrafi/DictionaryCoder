@@ -4,11 +4,33 @@ public final class DictionaryDecoder: Sendable {
 
     // MARK: - Instance Properties
 
-    public let dateDecodingStrategy: DictionaryDateDecodingStrategy
-    public let dataDecodingStrategy: DictionaryDataDecodingStrategy
-    public let nonConformingFloatDecodingStrategy: DictionaryNonConformingFloatDecodingStrategy
-    public let keyDecodingStrategy: DictionaryKeyDecodingStrategy
-    public let userInfo: [CodingUserInfoKey: Sendable]
+    private let optionsMutex: Mutex<DictionaryDecodingOptions>
+    private let userInfoMutex: Mutex<[CodingUserInfoKey: Sendable]>
+
+    public var dateDecodingStrategy: DictionaryDateDecodingStrategy {
+        get { optionsMutex.withLock { $0.dateDecodingStrategy } }
+        set { optionsMutex.withLock { $0.dateDecodingStrategy = newValue } }
+    }
+
+    public var dataDecodingStrategy: DictionaryDataDecodingStrategy {
+        get { optionsMutex.withLock { $0.dataDecodingStrategy } }
+        set { optionsMutex.withLock { $0.dataDecodingStrategy = newValue } }
+    }
+
+    public var nonConformingFloatDecodingStrategy: DictionaryNonConformingFloatDecodingStrategy {
+        get { optionsMutex.withLock { $0.nonConformingFloatDecodingStrategy } }
+        set { optionsMutex.withLock { $0.nonConformingFloatDecodingStrategy = newValue } }
+    }
+
+    public var keyDecodingStrategy: DictionaryKeyDecodingStrategy {
+        get { optionsMutex.withLock { $0.keyDecodingStrategy } }
+        set { optionsMutex.withLock { $0.keyDecodingStrategy = newValue } }
+    }
+
+    public var userInfo: [CodingUserInfoKey: Sendable] {
+        get { userInfoMutex.withLock { $0 } }
+        set { userInfoMutex.withLock { $0 = newValue } }
+    }
 
     // MARK: - Initializers
 
@@ -19,22 +41,21 @@ public final class DictionaryDecoder: Sendable {
         keyDecodingStrategy: DictionaryKeyDecodingStrategy = .useDefaultKeys,
         userInfo: [CodingUserInfoKey: Sendable] = [:]
     ) {
-        self.dateDecodingStrategy = dateDecodingStrategy
-        self.dataDecodingStrategy = dataDecodingStrategy
-        self.nonConformingFloatDecodingStrategy = nonConformingFloatDecodingStrategy
-        self.keyDecodingStrategy = keyDecodingStrategy
-        self.userInfo = userInfo
-    }
-
-    // MARK: - Instance Methods
-
-    public func decode<T: Decodable>(_ type: T.Type, from dictionary: [String: Any]) throws -> T {
         let options = DictionaryDecodingOptions(
             dateDecodingStrategy: dateDecodingStrategy,
             dataDecodingStrategy: dataDecodingStrategy,
             nonConformingFloatDecodingStrategy: nonConformingFloatDecodingStrategy,
             keyDecodingStrategy: keyDecodingStrategy
         )
+
+        self.optionsMutex = Mutex(value: options)
+        self.userInfoMutex = Mutex(value: userInfo)
+    }
+
+    // MARK: - Instance Methods
+
+    public func decode<T: Decodable>(_ type: T.Type, from dictionary: [String: Any]) throws -> T {
+        let options = optionsMutex.withLock { $0 }
 
         let decoder = DictionarySingleValueDecodingContainer(
             component: dictionary,
