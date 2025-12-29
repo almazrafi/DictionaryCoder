@@ -151,10 +151,19 @@ final class DictionaryEncoderTests: XCTestCase, DictionaryEncoderTesting {
         assertEncoderSucceeds(encoding: value)
     }
 
-    func testThatEncoderSucceedsWhenEncodingStringToArrayDictionary() {
+    func testThatEncoderSucceedsWhenEncodingStringToArrayWithOptionalsDictionary() {
         let value: [String: [Int?]] = [
             "foo": [1, 2, 3],
             "bar": [4, nil, 6]
+        ]
+
+        assertEncoderSucceeds(encoding: value)
+    }
+
+    func testThatEncoderSucceedsWhenEncodingStringToArrayWithoutOptionalsDictionary() {
+        let value: [String: [String]] = [
+            "foo": ["qwe", "asd"],
+            "bar": ["zxc"]
         ]
 
         assertEncoderSucceeds(encoding: value)
