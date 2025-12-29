@@ -10,7 +10,7 @@
 [![License](https://img.shields.io/github/license/almazrafi/DictionaryCoder)](https://opensource.org/licenses/MIT)
 
 ## Requirements
-- iOS 12.0+ / macOS 11.5+ / watchOS 5.0+ / tvOS 12.0+
+- iOS 13.0+ / macOS 11.5+ / watchOS 6.0+ / tvOS 13.0+
 - Xcode 16.4+
 - Swift 5.9+
 
@@ -31,41 +31,6 @@ let user = try DictionaryDecoder().decode(User.self, from: dictionary)
 ```
 
 ## Installation
-### CocoaPods
-[CocoaPods](http://cocoapods.org) is a dependency manager for Cocoa projects. You can install it with the following command:
-``` bash
-$ gem install cocoapods
-```
-
-To integrate DictionaryCoder into your Xcode project using [CocoaPods](http://cocoapods.org), specify it in your `Podfile`:
-``` ruby
-platform :ios, '13.0'
-use_frameworks!
-
-target '<Your Target Name>' do
-    pod 'DictionaryCoder'
-end
-```
-
-Finally run the following command:
-``` bash
-$ pod install
-```
-
-### Carthage
-[Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks. You can install Carthage with Homebrew using the following command:
-``` bash
-$ brew update
-$ brew install carthage
-```
-
-To integrate DictionaryCoder into your Xcode project using Carthage, specify it in your `Cartfile`:
-``` ogdl
-github "almazrafi/DictionaryCoder" ~> 1.3.0
-```
-
-Finally run `carthage update` to build the framework and drag the built `DictionaryCoder.framework` into your Xcode project.
-
 ### Swift Package Manager
 The [Swift Package Manager](https://swift.org/package-manager/) is a tool for managing the distribution of Swift code. It’s integrated with the Swift build system to automate the process of downloading, compiling, and linking dependencies.
 
@@ -94,6 +59,42 @@ let package = Package(
     ]
 )
 ```
+
+### Carthage
+[Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks. You can install Carthage with Homebrew using the following command:
+``` bash
+$ brew update
+$ brew install carthage
+```
+
+To integrate DictionaryCoder into your Xcode project using Carthage, specify it in your `Cartfile`:
+``` ogdl
+github "almazrafi/DictionaryCoder" ~> 1.3.0
+```
+
+Finally run `carthage update` to build the framework and drag the built `DictionaryCoder.framework` into your Xcode project.
+
+### CocoaPods
+[CocoaPods](http://cocoapods.org) is a dependency manager for Cocoa projects. You can install it with the following command:
+``` bash
+$ gem install cocoapods
+```
+
+To integrate DictionaryCoder into your Xcode project using [CocoaPods](http://cocoapods.org), specify it in your `Podfile`:
+``` ruby
+platform :ios, '13.0'
+use_frameworks!
+
+target '<Your Target Name>' do
+    pod 'DictionaryCoder'
+end
+```
+
+Finally run the following command:
+``` bash
+$ pod install
+```
+
 
 ## Communication
 - If you need help, open an issue.
