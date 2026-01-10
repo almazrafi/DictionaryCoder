@@ -70,4 +70,18 @@ public final class DictionaryDecoder: Sendable {
     public func decode<T: Decodable>(from dictionary: [String: Any]) throws -> T {
         try decode(T.self, from: dictionary)
     }
+
+    @available(macOS 12, iOS 15, tvOS 15, watchOS 8, *)
+    public func decode<T: DecodableWithConfiguration>(_ type: T.Type = T.self, from dictionary: [String: Any], configuration: T.DecodingConfiguration) throws -> T {
+        let options = optionsMutex.withLock(\.self)
+
+        let decoder = DictionarySingleValueDecodingContainer(
+            component: dictionary,
+            options: options,
+            userInfo: userInfo,
+            codingPath: []
+        )
+
+        return try T(from: decoder, configuration: configuration)
+    }
 }
