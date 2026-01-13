@@ -54,7 +54,10 @@ public final class DictionaryDecoder: Sendable {
 
     // MARK: - Instance Methods
 
-    public func decode<T: Decodable>(_ type: T.Type, from dictionary: [String: Any]) throws -> T {
+    public func decode<T: Decodable>(
+        _ type: T.Type = T.self,
+        from dictionary: [String: Any]
+    ) throws -> T {
         let options = optionsMutex.withLock { $0 }
 
         let decoder = DictionarySingleValueDecodingContainer(
@@ -72,8 +75,12 @@ public final class DictionaryDecoder: Sendable {
     }
 
     @available(macOS 12, iOS 15, tvOS 15, watchOS 8, *)
-    public func decode<T: DecodableWithConfiguration>(_ type: T.Type = T.self, from dictionary: [String: Any], configuration: T.DecodingConfiguration) throws -> T {
-        let options = optionsMutex.withLock(\.self)
+    public func decode<T: DecodableWithConfiguration>(
+        _ type: T.Type = T.self,
+        from dictionary: [String: Any],
+        configuration: T.DecodingConfiguration
+    ) throws -> T {
+        let options = optionsMutex.withLock { $0 }
 
         let decoder = DictionarySingleValueDecodingContainer(
             component: dictionary,
