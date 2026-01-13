@@ -85,8 +85,11 @@ public final class DictionaryEncoder: Sendable {
     }
 
     @available(macOS 12, iOS 15, tvOS 15, watchOS 8, *)
-    public func encode<T: EncodableWithConfiguration>(_ value: T, configuration: T.EncodingConfiguration) throws -> [String: Sendable] {
-        let options = optionsMutex.withLock(\.self)
+    public func encode<T: EncodableWithConfiguration>(
+        _ value: T,
+        configuration: T.EncodingConfiguration
+    ) throws -> [String: Sendable] {
+        let options = optionsMutex.withLock { $0 }
 
         let encoder = DictionarySingleValueEncodingContainer(
             options: options,
