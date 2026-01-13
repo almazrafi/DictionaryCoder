@@ -83,4 +83,28 @@ public final class DictionaryEncoder: Sendable {
 
         return dictionary
     }
+
+    @available(macOS 12, iOS 15, tvOS 15, watchOS 8, *)
+    public func encode<T: EncodableWithConfiguration>(_ value: T, configuration: T.EncodingConfiguration) throws -> [String: Sendable] {
+        let options = optionsMutex.withLock(\.self)
+
+        let encoder = DictionarySingleValueEncodingContainer(
+            options: options,
+            userInfo: userInfo,
+            codingPath: []
+        )
+
+        try value.encode(to: encoder, configuration: configuration)
+
+        guard let dictionary = encoder.resolveValue() as? [String: Sendable] else {
+            let errorContext = EncodingError.Context(
+                codingPath: [],
+                debugDescription: "Root component cannot be encoded in Dictionary"
+            )
+
+            throw EncodingError.invalidValue(value, errorContext)
+        }
+
+        return dictionary
+    }
 }
