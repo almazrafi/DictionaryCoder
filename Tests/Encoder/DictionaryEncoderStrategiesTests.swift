@@ -219,6 +219,25 @@ final class DictionaryEncoderStrategiesTests: XCTestCase, DictionaryEncoderTesti
         assertEncoderSucceeds(encoding: EncodableStruct())
     }
 
+    // MARK: -
+
+    func testThatEncoderSucceedsWhenSkippingNestedContainers() {
+        struct EncodableStruct: Encodable {
+            var test: String = "1"
+            var dict: [String: Int] = ["a": 1]
+            var array: [String] = ["b"]
+        }
+
+        encoder.nestedEncodingStrategy = .skip
+
+        assertEncoderSucceeds(
+            encoding: EncodableStruct(),
+            expecting: [
+                "test": "1"
+            ])
+    }
+
+
     // MARK: - XCTestCase
 
     override func setUp() {
