@@ -32,6 +32,11 @@ public final class DictionaryEncoder: Sendable {
         set { optionsMutex.withLock { $0.keyEncodingStrategy = newValue } }
     }
 
+    public var nestedEncodingStrategy: DictionaryNestedEncodingStrategy {
+        get { optionsMutex.withLock { $0.nestedEncodingStrategy } }
+        set { optionsMutex.withLock { $0.nestedEncodingStrategy = newValue } }
+    }
+
     public var userInfo: [CodingUserInfoKey: Sendable] {
         get { userInfoMutex.withLock { $0 } }
         set { userInfoMutex.withLock { $0 = newValue } }
@@ -45,6 +50,7 @@ public final class DictionaryEncoder: Sendable {
         nonConformingFloatEncodingStrategy: DictionaryNonConformingFloatEncodingStrategy = .throw,
         nilEncodingStrategy: DictionaryNilEncodingStrategy = .useNil,
         keyEncodingStrategy: DictionaryKeyEncodingStrategy = .useDefaultKeys,
+        nestedEncodingStrategy: DictionaryNestedEncodingStrategy = .encode,
         userInfo: [CodingUserInfoKey: Sendable] = [:]
     ) {
         let options = DictionaryEncodingOptions(
@@ -52,7 +58,8 @@ public final class DictionaryEncoder: Sendable {
             dataEncodingStrategy: dataEncodingStrategy,
             nonConformingFloatEncodingStrategy: nonConformingFloatEncodingStrategy,
             nilEncodingStrategy: nilEncodingStrategy,
-            keyEncodingStrategy: keyEncodingStrategy
+            keyEncodingStrategy: keyEncodingStrategy,
+            nestedEncodingStrategy: nestedEncodingStrategy
         )
 
         self.optionsMutex = Mutex(value: options)

@@ -208,6 +208,9 @@ extension DictionaryComponentEncoder {
         case let url as URL:
             return try encodeURL(url, at: codingPath)
 
+        case _ where self.options.nestedEncodingStrategy == .skip:
+            return .value(nil)
+
         default:
             return try encodeNonPrimitiveValue(value, at: codingPath)
         }
