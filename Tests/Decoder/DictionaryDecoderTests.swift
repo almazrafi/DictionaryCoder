@@ -333,6 +333,88 @@ final class DictionaryDecoderTests: XCTestCase, DictionaryDecoderTesting {
         assertDecoderSucceeds(decoding: DecodableStruct.self, from: dictionary)
     }
 
+    func testThatDecoderSucceedsWhenDecodingStructUsingDecodeIfPresentOfUnkeyedContainer() {
+        struct DecodableStruct: Decodable, Equatable {
+            enum CodingKeys: String, CodingKey {
+                case foo
+            }
+
+            let bar: Int?
+            let baz: Int?
+            let qux: Int?
+
+            init(from decoder: Decoder) throws {
+                let container = try decoder.container(keyedBy: CodingKeys.self)
+                var unkeyedContainer = try container.nestedUnkeyedContainer(forKey: .foo)
+
+                bar = try unkeyedContainer.decodeIfPresent(Int.self)
+                baz = try unkeyedContainer.decodeIfPresent(Int.self)
+                qux = try unkeyedContainer.decodeIfPresent(Int.self)
+            }
+        }
+
+        let dictionary: [String: Any] = ["foo": [123, NSNull(), 456] as [Any]]
+
+        assertDecoderSucceeds(decoding: DecodableStruct.self, from: dictionary)
+    }
+
+    func testThatDecoderSucceedsWhenDecodingElementCodingPathsOfUnkeyedContainer() {
+        struct Element: Decodable, Equatable {
+            let index: Int?
+
+            init(from decoder: Decoder) throws {
+                index = decoder.codingPath.last?.intValue
+            }
+        }
+
+        struct DecodableStruct: Decodable, Equatable {
+            enum CodingKeys: String, CodingKey {
+                case foo
+            }
+
+            let bar: Element
+            let baz: Element
+
+            init(from decoder: Decoder) throws {
+                let container = try decoder.container(keyedBy: CodingKeys.self)
+                var unkeyedContainer = try container.nestedUnkeyedContainer(forKey: .foo)
+
+                bar = try unkeyedContainer.decode(Element.self)
+                baz = try Element(from: unkeyedContainer.superDecoder())
+            }
+        }
+
+        let dictionary = ["foo": [123, 456]]
+
+        assertDecoderSucceeds(decoding: DecodableStruct.self, from: dictionary)
+    }
+
+    func testThatDecoderSucceedsWhenDecodingStructAfterFailedAttemptsInUnkeyedContainer() {
+        struct DecodableStruct: Decodable, Equatable {
+            enum CodingKeys: String, CodingKey {
+                case foo
+            }
+
+            let bar: String
+
+            init(from decoder: Decoder) throws {
+                let container = try decoder.container(keyedBy: CodingKeys.self)
+                var unkeyedContainer = try container.nestedUnkeyedContainer(forKey: .foo)
+
+                _ = try? unkeyedContainer.decode(Int.self)
+                _ = try? unkeyedContainer.decode([Int].self)
+                _ = try? unkeyedContainer.nestedContainer(keyedBy: CodingKeys.self)
+                _ = try? unkeyedContainer.nestedUnkeyedContainer()
+
+                bar = try unkeyedContainer.decode(String.self)
+            }
+        }
+
+        let dictionary = ["foo": ["bar"]]
+
+        assertDecoderSucceeds(decoding: DecodableStruct.self, from: dictionary)
+    }
+
     func testThatDecoderSucceedsWhenDecodingStructInSeparateKeyedContainersOfUnkeyedContainer() {
         struct DecodableStruct: Decodable, Equatable {
             enum CodingKeys: String, CodingKey {
@@ -728,6 +810,37 @@ final class DictionaryDecoderTests: XCTestCase, DictionaryDecoderTesting {
             switch error {
             case let DecodingError.typeMismatch(type, _) where type is [Any].Type:
                 return true
+
+            default:
+                return false
+            }
+        }
+    }
+
+    func testThatDecoderFailsWhenDecodingInvalidElementForUnkeyedContainer() {
+        struct DecodableStruct: Decodable {
+            enum CodingKeys: String, CodingKey {
+                case foo
+            }
+
+            let bar: Int
+            let baz: Int
+
+            init(from decoder: Decoder) throws {
+                let container = try decoder.container(keyedBy: CodingKeys.self)
+                var unkeyedContainer = try container.nestedUnkeyedContainer(forKey: .foo)
+
+                bar = try unkeyedContainer.decode(Int.self)
+                baz = try unkeyedContainer.decode(Int.self)
+            }
+        }
+
+        let dictionary: [String: Any] = ["foo": [123, "456"] as [Any]]
+
+        assertDecoderFails(decoding: DecodableStruct.self, from: dictionary) { error in
+            switch error {
+            case let DecodingError.typeMismatch(type, context) where type is Int.Type:
+                return context.codingPath.map(\.stringValue) == ["foo", "1"]
 
             default:
                 return false
