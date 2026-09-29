@@ -10,6 +10,7 @@ extension DictionaryComponentDecoder {
 
     // MARK: - Instance Methods
 
+    @inline(__always)
     private func decodePrimitiveValue<T: Decodable>(
         of type: T.Type = T.self,
         from component: Any?,
@@ -99,8 +100,8 @@ extension DictionaryComponentDecoder {
 
     private func decodeNonPrimitiveValue<T: Decodable>(
         of type: T.Type = T.self,
-        from component: Any?,
-        at codingPath: [CodingKey]
+        from component: consuming Any?,
+        at codingPath: consuming [CodingKey]
     ) throws -> T {
         let decoder = DictionarySingleValueDecodingContainer(
             component: component,
@@ -114,8 +115,8 @@ extension DictionaryComponentDecoder {
 
     private func decodeCustomizedValue<T: Decodable>(
         of type: T.Type = T.self,
-        from component: Any?,
-        at codingPath: [CodingKey],
+        from component: consuming Any?,
+        at codingPath: consuming [CodingKey],
         closure: (_ decoder: Decoder) throws -> T
     ) throws -> T {
         let decoder = DictionarySingleValueDecodingContainer(
@@ -178,7 +179,7 @@ extension DictionaryComponentDecoder {
         return number
     }
 
-    private func decodeDate(from component: Any?, at codingPath: [CodingKey]) throws -> Date {
+    private func decodeDate(from component: consuming Any?, at codingPath: consuming [CodingKey]) throws -> Date {
         switch options.dateDecodingStrategy {
         case .deferredToDate:
             return try decodeNonPrimitiveValue(from: component, at: codingPath)
@@ -222,7 +223,7 @@ extension DictionaryComponentDecoder {
         }
     }
 
-    private func decodeData(from component: Any?, at codingPath: [CodingKey]) throws -> Data {
+    private func decodeData(from component: consuming Any?, at codingPath: consuming [CodingKey]) throws -> Data {
         switch options.dataDecodingStrategy {
         case .deferredToData:
             return try decodeNonPrimitiveValue(from: component, at: codingPath)
@@ -268,84 +269,101 @@ extension DictionaryComponentDecoder {
 
     // MARK: -
 
+    @inline(__always)
     internal func decodeNilComponent(from component: Any?) -> Bool {
         component.isNil || component is NSNull
     }
 
+    @inline(__always)
     internal func decodeComponentValue(from component: Any?, at codingPath: [CodingKey]) throws -> Bool {
         try decodePrimitiveValue(from: component, at: codingPath)
     }
 
+    @inline(__always)
     internal func decodeComponentValue(from component: Any?, at codingPath: [CodingKey]) throws -> Int {
         try decodePrimitiveValue(from: component, at: codingPath)
     }
 
+    @inline(__always)
     internal func decodeComponentValue(from component: Any?, at codingPath: [CodingKey]) throws -> Int8 {
         try decodePrimitiveValue(from: component, at: codingPath)
     }
 
+    @inline(__always)
     internal func decodeComponentValue(from component: Any?, at codingPath: [CodingKey]) throws -> Int16 {
         try decodePrimitiveValue(from: component, at: codingPath)
     }
 
+    @inline(__always)
     internal func decodeComponentValue(from component: Any?, at codingPath: [CodingKey]) throws -> Int32 {
         try decodePrimitiveValue(from: component, at: codingPath)
     }
 
+    @inline(__always)
     internal func decodeComponentValue(from component: Any?, at codingPath: [CodingKey]) throws -> Int64 {
         try decodePrimitiveValue(from: component, at: codingPath)
     }
 
 #if compiler(>=6.0)
     @available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+    @inline(__always)
     internal func decodeComponentValue(from component: Any?, at codingPath: [CodingKey]) throws -> Int128 {
         try decodeWideInteger(from: component, at: codingPath)
     }
 #endif
 
+    @inline(__always)
     internal func decodeComponentValue(from component: Any?, at codingPath: [CodingKey]) throws -> UInt {
         try decodePrimitiveValue(from: component, at: codingPath)
     }
 
+    @inline(__always)
     internal func decodeComponentValue(from component: Any?, at codingPath: [CodingKey]) throws -> UInt8 {
         try decodePrimitiveValue(from: component, at: codingPath)
     }
 
+    @inline(__always)
     internal func decodeComponentValue(from component: Any?, at codingPath: [CodingKey]) throws -> UInt16 {
         try decodePrimitiveValue(from: component, at: codingPath)
     }
 
+    @inline(__always)
     internal func decodeComponentValue(from component: Any?, at codingPath: [CodingKey]) throws -> UInt32 {
         try decodePrimitiveValue(from: component, at: codingPath)
     }
 
+    @inline(__always)
     internal func decodeComponentValue(from component: Any?, at codingPath: [CodingKey]) throws -> UInt64 {
         try decodePrimitiveValue(from: component, at: codingPath)
     }
 
 #if compiler(>=6.0)
     @available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+    @inline(__always)
     internal func decodeComponentValue(from component: Any?, at codingPath: [CodingKey]) throws -> UInt128 {
         try decodeWideInteger(from: component, at: codingPath)
     }
 #endif
 
+    @inline(__always)
     internal func decodeComponentValue(from component: Any?, at codingPath: [CodingKey]) throws -> Double {
         try decodeFloatingPointValue(from: component, at: codingPath)
     }
 
+    @inline(__always)
     internal func decodeComponentValue(from component: Any?, at codingPath: [CodingKey]) throws -> Float {
         try decodeFloatingPointValue(from: component, at: codingPath)
     }
 
+    @inline(__always)
     internal func decodeComponentValue(from component: Any?, at codingPath: [CodingKey]) throws -> String {
         try decodePrimitiveValue(from: component, at: codingPath)
     }
 
     internal func decodeComponentValue<T: Decodable>(
         of type: T.Type,
-        from component: Any?,
-        at codingPath: [CodingKey]
+        from component: consuming Any?,
+        at codingPath: consuming [CodingKey]
     ) throws -> T {
         // The type is compared rather than cast, as a cast costs much more and is made for every value.
         switch ObjectIdentifier(T.self) {

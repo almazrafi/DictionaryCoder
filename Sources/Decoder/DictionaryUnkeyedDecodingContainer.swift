@@ -11,6 +11,7 @@ internal final class DictionaryUnkeyedDecodingContainer:
 
     internal private(set) var currentIndex = 0
 
+    @inline(__always)
     internal var currentCodingPath: [CodingKey] {
         codingPath.appending(AnyCodingKey(currentIndex))
     }
@@ -55,7 +56,7 @@ internal final class DictionaryUnkeyedDecodingContainer:
 
     @inline(__always)
     private func decodeNextComponent<T>(
-        _ decodeComponent: (_ component: Any?, _ codingPath: [CodingKey]) throws -> T
+        _ decodeComponent: (_ component: consuming Any?, _ codingPath: consuming [CodingKey]) throws -> T
     ) throws -> T {
         let value = try decodeComponent(try peekNextComponent(), currentCodingPath)
 
@@ -64,7 +65,8 @@ internal final class DictionaryUnkeyedDecodingContainer:
         return value
     }
 
-    private func superDecoder(for component: Any?, at codingPath: [CodingKey]) -> Decoder {
+    @inline(__always)
+    private func superDecoder(for component: consuming Any?, at codingPath: consuming [CodingKey]) -> Decoder {
         DictionarySingleValueDecodingContainer(
             component: component,
             options: options,

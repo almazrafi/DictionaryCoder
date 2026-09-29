@@ -11,6 +11,7 @@ internal final class DictionaryUnkeyedEncodingContainer:
     internal let userInfo: [CodingUserInfoKey: Any]
     internal let codingPath: [CodingKey]
 
+    @inline(__always)
     internal var currentCodingPath: [CodingKey] {
         codingPath.appending(AnyCodingKey(count))
     }
@@ -33,7 +34,8 @@ internal final class DictionaryUnkeyedEncodingContainer:
 
     // MARK: - Instance Methods
 
-    private func collectComponent(_ component: DictionaryComponent) {
+    @inline(__always)
+    private func collectComponent(_ component: consuming DictionaryComponent) {
         components.append(component)
     }
 

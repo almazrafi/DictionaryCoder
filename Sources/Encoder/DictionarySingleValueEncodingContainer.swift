@@ -26,7 +26,8 @@ internal final class DictionarySingleValueEncodingContainer:
 
     // MARK: - Instance Methods
 
-    private func collectComponent(_ component: DictionaryComponent, for value: Any?) throws {
+    @inline(__always)
+    private func collectComponent(_ component: consuming DictionaryComponent, for value: Any?) throws {
         guard self.component == nil else {
             let errorContext = EncodingError.Context(
                 codingPath: codingPath,

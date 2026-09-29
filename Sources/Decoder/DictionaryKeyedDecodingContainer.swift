@@ -40,6 +40,7 @@ internal class DictionaryKeyedDecodingContainer<Key: CodingKey>:
 
     // MARK: - Instance Methods
 
+    @inline(__always)
     private func component<T>(of type: T.Type = T.self, forKey key: Key) throws -> T {
         let anyComponent = components[key.stringValue]
 
@@ -55,6 +56,7 @@ internal class DictionaryKeyedDecodingContainer<Key: CodingKey>:
         return component
     }
 
+    @inline(__always)
     private func superDecoder(forAnyKey key: CodingKey) throws -> Decoder {
         DictionarySingleValueDecodingContainer(
             component: components[key.stringValue],
