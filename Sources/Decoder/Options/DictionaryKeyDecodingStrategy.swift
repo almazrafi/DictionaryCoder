@@ -9,5 +9,8 @@ public enum DictionaryKeyDecodingStrategy: Sendable {
     case useDefaultKeys
 
     /// A key decoding strategy defined by the closure you supply.
+    ///
+    /// If several keys are converted to the same key,
+    /// the value of the lexicographically smallest original key is used.
     case custom(@Sendable (_ codingPath: [CodingKey]) -> CodingKey)
 }

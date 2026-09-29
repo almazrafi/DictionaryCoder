@@ -27,12 +27,12 @@ internal class DictionaryKeyedDecodingContainer<Key: CodingKey>:
         case .useDefaultKeys:
             self.components = components
 
-        case let.custom(closure):
-            let componentKeysAndValues = components.map { key, value in
-                (closure(codingPath.appending(AnyCodingKey(key))).stringValue, value)
-            }
+        case let .custom(closure):
+            let componentKeysAndValues = components
+                .sorted { $0.key < $1.key }
+                .map { key, value in (closure(codingPath.appending(AnyCodingKey(key))).stringValue, value) }
 
-            self.components = Dictionary(componentKeysAndValues) { $1 }
+            self.components = Dictionary(componentKeysAndValues) { first, _ in first }
         }
 
         self.options = options
