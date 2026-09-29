@@ -1,4 +1,4 @@
-internal indirect enum DictionaryComponent {
+internal enum DictionaryComponent {
 
     // MARK: - Enumeration Cases
 

@@ -162,11 +162,10 @@ internal final class DictionaryUnkeyedEncodingContainer:
     // MARK: - DictionaryComponentContainer
 
     internal func resolveValue() -> Any? {
-        let values = components
-            .lazy
-            .map { $0.resolveValue() }
-            .compactMap { $0 ?? $0 as Any }
+        components.map { component in
+            let value = component.resolveValue()
 
-        return Array(values)
+            return value ?? value as Any
+        }
     }
 }

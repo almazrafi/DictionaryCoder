@@ -69,7 +69,7 @@ internal class DictionaryKeyedDecodingContainer<Key: CodingKey>:
     // MARK: - KeyedDecodingContainerProtocol
 
     internal func contains(_ key: Key) -> Bool {
-        components.contains { $0.key == key.stringValue }
+        components.keys.contains(key.stringValue)
     }
 
     internal func decodeNil(forKey key: Key) throws -> Bool {
