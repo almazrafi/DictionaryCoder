@@ -271,7 +271,12 @@ extension DictionaryComponentDecoder {
 
     @inline(__always)
     internal func decodeNilComponent(from component: Any?) -> Bool {
-        component.isNil || component is NSNull
+        guard let component else {
+            return true
+        }
+
+        // Unlike `is NSNull`, checking the type does not bridge Swift values to Objective-C objects.
+        return type(of: component) is NSNull.Type
     }
 
     @inline(__always)
