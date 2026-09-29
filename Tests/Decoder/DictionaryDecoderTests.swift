@@ -252,6 +252,43 @@ final class DictionaryDecoderTests: XCTestCase, DictionaryDecoderTesting {
         assertDecoderSucceeds(decoding: DecodableStruct.self, from: dictionary)
     }
 
+    func testThatDecoderSucceedsWhenDecodingOptionalsOfKeyedContainer() {
+        struct Nested: Decodable, Equatable {
+            let foo: Int
+        }
+
+        struct DecodableStruct: Decodable, Equatable {
+            let int: Int?
+            let string: String?
+            let double: Double?
+            let nested: Nested?
+            let absent: Int?
+            let null: String?
+            let nullNested: Nested?
+        }
+
+        let dictionary: [String: Any] = [
+            "int": 1,
+            "string": "foo",
+            "double": 1.5,
+            "nested": ["foo": 2],
+            "null": NSNull(),
+            "nullNested": NSNull()
+        ]
+
+        let value = DecodableStruct(
+            int: 1,
+            string: "foo",
+            double: 1.5,
+            nested: Nested(foo: 2),
+            absent: nil,
+            null: nil,
+            nullNested: nil
+        )
+
+        assertDecoderSucceeds(decoding: value, from: dictionary)
+    }
+
     func testThatDecoderSucceedsWhenDecodingStructWithURL() {
         struct DecodableStruct: Decodable, Equatable {
             let foobar: URL?
@@ -759,6 +796,24 @@ final class DictionaryDecoderTests: XCTestCase, DictionaryDecoderTesting {
         }
     }
 #endif
+
+    func testThatDecoderFailsWhenDecodingOptionalOfWrongType() {
+        struct DecodableStruct: Decodable {
+            let foo: Int?
+        }
+
+        let dictionary = ["foo": "bar"]
+
+        assertDecoderFails(decoding: DecodableStruct.self, from: dictionary) { error in
+            switch error {
+            case let DecodingError.typeMismatch(type, context) where type is Int.Type:
+                return context.codingPath.map(\.stringValue) == ["foo"]
+
+            default:
+                return false
+            }
+        }
+    }
 
     func testThatDecoderFailsWhenDecodingBoolFromNumber() {
         let dictionary = ["foobar": 1]
