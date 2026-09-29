@@ -232,6 +232,38 @@ final class DictionaryEncoderStrategiesTests: XCTestCase, DictionaryEncoderTesti
         }
     }
 
+    func testThatEncoderFailsWhenEncodingInfinityFloatInNestedKeyedContainer() {
+        encoder.nonConformingFloatEncodingStrategy = .throw
+
+        let value = ["foo": [["bar": 1.0], ["bar": Double.infinity]]]
+
+        assertEncoderFails(encoding: value) { error in
+            switch error {
+            case let EncodingError.invalidValue(_, context):
+                return context.codingPath.map(\.stringValue) == ["foo", "1", "bar"]
+
+            default:
+                return false
+            }
+        }
+    }
+
+    func testThatEncoderFailsWhenEncodingInfinityFloatInNestedUnkeyedContainer() {
+        encoder.nonConformingFloatEncodingStrategy = .throw
+
+        let value = ["foo": [["bar": [1.0, Double.infinity]]]]
+
+        assertEncoderFails(encoding: value) { error in
+            switch error {
+            case let EncodingError.invalidValue(_, context):
+                return context.codingPath.map(\.stringValue) == ["foo", "0", "bar", "1"]
+
+            default:
+                return false
+            }
+        }
+    }
+
     func testThatEncoderSucceedsWhenEncodingNonConformingFloatToString() {
         encoder.nonConformingFloatEncodingStrategy = .convertToString(
             positiveInfinity: "+∞",

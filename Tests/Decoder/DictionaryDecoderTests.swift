@@ -1053,6 +1053,28 @@ final class DictionaryDecoderTests: XCTestCase, DictionaryDecoderTesting {
         }
     }
 
+    func testThatDecoderFailsWhenDecodingInvalidValueForNestedKeyedContainer() {
+        struct Element: Decodable {
+            let bar: Int
+        }
+
+        struct DecodableStruct: Decodable {
+            let foo: [Element]
+        }
+
+        let dictionary: [String: Any] = ["foo": [["bar": 123], ["bar": "456"]] as [Any]]
+
+        assertDecoderFails(decoding: DecodableStruct.self, from: dictionary) { error in
+            switch error {
+            case let DecodingError.typeMismatch(type, context) where type is Int.Type:
+                return context.codingPath.map(\.stringValue) == ["foo", "1", "bar"]
+
+            default:
+                return false
+            }
+        }
+    }
+
     // MARK: - XCTestCase
 
     override func setUp() {

@@ -55,10 +55,8 @@ internal final class DictionaryUnkeyedDecodingContainer:
     }
 
     @inline(__always)
-    private func decodeNextComponent<T>(
-        _ decodeComponent: (_ component: consuming Any?, _ codingPath: consuming [CodingKey]) throws -> T
-    ) throws -> T {
-        let value = try decodeComponent(try peekNextComponent(), currentCodingPath)
+    private func decodeNextComponent<T>(_ decodeComponent: (_ component: consuming Any?) throws -> T) throws -> T {
+        let value = try decodeComponent(try peekNextComponent())
 
         currentIndex += 1
 
@@ -88,90 +86,90 @@ internal final class DictionaryUnkeyedDecodingContainer:
     }
 
     internal func decode(_ type: Bool.Type) throws -> Bool {
-        try decodeNextComponent { try decodeComponentValue(from: $0, at: $1) }
+        try decodeNextComponent { try decodeComponentValue(from: $0, at: currentCodingPath) }
     }
 
     internal func decode(_ type: Int.Type) throws -> Int {
-        try decodeNextComponent { try decodeComponentValue(from: $0, at: $1) }
+        try decodeNextComponent { try decodeComponentValue(from: $0, at: currentCodingPath) }
     }
 
     internal func decode(_ type: Int8.Type) throws -> Int8 {
-        try decodeNextComponent { try decodeComponentValue(from: $0, at: $1) }
+        try decodeNextComponent { try decodeComponentValue(from: $0, at: currentCodingPath) }
     }
 
     internal func decode(_ type: Int16.Type) throws -> Int16 {
-        try decodeNextComponent { try decodeComponentValue(from: $0, at: $1) }
+        try decodeNextComponent { try decodeComponentValue(from: $0, at: currentCodingPath) }
     }
 
     internal func decode(_ type: Int32.Type) throws -> Int32 {
-        try decodeNextComponent { try decodeComponentValue(from: $0, at: $1) }
+        try decodeNextComponent { try decodeComponentValue(from: $0, at: currentCodingPath) }
     }
 
     internal func decode(_ type: Int64.Type) throws -> Int64 {
-        try decodeNextComponent { try decodeComponentValue(from: $0, at: $1) }
+        try decodeNextComponent { try decodeComponentValue(from: $0, at: currentCodingPath) }
     }
 
 #if compiler(>=6.0)
     @available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
     internal func decode(_ type: Int128.Type) throws -> Int128 {
-        try decodeNextComponent { try decodeComponentValue(from: $0, at: $1) }
+        try decodeNextComponent { try decodeComponentValue(from: $0, at: currentCodingPath) }
     }
 #endif
 
     internal func decode(_ type: UInt.Type) throws -> UInt {
-        try decodeNextComponent { try decodeComponentValue(from: $0, at: $1) }
+        try decodeNextComponent { try decodeComponentValue(from: $0, at: currentCodingPath) }
     }
 
     internal func decode(_ type: UInt8.Type) throws -> UInt8 {
-        try decodeNextComponent { try decodeComponentValue(from: $0, at: $1) }
+        try decodeNextComponent { try decodeComponentValue(from: $0, at: currentCodingPath) }
     }
 
     internal func decode(_ type: UInt16.Type) throws -> UInt16 {
-        try decodeNextComponent { try decodeComponentValue(from: $0, at: $1) }
+        try decodeNextComponent { try decodeComponentValue(from: $0, at: currentCodingPath) }
     }
 
     internal func decode(_ type: UInt32.Type) throws -> UInt32 {
-        try decodeNextComponent { try decodeComponentValue(from: $0, at: $1) }
+        try decodeNextComponent { try decodeComponentValue(from: $0, at: currentCodingPath) }
     }
 
     internal func decode(_ type: UInt64.Type) throws -> UInt64 {
-        try decodeNextComponent { try decodeComponentValue(from: $0, at: $1) }
+        try decodeNextComponent { try decodeComponentValue(from: $0, at: currentCodingPath) }
     }
 
 #if compiler(>=6.0)
     @available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
     internal func decode(_ type: UInt128.Type) throws -> UInt128 {
-        try decodeNextComponent { try decodeComponentValue(from: $0, at: $1) }
+        try decodeNextComponent { try decodeComponentValue(from: $0, at: currentCodingPath) }
     }
 #endif
 
     internal func decode(_ type: Double.Type) throws -> Double {
-        try decodeNextComponent { try decodeComponentValue(from: $0, at: $1) }
+        try decodeNextComponent { try decodeComponentValue(from: $0, at: currentCodingPath) }
     }
 
     internal func decode(_ type: Float.Type) throws -> Float {
-        try decodeNextComponent { try decodeComponentValue(from: $0, at: $1) }
+        try decodeNextComponent { try decodeComponentValue(from: $0, at: currentCodingPath) }
     }
 
     internal func decode(_ type: String.Type) throws -> String {
-        try decodeNextComponent { try decodeComponentValue(from: $0, at: $1) }
+        try decodeNextComponent { try decodeComponentValue(from: $0, at: currentCodingPath) }
     }
 
     internal func decode<T: Decodable>(_ type: T.Type) throws -> T {
-        try decodeNextComponent { try decodeComponentValue(of: type, from: $0, at: $1) }
+        try decodeNextComponent { try decodeComponentValue(of: type, from: $0, at: currentCodingPath) }
     }
 
     internal func nestedContainer<NestedKey: CodingKey>(
         keyedBy keyType: NestedKey.Type
     ) throws -> KeyedDecodingContainer<NestedKey> {
-        try decodeNextComponent { try superDecoder(for: $0, at: $1).container(keyedBy: keyType) }
+        try decodeNextComponent { try superDecoder(for: $0, at: currentCodingPath).container(keyedBy: keyType) }
     }
 
     internal func nestedUnkeyedContainer() throws -> UnkeyedDecodingContainer {
-        try decodeNextComponent { try superDecoder(for: $0, at: $1).unkeyedContainer() }
+        try decodeNextComponent { try superDecoder(for: $0, at: currentCodingPath).unkeyedContainer() }
     }
 
     internal func superDecoder() throws -> Decoder {
-        try decodeNextComponent { superDecoder(for: $0, at: $1) }
+        try decodeNextComponent { superDecoder(for: $0, at: currentCodingPath) }
     }
 }
