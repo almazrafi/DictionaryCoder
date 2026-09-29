@@ -1,4 +1,4 @@
-internal class DictionaryKeyedDecodingContainer<Key: CodingKey>:
+internal final class DictionaryKeyedDecodingContainer<Key: CodingKey>:
     KeyedDecodingContainerProtocol,
     DictionaryComponentDecoder {
 
