@@ -1,10 +1,88 @@
+import Foundation
+
+/// Components of an unkeyed container. Arrays of `Any`, as the encoder writes them, and Foundation arrays,
+/// such as the ones from `JSONSerialization` or property lists, are read in place,
+/// as converting an array wraps or bridges every element up front.
+internal enum DictionaryUnkeyedComponents {
+
+    // MARK: - Enumeration Cases
+
+    case native([Any])
+    case foundation(NSArray)
+
+    // Other arrays, such as `[Int?]`, are converted, which unwraps their optional elements.
+    case optionals([Any?])
+
+    // MARK: - Type Methods
+
+    // Casting to `Any?` unwraps a wrapped optional, though a direct cast is reported to always succeed.
+    private static func cast<T>(_ component: Any, to type: T.Type) -> T {
+        component as! T
+    }
+
+    // MARK: - Instance Properties
+
+    internal var count: Int {
+        switch self {
+        case let .native(components):
+            components.count
+
+        case let .foundation(components):
+            components.count
+
+        case let .optionals(components):
+            components.count
+        }
+    }
+
+    // MARK: - Initializers
+
+    internal init?(_ component: Any?) {
+        guard let component else {
+            return nil
+        }
+
+        let componentType = type(of: component)
+
+        if componentType == [Any].self, let components = component as? [Any] {
+            self = .native(components)
+        } else if componentType is NSArray.Type, let components = component as? NSArray {
+            self = .foundation(components)
+        } else if let components = component as? [Any?] {
+            self = .optionals(components)
+        } else {
+            return nil
+        }
+    }
+
+    // MARK: - Subscripts
+
+    @inline(__always)
+    internal subscript(index: Int) -> Any? {
+        switch self {
+        case let .native(components):
+            let component = components[index]
+
+            // Optional elements, such as `nil` that the encoder writes, are kept in an array of `Any` wrapped,
+            // so they are unwrapped as converting the array to `[Any?]` would.
+            return type(of: component) == Optional<Any>.self ? Self.cast(component, to: Any?.self) : component
+
+        case let .foundation(components):
+            return components[index]
+
+        case let .optionals(components):
+            return components[index]
+        }
+    }
+}
+
 internal final class DictionaryUnkeyedDecodingContainer:
     UnkeyedDecodingContainer,
     DictionaryComponentDecoder {
 
     // MARK: - Instance Properties
 
-    internal let components: [Any?]
+    internal let components: DictionaryUnkeyedComponents
     internal let options: DictionaryDecodingOptions
     internal let userInfo: [CodingUserInfoKey: Any]
     internal let codingPath: [CodingKey]
@@ -27,7 +105,7 @@ internal final class DictionaryUnkeyedDecodingContainer:
     // MARK: - Initializers
 
     internal init(
-        components: [Any?],
+        components: DictionaryUnkeyedComponents,
         options: DictionaryDecodingOptions,
         userInfo: [CodingUserInfoKey: Any],
         codingPath: [CodingKey]

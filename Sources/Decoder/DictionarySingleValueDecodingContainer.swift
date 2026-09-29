@@ -122,7 +122,7 @@ internal final class DictionarySingleValueDecodingContainer:
     }
 
     internal func unkeyedContainer() throws -> UnkeyedDecodingContainer {
-        guard let components = component as? [Any?] else {
+        guard let components = DictionaryUnkeyedComponents(component) else {
             throw DecodingError.unkeyedContainerTypeMismatch(at: codingPath, component: component)
         }
 
