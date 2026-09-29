@@ -36,6 +36,13 @@ internal final class DictionaryUnkeyedEncodingContainer:
 
     @inline(__always)
     private func collectComponent(_ component: consuming DictionaryComponent) {
+        // Most unkeyed containers of compact encodings hold a couple of elements, so room for two is reserved
+        // up front. It saves a reallocation for every container of two and more elements, which grow as usual,
+        // and costs memory only for containers of one element.
+        if components.isEmpty {
+            components.reserveCapacity(2)
+        }
+
         components.append(component)
     }
 
