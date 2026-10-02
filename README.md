@@ -10,8 +10,8 @@
 [![License](https://img.shields.io/github/license/almazrafi/DictionaryCoder)](https://opensource.org/licenses/MIT)
 
 ## Requirements
-- iOS 13.0+ / macOS 11.5+ / watchOS 6.0+ / tvOS 13.0+
-- Xcode 16.4+
+- iOS 15.0+ / macOS 12.0+ / watchOS 9.0+ / tvOS 15.0+
+- Xcode 26.0+
 - Swift 5.9+
 
 ## Usage
@@ -82,7 +82,7 @@ $ gem install cocoapods
 
 To integrate DictionaryCoder into your Xcode project using [CocoaPods](http://cocoapods.org), specify it in your `Podfile`:
 ``` ruby
-platform :ios, '13.0'
+platform :ios, '15.0'
 use_frameworks!
 
 target '<Your Target Name>' do
