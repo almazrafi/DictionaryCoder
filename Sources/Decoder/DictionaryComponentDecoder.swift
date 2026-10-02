@@ -158,6 +158,9 @@ extension DictionaryComponentDecoder {
 
             return data
 
+        case .blob:
+            return try decodePrimitiveValue(from: component, at: codingPath)
+
         case .custom(let closure):
             return try decodeCustomizedValue(from: component, at: codingPath, closure: closure)
         }

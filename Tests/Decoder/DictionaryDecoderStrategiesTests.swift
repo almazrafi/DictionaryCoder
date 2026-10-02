@@ -216,6 +216,38 @@ final class DictionaryDecoderStrategiesTests: XCTestCase, DictionaryDecoderTesti
         }
     }
 
+    func testThatDecoderSucceedsWhenDecodingDataToBlob() {
+        decoder.dataDecodingStrategy = .blob
+
+        let dictionary: [String: Any] = [
+            "foo": Data([1, 2, 3]),
+            "bar": NSData(data: Data([1, 2, 3]))
+        ]
+
+        let value = [
+            "foo": Data([1, 2, 3]),
+            "bar": Data([1, 2, 3])
+        ]
+
+        assertDecoderSucceeds(decoding: value, from: dictionary)
+    }
+
+    func testThatDecoderFailsWhenDecodingInvalidDataToBlob() {
+        decoder.dataDecodingStrategy = .blob
+
+        let dictionary = ["foobar": "AQID"]
+
+        assertDecoderFails(decoding: [String: Data].self, from: dictionary) { error in
+            switch error {
+            case let DecodingError.typeMismatch(type, _) where type is Data.Type:
+                return true
+
+            default:
+                return false
+            }
+        }
+    }
+
     func testThatDecoderSucceedsWhenDecodingDataUsingCustomFunction() {
         decoder.dataDecodingStrategy = .custom { decoder in
             let container = try decoder.singleValueContainer()

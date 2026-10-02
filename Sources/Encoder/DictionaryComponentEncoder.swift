@@ -100,6 +100,9 @@ extension DictionaryComponentEncoder {
         case .base64:
             return encodePrimitiveValue(data.base64EncodedString(), at: codingPath)
 
+        case .blob:
+            return encodePrimitiveValue(data, at: codingPath)
+
         case let .custom(closure):
             return try encodeCustomizedValue(data, at: codingPath, closure: closure)
         }

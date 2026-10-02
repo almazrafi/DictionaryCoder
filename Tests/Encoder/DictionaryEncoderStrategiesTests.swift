@@ -113,6 +113,14 @@ final class DictionaryEncoderStrategiesTests: XCTestCase, DictionaryEncoderTesti
         assertEncoderSucceeds(encoding: value)
     }
 
+    func testThatEncoderSucceedsWhenEncodingDataToBlob() {
+        encoder.dataEncodingStrategy = .blob
+
+        let value = ["foobar": Data([1, 2, 3])]
+
+        assertEncoderSucceeds(encoding: value, expecting: value)
+    }
+
     func testThatEncoderSucceedsWhenEncodingDataUsingCustomFunction() {
         encoder.dataEncodingStrategy = .custom { data, encoder in
             var container = encoder.singleValueContainer()

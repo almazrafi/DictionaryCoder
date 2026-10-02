@@ -15,7 +15,10 @@ extension DictionaryDecoderTesting {
 
         jsonDecoder.keyDecodingStrategy = decoder.keyDecodingStrategy.jsonDecodingStrategy
         jsonDecoder.dateDecodingStrategy = decoder.dateDecodingStrategy.jsonDecodingStrategy
-        jsonDecoder.dataDecodingStrategy = decoder.dataDecodingStrategy.jsonDecodingStrategy
+        jsonDecoder.dataDecodingStrategy = try XCTUnwrap(
+            decoder.dataDecodingStrategy.jsonDecodingStrategy,
+            "JSON has no data type, pass the expected value instead."
+        )
         jsonDecoder.nonConformingFloatDecodingStrategy = decoder.nonConformingFloatDecodingStrategy.jsonDecodingStrategy
 
         let data = try JSONSerialization.data(withJSONObject: dictionary, options: .fragmentsAllowed)
@@ -169,13 +172,16 @@ extension DictionaryDataDecodingStrategy {
 
     // MARK: - Instance Properties
 
-    fileprivate var jsonDecodingStrategy: JSONDecoder.DataDecodingStrategy {
+    fileprivate var jsonDecodingStrategy: JSONDecoder.DataDecodingStrategy? {
         switch self {
         case .deferredToData:
             return .deferredToData
 
         case .base64:
             return .base64
+
+        case .blob:
+            return nil
 
         case let .custom(closure):
             return .custom(closure)

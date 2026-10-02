@@ -11,6 +11,9 @@ public enum DictionaryDataDecodingStrategy: Sendable {
     /// The strategy that decodes data using Base 64 decoding.
     case base64
 
+    /// The strategy that takes data stored in the dictionary as is.
+    case blob
+
     /// The strategy that decodes data using a user-defined function.
     case custom(@Sendable (_ decoder: Decoder) throws -> Data)
 }

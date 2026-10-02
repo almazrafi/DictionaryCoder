@@ -6,5 +6,6 @@ public enum DictionaryDataEncodingStrategy: Sendable {
 
     case deferredToData
     case base64
+    case blob
     case custom(@Sendable (_ data: Data, _ encoder: Encoder) throws -> Void)
 }

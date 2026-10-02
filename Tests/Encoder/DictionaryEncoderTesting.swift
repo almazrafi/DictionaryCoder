@@ -17,7 +17,10 @@ extension DictionaryEncoderTesting {
 
         jsonEncoder.keyEncodingStrategy = encoder.keyEncodingStrategy.jsonEncodingStrategy
         jsonEncoder.dateEncodingStrategy = encoder.dateEncodingStrategy.jsonEncodingStrategy
-        jsonEncoder.dataEncodingStrategy = encoder.dataEncodingStrategy.jsonEncodingStrategy
+        jsonEncoder.dataEncodingStrategy = try XCTUnwrap(
+            encoder.dataEncodingStrategy.jsonEncodingStrategy,
+            "JSON has no data type, pass the expected dictionary instead."
+        )
         jsonEncoder.nonConformingFloatEncodingStrategy = encoder.nonConformingFloatEncodingStrategy.jsonEncodingStrategy
 
         let data = try jsonEncoder.encode(value)
@@ -135,13 +138,16 @@ extension DictionaryDataEncodingStrategy {
 
     // MARK: - Instance Properties
 
-    fileprivate var jsonEncodingStrategy: JSONEncoder.DataEncodingStrategy {
+    fileprivate var jsonEncodingStrategy: JSONEncoder.DataEncodingStrategy? {
         switch self {
         case .deferredToData:
             return .deferredToData
 
         case .base64:
             return .base64
+
+        case .blob:
+            return nil
 
         case let .custom(closure):
             return .custom(closure)
