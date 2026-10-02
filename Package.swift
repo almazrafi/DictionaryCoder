@@ -5,9 +5,9 @@ let package = Package(
     name: "DictionaryCoder",
     platforms: [
         .macOS(.v12),
-        .iOS(.v13),
-        .tvOS(.v13),
-        .watchOS(.v6)
+        .iOS(.v15),
+        .tvOS(.v15),
+        .watchOS(.v9)
     ],
     products: [
         .library(
