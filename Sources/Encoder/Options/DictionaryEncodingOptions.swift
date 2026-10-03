@@ -9,4 +9,5 @@ internal struct DictionaryEncodingOptions {
     internal var nonConformingFloatEncodingStrategy: DictionaryNonConformingFloatEncodingStrategy
     internal var nilEncodingStrategy: DictionaryNilEncodingStrategy
     internal var keyEncodingStrategy: DictionaryKeyEncodingStrategy
+    internal var nestedEncodingStrategy: DictionaryNestedEncodingStrategy
 }
