@@ -16,10 +16,32 @@ extension DictionaryComponentDecoder {
         at codingPath: [CodingKey]
     ) throws -> T {
         guard let value = component as? T else {
+            return try decodeConvertedNumber(from: component, at: codingPath)
+        }
+
+        return value
+    }
+
+    // Numbers of other types are converted the same way as `NSNumber`,
+    // so a dictionary decodes equally whether it holds Swift numbers or `NSNumber` instances.
+    // Unlike `NSNumber`, booleans are not converted to or from numbers here, as in `JSONDecoder`.
+    @inline(never)
+    private func decodeConvertedNumber<T: Decodable>(
+        from component: Any?,
+        at codingPath: [CodingKey]
+    ) throws -> T {
+        let number = component as? NSNumber
+
+        guard let number, !isBoolean(number), !(T.self is Bool.Type), let value = number as? T else {
             throw DecodingError.invalidComponent(component, of: T.self, at: codingPath)
         }
 
         return value
+    }
+
+    // Booleans are bridged to `NSNumber` too, so they are told apart by their Core Foundation type.
+    private func isBoolean(_ number: NSNumber) -> Bool {
+        CFGetTypeID(number) == CFBooleanGetTypeID()
     }
 
     private func decodeNonPrimitiveValue<T: Decodable>(
@@ -88,7 +110,19 @@ extension DictionaryComponentDecoder {
             break
         }
 
-        throw DecodingError.invalidComponent(component, of: T.self, at: codingPath)
+        // Numbers of other types are converted, which strings do not survive.
+        let number: T = try decodeConvertedNumber(from: component, at: codingPath)
+
+        guard number.isFinite else {
+            let errorContext = DecodingError.Context(
+                codingPath: codingPath,
+                debugDescription: "Parsed dictionary number \(number) does not fit in \(T.self)."
+            )
+
+            throw DecodingError.dataCorrupted(errorContext)
+        }
+
+        return number
     }
 
     private func decodeDate(from component: Any?, at codingPath: [CodingKey]) throws -> Date {

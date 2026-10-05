@@ -133,6 +133,24 @@ final class DictionaryDecoderTests: XCTestCase, DictionaryDecoderTesting {
         assertDecoderSucceeds(decoding: [String: Float].self, from: dictionary)
     }
 
+    func testThatDecoderSucceedsWhenDecodingNumbersOfOtherTypes() {
+        struct DecodableStruct: Decodable, Equatable {
+            let foo: Double
+            let bar: Float
+            let baz: Int64
+            let qux: Int
+        }
+
+        let dictionary: [String: Any] = [
+            "foo": 123,
+            "bar": 1.5,
+            "baz": 456,
+            "qux": 789.0
+        ]
+
+        assertDecoderSucceeds(decoding: DecodableStruct.self, from: dictionary)
+    }
+
     func testThatDecoderSucceedsWhenDecodingStringToStringDictionary() {
         let dictionary = [
             "foo": "qwe",
@@ -674,6 +692,34 @@ final class DictionaryDecoderTests: XCTestCase, DictionaryDecoderTesting {
         assertDecoderFails(decoding: [String: URL].self, from: dictionary) { error in
             switch error {
             case DecodingError.dataCorrupted:
+                return true
+
+            default:
+                return false
+            }
+        }
+    }
+
+    func testThatDecoderFailsWhenDecodingNumberThatDoesNotFit() {
+        let dictionary = ["foobar": 1.5]
+
+        assertDecoderFails(decoding: [String: Int].self, from: dictionary) { error in
+            switch error {
+            case let DecodingError.typeMismatch(type, _) where type is Int.Type:
+                return true
+
+            default:
+                return false
+            }
+        }
+    }
+
+    func testThatDecoderFailsWhenDecodingBoolFromNumber() {
+        let dictionary = ["foobar": 1]
+
+        assertDecoderFails(decoding: [String: Bool].self, from: dictionary) { error in
+            switch error {
+            case let DecodingError.typeMismatch(type, _) where type is Bool.Type:
                 return true
 
             default:
