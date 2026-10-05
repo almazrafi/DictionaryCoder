@@ -103,10 +103,6 @@ extension DictionaryComponentDecoder {
             return Date(timeIntervalSince1970: try decodePrimitiveValue(from: component, at: codingPath) / 1000.0)
 
         case .iso8601:
-            guard #available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *) else {
-                fatalError("ISO8601DateFormatter is unavailable on this platform.")
-            }
-
             let formattedDate = try decodePrimitiveValue(of: String.self, from: component, at: codingPath)
 
             guard let date = ISO8601DateFormatter().date(from: formattedDate) else {

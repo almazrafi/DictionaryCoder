@@ -153,10 +153,6 @@ extension DictionaryDateDecodingStrategy {
             return .secondsSince1970
 
         case .iso8601:
-            guard #available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *) else {
-                fatalError("ISO8601DateFormatter is unavailable on this platform.")
-            }
-
             return .iso8601
 
         case let .formatted(dateFormatter):

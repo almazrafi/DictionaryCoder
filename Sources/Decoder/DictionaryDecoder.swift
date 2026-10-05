@@ -76,7 +76,6 @@ public final class DictionaryDecoder: Sendable {
         try decode(T.self, from: dictionary)
     }
 
-    @available(macOS 12, iOS 15, tvOS 15, watchOS 8, *)
     public func decode<T: DecodableWithConfiguration>(
         _ type: T.Type = T.self,
         from dictionary: [String: Any],

@@ -93,7 +93,6 @@ public final class DictionaryEncoder: Sendable {
         }
     }
 
-    @available(macOS 12, iOS 15, tvOS 15, watchOS 8, *)
     public func encode<T: EncodableWithConfiguration>(
         _ value: T,
         configuration: T.EncodingConfiguration
