@@ -1,5 +1,3 @@
-import Foundation
-
 extension RangeReplaceableCollection {
 
     // MARK: - Instance Methods

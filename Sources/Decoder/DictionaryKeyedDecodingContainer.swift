@@ -1,5 +1,3 @@
-import Foundation
-
 internal class DictionaryKeyedDecodingContainer<Key: CodingKey>:
     KeyedDecodingContainerProtocol,
     DictionaryComponentDecoder {

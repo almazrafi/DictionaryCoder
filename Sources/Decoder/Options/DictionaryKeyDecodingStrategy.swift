@@ -1,5 +1,3 @@
-import Foundation
-
 /// The values that determine how to decode a type’s coding keys from Dictionary keys.
 public enum DictionaryKeyDecodingStrategy: Sendable {
 

@@ -1,5 +1,3 @@
-import Foundation
-
 internal final class DictionarySingleValueEncodingContainer:
     Encoder,
     SingleValueEncodingContainer,

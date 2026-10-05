@@ -1,5 +1,3 @@
-import Foundation
-
 extension Optional {
 
     // MARK: - Instance Properties
