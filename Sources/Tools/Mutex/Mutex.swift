@@ -1,5 +1,3 @@
-import Foundation
-
 public struct Mutex<Value>: @unchecked Sendable {
 
     private let storage: MutexStorage<Value>

@@ -1,5 +1,3 @@
-import Foundation
-
 internal final class DictionaryUnkeyedEncodingContainer:
     UnkeyedEncodingContainer,
     DictionaryComponentContainer,
@@ -13,6 +11,7 @@ internal final class DictionaryUnkeyedEncodingContainer:
     internal let userInfo: [CodingUserInfoKey: Any]
     internal let codingPath: [CodingKey]
 
+    @inline(__always)
     internal var currentCodingPath: [CodingKey] {
         codingPath.appending(AnyCodingKey(count))
     }
@@ -35,7 +34,15 @@ internal final class DictionaryUnkeyedEncodingContainer:
 
     // MARK: - Instance Methods
 
-    private func collectComponent(_ component: DictionaryComponent) {
+    @inline(__always)
+    private func collectComponent(_ component: consuming DictionaryComponent) {
+        // Most unkeyed containers of compact encodings hold a couple of elements, so room for two is reserved
+        // up front. It saves a reallocation for every container of two and more elements, which grow as usual,
+        // and costs memory only for containers of one element.
+        if components.isEmpty {
+            components.reserveCapacity(2)
+        }
+
         components.append(component)
     }
 
@@ -69,6 +76,13 @@ internal final class DictionaryUnkeyedEncodingContainer:
         collectComponent(encodeComponentValue(value, at: currentCodingPath))
     }
 
+#if compiler(>=6.0)
+    @available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+    internal func encode(_ value: Int128) throws {
+        collectComponent(encodeComponentValue(value, at: currentCodingPath))
+    }
+#endif
+
     internal func encode(_ value: UInt) throws {
         collectComponent(encodeComponentValue(value, at: currentCodingPath))
     }
@@ -88,6 +102,13 @@ internal final class DictionaryUnkeyedEncodingContainer:
     internal func encode(_ value: UInt64) throws {
         collectComponent(encodeComponentValue(value, at: currentCodingPath))
     }
+
+#if compiler(>=6.0)
+    @available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+    internal func encode(_ value: UInt128) throws {
+        collectComponent(encodeComponentValue(value, at: currentCodingPath))
+    }
+#endif
 
     internal func encode(_ value: Double) throws {
         collectComponent(try encodeComponentValue(value, at: currentCodingPath))
@@ -148,11 +169,10 @@ internal final class DictionaryUnkeyedEncodingContainer:
     // MARK: - DictionaryComponentContainer
 
     internal func resolveValue() -> Any? {
-        let values = components
-            .lazy
-            .map { $0.resolveValue() }
-            .compactMap { $0 ?? $0 as Any }
+        components.map { component in
+            let value = component.resolveValue()
 
-        return Array(values)
+            return value ?? value as Any
+        }
     }
 }

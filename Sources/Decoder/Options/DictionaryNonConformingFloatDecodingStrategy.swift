@@ -1,5 +1,3 @@
-import Foundation
-
 /// The strategies for encoding nonconforming floating-point numbers,
 /// also known as IEEE 754 exceptional values.
 public enum DictionaryNonConformingFloatDecodingStrategy: Sendable {
