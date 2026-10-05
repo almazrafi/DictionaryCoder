@@ -280,14 +280,15 @@ extension DictionaryComponentDecoder {
         from component: Any?,
         at codingPath: [CodingKey]
     ) throws -> T {
-        switch T.self {
-        case is Date.Type:
+        // The type is compared rather than cast, as a cast costs much more and is made for every value.
+        switch ObjectIdentifier(T.self) {
+        case ObjectIdentifier(Date.self):
             return try decodeDate(from: component, at: codingPath) as! T
 
-        case is Data.Type:
+        case ObjectIdentifier(Data.self):
             return try decodeData(from: component, at: codingPath) as! T
 
-        case is URL.Type:
+        case ObjectIdentifier(URL.self):
             return try decodeURL(from: component, at: codingPath) as! T
 
         default:

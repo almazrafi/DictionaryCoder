@@ -197,15 +197,16 @@ extension DictionaryComponentEncoder {
         _ value: T,
         at codingPath: [CodingKey]
     ) throws -> DictionaryComponent {
-        switch value {
-        case let date as Date:
-            return try encodeDate(date, at: codingPath)
+        // The type is compared rather than the value cast, as a cast costs much more and is made for every value.
+        switch ObjectIdentifier(T.self) {
+        case ObjectIdentifier(Date.self):
+            return try encodeDate(value as! Date, at: codingPath)
 
-        case let data as Data:
-            return try encodeData(data, at: codingPath)
+        case ObjectIdentifier(Data.self):
+            return try encodeData(value as! Data, at: codingPath)
 
-        case let url as URL:
-            return try encodeURL(url, at: codingPath)
+        case ObjectIdentifier(URL.self):
+            return try encodeURL(value as! URL, at: codingPath)
 
         default:
             return try encodeNonPrimitiveValue(value, at: codingPath)
