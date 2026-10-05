@@ -54,20 +54,22 @@ public final class DictionaryDecoder: Sendable {
 
     // MARK: - Instance Methods
 
-    public func decode<T: Decodable>(
-        _ type: T.Type = T.self,
-        from dictionary: [String: Any]
-    ) throws -> T {
+    private func rootDecoder(for dictionary: [String: Any]) -> DictionarySingleValueDecodingContainer {
         let options = optionsMutex.withLock { $0 }
 
-        let decoder = DictionarySingleValueDecodingContainer(
+        return DictionarySingleValueDecodingContainer(
             component: dictionary,
             options: options,
             userInfo: userInfo,
             codingPath: []
         )
+    }
 
-        return try T(from: decoder)
+    public func decode<T: Decodable>(
+        _ type: T.Type = T.self,
+        from dictionary: [String: Any]
+    ) throws -> T {
+        try T(from: rootDecoder(for: dictionary))
     }
 
     public func decode<T: Decodable>(from dictionary: [String: Any]) throws -> T {
@@ -80,15 +82,6 @@ public final class DictionaryDecoder: Sendable {
         from dictionary: [String: Any],
         configuration: T.DecodingConfiguration
     ) throws -> T {
-        let options = optionsMutex.withLock { $0 }
-
-        let decoder = DictionarySingleValueDecodingContainer(
-            component: dictionary,
-            options: options,
-            userInfo: userInfo,
-            codingPath: []
-        )
-
-        return try T(from: decoder, configuration: configuration)
+        try T(from: rootDecoder(for: dictionary), configuration: configuration)
     }
 }
