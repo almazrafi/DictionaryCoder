@@ -15,7 +15,6 @@ public enum DictionaryDateDecodingStrategy: Sendable {
     case millisecondsSince1970
 
     /// The strategy that formats dates according to the ISO 8601 standard.
-    @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
     case iso8601
 
     /// The strategy that defers formatting settings to a supplied date formatter.

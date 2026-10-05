@@ -1,5 +1,3 @@
-import Foundation
-
 internal final class DictionaryUnkeyedDecodingContainer:
     UnkeyedDecodingContainer,
     DictionaryComponentDecoder {
@@ -41,7 +39,8 @@ internal final class DictionaryUnkeyedDecodingContainer:
 
     // MARK: - Instance Methods
 
-    private func popNextComponent() throws -> Any? {
+    @inline(__always)
+    private func peekNextComponent() throws -> Any? {
         guard currentIndex < components.count else {
             let errorContext = DecodingError.Context(
                 codingPath: currentCodingPath,
@@ -51,95 +50,112 @@ internal final class DictionaryUnkeyedDecodingContainer:
             throw DecodingError.valueNotFound(Any.self, errorContext)
         }
 
-        defer {
-            currentIndex += 1
-        }
-
         return components[currentIndex]
+    }
+
+    @inline(__always)
+    private func decodeNextComponent<T>(
+        _ decodeComponent: (_ component: Any?, _ codingPath: [CodingKey]) throws -> T
+    ) throws -> T {
+        let value = try decodeComponent(try peekNextComponent(), currentCodingPath)
+
+        currentIndex += 1
+
+        return value
+    }
+
+    private func superDecoder(for component: Any?, at codingPath: [CodingKey]) -> Decoder {
+        DictionarySingleValueDecodingContainer(
+            component: component,
+            options: options,
+            userInfo: userInfo,
+            codingPath: codingPath
+        )
     }
 
     // MARK: - UnkeyedDecodingContainer
 
     internal func decodeNil() throws -> Bool {
-        decodeNilComponent(from: try popNextComponent())
+        guard decodeNilComponent(from: try peekNextComponent()) else {
+            return false
+        }
+
+        currentIndex += 1
+
+        return true
     }
 
     internal func decode(_ type: Bool.Type) throws -> Bool {
-        try decodeComponentValue(from: try popNextComponent(), at: currentCodingPath)
+        try decodeNextComponent { try decodeComponentValue(from: $0, at: $1) }
     }
 
     internal func decode(_ type: Int.Type) throws -> Int {
-        try decodeComponentValue(from: try popNextComponent(), at: currentCodingPath)
+        try decodeNextComponent { try decodeComponentValue(from: $0, at: $1) }
     }
 
     internal func decode(_ type: Int8.Type) throws -> Int8 {
-        try decodeComponentValue(from: try popNextComponent(), at: currentCodingPath)
+        try decodeNextComponent { try decodeComponentValue(from: $0, at: $1) }
     }
 
     internal func decode(_ type: Int16.Type) throws -> Int16 {
-        try decodeComponentValue(from: try popNextComponent(), at: currentCodingPath)
+        try decodeNextComponent { try decodeComponentValue(from: $0, at: $1) }
     }
 
     internal func decode(_ type: Int32.Type) throws -> Int32 {
-        try decodeComponentValue(from: try popNextComponent(), at: currentCodingPath)
+        try decodeNextComponent { try decodeComponentValue(from: $0, at: $1) }
     }
 
     internal func decode(_ type: Int64.Type) throws -> Int64 {
-        try decodeComponentValue(from: try popNextComponent(), at: currentCodingPath)
+        try decodeNextComponent { try decodeComponentValue(from: $0, at: $1) }
     }
 
     internal func decode(_ type: UInt.Type) throws -> UInt {
-        try decodeComponentValue(from: try popNextComponent(), at: currentCodingPath)
+        try decodeNextComponent { try decodeComponentValue(from: $0, at: $1) }
     }
 
     internal func decode(_ type: UInt8.Type) throws -> UInt8 {
-        try decodeComponentValue(from: try popNextComponent(), at: currentCodingPath)
+        try decodeNextComponent { try decodeComponentValue(from: $0, at: $1) }
     }
 
     internal func decode(_ type: UInt16.Type) throws -> UInt16 {
-        try decodeComponentValue(from: try popNextComponent(), at: currentCodingPath)
+        try decodeNextComponent { try decodeComponentValue(from: $0, at: $1) }
     }
 
     internal func decode(_ type: UInt32.Type) throws -> UInt32 {
-        try decodeComponentValue(from: try popNextComponent(), at: currentCodingPath)
+        try decodeNextComponent { try decodeComponentValue(from: $0, at: $1) }
     }
 
     internal func decode(_ type: UInt64.Type) throws -> UInt64 {
-        try decodeComponentValue(from: try popNextComponent(), at: currentCodingPath)
+        try decodeNextComponent { try decodeComponentValue(from: $0, at: $1) }
     }
 
     internal func decode(_ type: Double.Type) throws -> Double {
-        try decodeComponentValue(from: try popNextComponent(), at: currentCodingPath)
+        try decodeNextComponent { try decodeComponentValue(from: $0, at: $1) }
     }
 
     internal func decode(_ type: Float.Type) throws -> Float {
-        try decodeComponentValue(from: try popNextComponent(), at: currentCodingPath)
+        try decodeNextComponent { try decodeComponentValue(from: $0, at: $1) }
     }
 
     internal func decode(_ type: String.Type) throws -> String {
-        try decodeComponentValue(from: try popNextComponent(), at: currentCodingPath)
+        try decodeNextComponent { try decodeComponentValue(from: $0, at: $1) }
     }
 
     internal func decode<T: Decodable>(_ type: T.Type) throws -> T {
-        try decodeComponentValue(of: type, from: try popNextComponent(), at: currentCodingPath)
+        try decodeNextComponent { try decodeComponentValue(of: type, from: $0, at: $1) }
     }
 
     internal func nestedContainer<NestedKey: CodingKey>(
         keyedBy keyType: NestedKey.Type
     ) throws -> KeyedDecodingContainer<NestedKey> {
-        try superDecoder().container(keyedBy: keyType)
+        try decodeNextComponent { try superDecoder(for: $0, at: $1).container(keyedBy: keyType) }
     }
 
     internal func nestedUnkeyedContainer() throws -> UnkeyedDecodingContainer {
-        try superDecoder().unkeyedContainer()
+        try decodeNextComponent { try superDecoder(for: $0, at: $1).unkeyedContainer() }
     }
 
     internal func superDecoder() throws -> Decoder {
-        DictionarySingleValueDecodingContainer(
-            component: try popNextComponent(),
-            options: options,
-            userInfo: userInfo,
-            codingPath: currentCodingPath
-        )
+        try decodeNextComponent { superDecoder(for: $0, at: $1) }
     }
 }

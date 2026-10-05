@@ -60,7 +60,6 @@ final class DictionaryEncoderStrategiesTests: XCTestCase, DictionaryEncoderTesti
         assertEncoderSucceeds(encoding: value)
     }
 
-    @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
     func testThatEncoderSucceedsWhenEncodingDateToISO8601Format() {
         encoder.dateEncodingStrategy = .iso8601
 
@@ -69,7 +68,6 @@ final class DictionaryEncoderStrategiesTests: XCTestCase, DictionaryEncoderTesti
         assertEncoderSucceeds(encoding: value)
     }
 
-    @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
     func testThatEncoderSucceedsWhenEncodingDateUsingFormatter() {
         let dateFormatter = DateFormatter()
 

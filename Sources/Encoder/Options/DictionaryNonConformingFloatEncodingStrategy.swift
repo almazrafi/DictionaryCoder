@@ -1,5 +1,3 @@
-import Foundation
-
 public enum DictionaryNonConformingFloatEncodingStrategy: Sendable {
 
     // MARK: - Enumeration Cases

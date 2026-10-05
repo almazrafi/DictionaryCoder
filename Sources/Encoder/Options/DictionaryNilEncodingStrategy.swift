@@ -1,5 +1,3 @@
-import Foundation
-
 public enum DictionaryNilEncodingStrategy: Sendable {
 
     // MARK: - Enumeration Cases

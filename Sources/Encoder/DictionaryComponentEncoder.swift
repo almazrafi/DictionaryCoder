@@ -72,10 +72,6 @@ extension DictionaryComponentEncoder {
             return encodePrimitiveValue(date.timeIntervalSince1970, at: codingPath)
 
         case .iso8601:
-            guard #available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *) else {
-                fatalError("ISO8601DateFormatter is unavailable on this platform.")
-            }
-
             let formattedDate = ISO8601DateFormatter.string(
                 from: date,
                 timeZone: .iso8601TimeZone,
@@ -250,6 +246,6 @@ extension EncodingError {
             Use DictionaryNonConformingFloatEncodingStrategy.convertToString to specify how the value should be encoded.
             """
 
-        return .invalidValue(value, EncodingError.Context(codingPath: codingPath, debugDescription: debugDescription))
+        return .invalidValue(value, Context(codingPath: codingPath, debugDescription: debugDescription))
     }
 }

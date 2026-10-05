@@ -48,6 +48,15 @@ final class DictionaryDecoderStrategiesTests: XCTestCase, DictionaryDecoderTesti
         assertDecoderSucceeds(decoding: DecodableStruct.self, from: dictionary)
     }
 
+    func testThatDecoderSucceedsWhenDecodingCollidingKeysUsingCustomFunctionForKeys() {
+        decoder.keyDecodingStrategy = .custom { _ in AnyCodingKey("foobar") }
+
+        let letters = "abcdefghijklmnopqrstuvwxyz".map(String.init)
+        let dictionary = Dictionary(uniqueKeysWithValues: letters.enumerated().map { ($1, $0) })
+
+        assertDecoderSucceeds(decoding: ["foobar": 0], from: dictionary)
+    }
+
     // MARK: -
 
     func testThatDecoderSucceedsWhenDecodingDate() {
@@ -90,7 +99,6 @@ final class DictionaryDecoderStrategiesTests: XCTestCase, DictionaryDecoderTesti
         assertDecoderSucceeds(decoding: [String: Date].self, from: dictionary)
     }
 
-    @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
     func testThatDecoderSucceedsWhenDecodingDateFromISO8601Format() {
         decoder.dateDecodingStrategy = .iso8601
 
@@ -99,7 +107,6 @@ final class DictionaryDecoderStrategiesTests: XCTestCase, DictionaryDecoderTesti
         assertDecoderSucceeds(decoding: [String: Date].self, from: dictionary)
     }
 
-    @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
     func testThatDecoderFailsWhenDecodingInvalidDateFromISO8601Format() {
         decoder.dateDecodingStrategy = .iso8601
 
