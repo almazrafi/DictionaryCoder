@@ -133,6 +133,50 @@ final class DictionaryDecoderTests: XCTestCase, DictionaryDecoderTesting {
         assertDecoderSucceeds(decoding: [String: Float].self, from: dictionary)
     }
 
+    func testThatDecoderSucceedsWhenDecodingNumbersOfOtherTypes() {
+        struct DecodableStruct: Decodable, Equatable {
+            let foo: Double
+            let bar: Float
+            let baz: Int64
+            let qux: Int
+        }
+
+        let dictionary: [String: Any] = [
+            "foo": 123,
+            "bar": 1.5,
+            "baz": 456,
+            "qux": 789.0
+        ]
+
+        assertDecoderSucceeds(decoding: DecodableStruct.self, from: dictionary)
+    }
+
+#if compiler(>=6.0)
+    func testThatDecoderSucceedsWhenDecodingWideIntegers() throws {
+        guard #available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *) else {
+            throw XCTSkip("Int128 and UInt128 are unavailable")
+        }
+
+        struct DecodableStruct: Decodable, Equatable {
+            let foo: Int128
+            let bar: UInt128
+            let baz: Int128
+            let qux: [UInt128]
+        }
+
+        let dictionary: [String: Any] = [
+            "foo": Int128.max,
+            "bar": UInt128.max,
+            "baz": -123,
+            "qux": [UInt64.max, NSNumber(value: 456)] as [Any]
+        ]
+
+        let value = DecodableStruct(foo: .max, bar: .max, baz: -123, qux: [UInt128(UInt64.max), 456])
+
+        assertDecoderSucceeds(decoding: value, from: dictionary)
+    }
+#endif
+
     func testThatDecoderSucceedsWhenDecodingStringToStringDictionary() {
         let dictionary = [
             "foo": "qwe",
@@ -204,6 +248,87 @@ final class DictionaryDecoderTests: XCTestCase, DictionaryDecoderTesting {
             "foo": true,
             "bar": NSNull()
         ]
+
+        assertDecoderSucceeds(decoding: DecodableStruct.self, from: dictionary)
+    }
+
+    func testThatDecoderSucceedsWhenDecodingOptionalsOfKeyedContainer() {
+        struct Nested: Decodable, Equatable {
+            let foo: Int
+        }
+
+        struct DecodableStruct: Decodable, Equatable {
+            let int: Int?
+            let string: String?
+            let double: Double?
+            let nested: Nested?
+            let absent: Int?
+            let null: String?
+            let nullNested: Nested?
+        }
+
+        let dictionary: [String: Any] = [
+            "int": 1,
+            "string": "foo",
+            "double": 1.5,
+            "nested": ["foo": 2],
+            "null": NSNull(),
+            "nullNested": NSNull()
+        ]
+
+        let value = DecodableStruct(
+            int: 1,
+            string: "foo",
+            double: 1.5,
+            nested: Nested(foo: 2),
+            absent: nil,
+            null: nil,
+            nullNested: nil
+        )
+
+        assertDecoderSucceeds(decoding: value, from: dictionary)
+    }
+
+    func testThatDecoderSucceedsWhenDecodingFoundationNumbers() throws {
+        struct DecodableStruct: Decodable, Equatable {
+            let bool: Bool
+            let int: Int
+            let int8: Int8
+            let int16: Int16
+            let int32: Int32
+            let int64: Int64
+            let uint: UInt
+            let uint8: UInt8
+            let uint16: UInt16
+            let uint32: UInt32
+            let uint64: UInt64
+            let double: Double
+            let float: Float
+            let ints: [Int]
+            let doubles: [Double]
+        }
+
+        let object: [String: Any] = [
+            "bool": true,
+            "int": -1,
+            "int8": -2,
+            "int16": -3,
+            "int32": -4,
+            "int64": -5,
+            "uint": 1,
+            "uint8": 2,
+            "uint16": 3,
+            "uint32": 4,
+            "uint64": 5,
+            "double": 1.5,
+            "float": 2.5,
+            "ints": [1, 2, 3],
+            "doubles": [1.5, 2]
+        ]
+
+        // Numbers of `JSONSerialization` output are `NSNumber` instances.
+        let json = try JSONSerialization.data(withJSONObject: object)
+        let dictionary = try XCTUnwrap(JSONSerialization.jsonObject(with: json) as? [String: Any])
 
         assertDecoderSucceeds(decoding: DecodableStruct.self, from: dictionary)
     }
@@ -329,6 +454,88 @@ final class DictionaryDecoderTests: XCTestCase, DictionaryDecoderTesting {
         }
 
         let dictionary = ["foo": [123, 456]]
+
+        assertDecoderSucceeds(decoding: DecodableStruct.self, from: dictionary)
+    }
+
+    func testThatDecoderSucceedsWhenDecodingStructUsingDecodeIfPresentOfUnkeyedContainer() {
+        struct DecodableStruct: Decodable, Equatable {
+            enum CodingKeys: String, CodingKey {
+                case foo
+            }
+
+            let bar: Int?
+            let baz: Int?
+            let qux: Int?
+
+            init(from decoder: Decoder) throws {
+                let container = try decoder.container(keyedBy: CodingKeys.self)
+                var unkeyedContainer = try container.nestedUnkeyedContainer(forKey: .foo)
+
+                bar = try unkeyedContainer.decodeIfPresent(Int.self)
+                baz = try unkeyedContainer.decodeIfPresent(Int.self)
+                qux = try unkeyedContainer.decodeIfPresent(Int.self)
+            }
+        }
+
+        let dictionary: [String: Any] = ["foo": [123, NSNull(), 456] as [Any]]
+
+        assertDecoderSucceeds(decoding: DecodableStruct.self, from: dictionary)
+    }
+
+    func testThatDecoderSucceedsWhenDecodingElementCodingPathsOfUnkeyedContainer() {
+        struct Element: Decodable, Equatable {
+            let index: Int?
+
+            init(from decoder: Decoder) throws {
+                index = decoder.codingPath.last?.intValue
+            }
+        }
+
+        struct DecodableStruct: Decodable, Equatable {
+            enum CodingKeys: String, CodingKey {
+                case foo
+            }
+
+            let bar: Element
+            let baz: Element
+
+            init(from decoder: Decoder) throws {
+                let container = try decoder.container(keyedBy: CodingKeys.self)
+                var unkeyedContainer = try container.nestedUnkeyedContainer(forKey: .foo)
+
+                bar = try unkeyedContainer.decode(Element.self)
+                baz = try Element(from: unkeyedContainer.superDecoder())
+            }
+        }
+
+        let dictionary = ["foo": [123, 456]]
+
+        assertDecoderSucceeds(decoding: DecodableStruct.self, from: dictionary)
+    }
+
+    func testThatDecoderSucceedsWhenDecodingStructAfterFailedAttemptsInUnkeyedContainer() {
+        struct DecodableStruct: Decodable, Equatable {
+            enum CodingKeys: String, CodingKey {
+                case foo
+            }
+
+            let bar: String
+
+            init(from decoder: Decoder) throws {
+                let container = try decoder.container(keyedBy: CodingKeys.self)
+                var unkeyedContainer = try container.nestedUnkeyedContainer(forKey: .foo)
+
+                _ = try? unkeyedContainer.decode(Int.self)
+                _ = try? unkeyedContainer.decode([Int].self)
+                _ = try? unkeyedContainer.nestedContainer(keyedBy: CodingKeys.self)
+                _ = try? unkeyedContainer.nestedUnkeyedContainer()
+
+                bar = try unkeyedContainer.decode(String.self)
+            }
+        }
+
+        let dictionary = ["foo": ["bar"]]
 
         assertDecoderSucceeds(decoding: DecodableStruct.self, from: dictionary)
     }
@@ -600,6 +807,86 @@ final class DictionaryDecoderTests: XCTestCase, DictionaryDecoderTesting {
         }
     }
 
+    func testThatDecoderFailsWhenDecodingNumberThatDoesNotFit() {
+        let dictionary = ["foobar": 1.5]
+
+        assertDecoderFails(decoding: [String: Int].self, from: dictionary) { error in
+            switch error {
+            case let DecodingError.typeMismatch(type, _) where type is Int.Type:
+                return true
+
+            default:
+                return false
+            }
+        }
+    }
+
+#if compiler(>=6.0)
+    func testThatDecoderFailsWhenDecodingWideIntegerThatDoesNotFit() throws {
+        guard #available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *) else {
+            throw XCTSkip("Int128 and UInt128 are unavailable")
+        }
+
+        let dictionary = ["foobar": 1.5]
+
+        assertDecoderFails(decoding: [String: Int128].self, from: dictionary) { error in
+            switch error {
+            case let DecodingError.typeMismatch(type, _) where type is Int128.Type:
+                return true
+
+            default:
+                return false
+            }
+        }
+    }
+#endif
+
+    func testThatDecoderFailsWhenDecodingOptionalOfWrongType() {
+        struct DecodableStruct: Decodable {
+            let foo: Int?
+        }
+
+        let dictionary = ["foo": "bar"]
+
+        assertDecoderFails(decoding: DecodableStruct.self, from: dictionary) { error in
+            switch error {
+            case let DecodingError.typeMismatch(type, context) where type is Int.Type:
+                return context.codingPath.map(\.stringValue) == ["foo"]
+
+            default:
+                return false
+            }
+        }
+    }
+
+    func testThatDecoderFailsWhenDecodingFoundationNumberThatDoesNotFit() {
+        let dictionary: [String: Any] = ["foobar": NSNumber(value: 300)]
+
+        assertDecoderFails(decoding: [String: Int8].self, from: dictionary) { error in
+            switch error {
+            case let DecodingError.typeMismatch(type, _) where type is Int8.Type:
+                return true
+
+            default:
+                return false
+            }
+        }
+    }
+
+    func testThatDecoderFailsWhenDecodingBoolFromNumber() {
+        let dictionary = ["foobar": 1]
+
+        assertDecoderFails(decoding: [String: Bool].self, from: dictionary) { error in
+            switch error {
+            case let DecodingError.typeMismatch(type, _) where type is Bool.Type:
+                return true
+
+            default:
+                return false
+            }
+        }
+    }
+
     func testThatDecoderFailsWhenDecodingNilForKeyedContainer() {
         struct DecodableStruct: Decodable {
             enum CodingKeys: String, CodingKey {
@@ -728,6 +1015,37 @@ final class DictionaryDecoderTests: XCTestCase, DictionaryDecoderTesting {
             switch error {
             case let DecodingError.typeMismatch(type, _) where type is [Any].Type:
                 return true
+
+            default:
+                return false
+            }
+        }
+    }
+
+    func testThatDecoderFailsWhenDecodingInvalidElementForUnkeyedContainer() {
+        struct DecodableStruct: Decodable {
+            enum CodingKeys: String, CodingKey {
+                case foo
+            }
+
+            let bar: Int
+            let baz: Int
+
+            init(from decoder: Decoder) throws {
+                let container = try decoder.container(keyedBy: CodingKeys.self)
+                var unkeyedContainer = try container.nestedUnkeyedContainer(forKey: .foo)
+
+                bar = try unkeyedContainer.decode(Int.self)
+                baz = try unkeyedContainer.decode(Int.self)
+            }
+        }
+
+        let dictionary: [String: Any] = ["foo": [123, "456"] as [Any]]
+
+        assertDecoderFails(decoding: DecodableStruct.self, from: dictionary) { error in
+            switch error {
+            case let DecodingError.typeMismatch(type, context) where type is Int.Type:
+                return context.codingPath.map(\.stringValue) == ["foo", "1"]
 
             default:
                 return false

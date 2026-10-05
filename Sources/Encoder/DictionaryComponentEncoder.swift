@@ -12,8 +12,9 @@ extension DictionaryComponentEncoder {
 
     // MARK: - Instance Methods
 
+    @inline(__always)
     private func encodePrimitiveValue(
-        _ value: Any?,
+        _ value: consuming Any?,
         at codingPath: [CodingKey]
     ) -> DictionaryComponent {
         .value(value)
@@ -21,7 +22,7 @@ extension DictionaryComponentEncoder {
 
     private func encodeNonPrimitiveValue<T: Encodable>(
         _ value: T,
-        at codingPath: [CodingKey]
+        at codingPath: consuming [CodingKey]
     ) throws -> DictionaryComponent {
         let encoder = DictionarySingleValueEncodingContainer(
             options: options,
@@ -36,7 +37,7 @@ extension DictionaryComponentEncoder {
 
     private func encodeCustomizedValue<T: Encodable>(
         _ value: T,
-        at codingPath: [CodingKey],
+        at codingPath: consuming [CodingKey],
         closure: (_ value: T, _ encoder: Encoder) throws -> Void
     ) throws -> DictionaryComponent {
         let encoder = DictionarySingleValueEncodingContainer(
@@ -60,7 +61,7 @@ extension DictionaryComponentEncoder {
         }
     }
 
-    private func encodeDate(_ date: Date, at codingPath: [CodingKey]) throws -> DictionaryComponent {
+    private func encodeDate(_ date: Date, at codingPath: consuming [CodingKey]) throws -> DictionaryComponent {
         switch options.dateEncodingStrategy {
         case .deferredToDate:
             return try encodeNonPrimitiveValue(date, at: codingPath)
@@ -71,18 +72,8 @@ extension DictionaryComponentEncoder {
         case .secondsSince1970:
             return encodePrimitiveValue(date.timeIntervalSince1970, at: codingPath)
 
-        case .iso8601:
-            guard #available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *) else {
-                fatalError("ISO8601DateFormatter is unavailable on this platform.")
-            }
-
-            let formattedDate = ISO8601DateFormatter.string(
-                from: date,
-                timeZone: .iso8601TimeZone,
-                formatOptions: .withInternetDateTime
-            )
-
-            return encodePrimitiveValue(formattedDate, at: codingPath)
+        case let .iso8601(style):
+            return encodePrimitiveValue(style.string(from: date), at: codingPath)
 
         case let .formatted(dateFormatter):
             return encodePrimitiveValue(dateFormatter.string(from: date), at: codingPath)
@@ -92,7 +83,7 @@ extension DictionaryComponentEncoder {
         }
     }
 
-    private func encodeData(_ data: Data, at codingPath: [CodingKey]) throws -> DictionaryComponent {
+    private func encodeData(_ data: Data, at codingPath: consuming [CodingKey]) throws -> DictionaryComponent {
         switch options.dataEncodingStrategy {
         case .deferredToData:
             return try encodeNonPrimitiveValue(data, at: codingPath)
@@ -105,6 +96,16 @@ extension DictionaryComponentEncoder {
 
         case let .custom(closure):
             return try encodeCustomizedValue(data, at: codingPath, closure: closure)
+        }
+    }
+
+    private func encodeDecimal(_ decimal: Decimal, at codingPath: [CodingKey]) throws -> DictionaryComponent {
+        switch options.decimalEncodingStrategy {
+        case .deferredToDecimal:
+            return try encodeNonPrimitiveValue(decimal, at: codingPath)
+
+        case .number:
+            return encodePrimitiveValue(decimal, at: codingPath)
         }
     }
 
@@ -137,91 +138,119 @@ extension DictionaryComponentEncoder {
 
     // MARK: -
 
+    @inline(__always)
     internal func encodeNilComponent(at codingPath: [CodingKey]) -> DictionaryComponent {
         encodeNil(at: codingPath)
     }
 
+    @inline(__always)
     internal func encodeComponentValue(_ value: Bool, at codingPath: [CodingKey]) -> DictionaryComponent {
         encodePrimitiveValue(value, at: codingPath)
     }
 
+    @inline(__always)
     internal func encodeComponentValue(_ value: Int, at codingPath: [CodingKey]) -> DictionaryComponent {
         encodePrimitiveValue(value, at: codingPath)
     }
 
+    @inline(__always)
     internal func encodeComponentValue(_ value: Int8, at codingPath: [CodingKey]) -> DictionaryComponent {
         encodePrimitiveValue(value, at: codingPath)
     }
 
+    @inline(__always)
     internal func encodeComponentValue(_ value: Int16, at codingPath: [CodingKey]) -> DictionaryComponent {
         encodePrimitiveValue(value, at: codingPath)
     }
 
+    @inline(__always)
     internal func encodeComponentValue(_ value: Int32, at codingPath: [CodingKey]) -> DictionaryComponent {
         encodePrimitiveValue(value, at: codingPath)
     }
 
+    @inline(__always)
     internal func encodeComponentValue(_ value: Int64, at codingPath: [CodingKey]) -> DictionaryComponent {
         encodePrimitiveValue(value, at: codingPath)
     }
 
+#if compiler(>=6.0)
+    @available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+    @inline(__always)
+    internal func encodeComponentValue(_ value: Int128, at codingPath: [CodingKey]) -> DictionaryComponent {
+        encodePrimitiveValue(value, at: codingPath)
+    }
+#endif
+
+    @inline(__always)
     internal func encodeComponentValue(_ value: UInt, at codingPath: [CodingKey]) -> DictionaryComponent {
         encodePrimitiveValue(value, at: codingPath)
     }
 
+    @inline(__always)
     internal func encodeComponentValue(_ value: UInt8, at codingPath: [CodingKey]) -> DictionaryComponent {
         encodePrimitiveValue(value, at: codingPath)
     }
 
+    @inline(__always)
     internal func encodeComponentValue(_ value: UInt16, at codingPath: [CodingKey]) -> DictionaryComponent {
         encodePrimitiveValue(value, at: codingPath)
     }
 
+    @inline(__always)
     internal func encodeComponentValue(_ value: UInt32, at codingPath: [CodingKey]) -> DictionaryComponent {
         encodePrimitiveValue(value, at: codingPath)
     }
 
+    @inline(__always)
     internal func encodeComponentValue(_ value: UInt64, at codingPath: [CodingKey]) -> DictionaryComponent {
         encodePrimitiveValue(value, at: codingPath)
     }
 
+#if compiler(>=6.0)
+    @available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+    @inline(__always)
+    internal func encodeComponentValue(_ value: UInt128, at codingPath: [CodingKey]) -> DictionaryComponent {
+        encodePrimitiveValue(value, at: codingPath)
+    }
+#endif
+
+    @inline(__always)
     internal func encodeComponentValue(_ value: Double, at codingPath: [CodingKey]) throws -> DictionaryComponent {
         try encodeFloatingPoint(value, at: codingPath)
     }
 
+    @inline(__always)
     internal func encodeComponentValue(_ value: Float, at codingPath: [CodingKey]) throws -> DictionaryComponent {
         try encodeFloatingPoint(value, at: codingPath)
     }
 
+    @inline(__always)
     internal func encodeComponentValue(_ value: String, at codingPath: [CodingKey]) -> DictionaryComponent {
         encodePrimitiveValue(value, at: codingPath)
     }
 
     internal func encodeComponentValue<T: Encodable>(
         _ value: T,
-        at codingPath: [CodingKey]
+        at codingPath: consuming [CodingKey]
     ) throws -> DictionaryComponent {
-        switch value {
-        case let date as Date:
-            return try encodeDate(date, at: codingPath)
+        // The type is compared rather than the value cast, as a cast costs much more and is made for every value.
+        switch ObjectIdentifier(T.self) {
+        case ObjectIdentifier(Date.self):
+            return try encodeDate(value as! Date, at: codingPath)
 
-        case let data as Data:
-            return try encodeData(data, at: codingPath)
+        case ObjectIdentifier(Data.self):
+            return try encodeData(value as! Data, at: codingPath)
 
-        case let url as URL:
-            return try encodeURL(url, at: codingPath)
+        case ObjectIdentifier(URL.self):
+            return try encodeURL(value as! URL, at: codingPath)
+
+        case ObjectIdentifier(Decimal.self):
+            return try encodeDecimal(value as! Decimal, at: codingPath)
 
         default:
             return try encodeNonPrimitiveValue(value, at: codingPath)
         }
     }
-}
-
-extension TimeZone {
-
-    // MARK: - Type Properties
-
-    fileprivate static let iso8601TimeZone = TimeZone(secondsFromGMT: 0)!
 }
 
 extension EncodingError {
@@ -250,6 +279,6 @@ extension EncodingError {
             Use DictionaryNonConformingFloatEncodingStrategy.convertToString to specify how the value should be encoded.
             """
 
-        return .invalidValue(value, EncodingError.Context(codingPath: codingPath, debugDescription: debugDescription))
+        return .invalidValue(value, Context(codingPath: codingPath, debugDescription: debugDescription))
     }
 }

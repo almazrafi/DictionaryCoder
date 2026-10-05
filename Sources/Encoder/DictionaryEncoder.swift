@@ -17,6 +17,11 @@ public final class DictionaryEncoder: Sendable {
         set { optionsMutex.withLock { $0.dataEncodingStrategy = newValue } }
     }
 
+    public var decimalEncodingStrategy: DictionaryDecimalEncodingStrategy {
+        get { optionsMutex.withLock { $0.decimalEncodingStrategy } }
+        set { optionsMutex.withLock { $0.decimalEncodingStrategy = newValue } }
+    }
+
     public var nonConformingFloatEncodingStrategy: DictionaryNonConformingFloatEncodingStrategy {
         get { optionsMutex.withLock { $0.nonConformingFloatEncodingStrategy } }
         set { optionsMutex.withLock { $0.nonConformingFloatEncodingStrategy = newValue } }
@@ -42,6 +47,7 @@ public final class DictionaryEncoder: Sendable {
     public init(
         dateEncodingStrategy: DictionaryDateEncodingStrategy = .deferredToDate,
         dataEncodingStrategy: DictionaryDataEncodingStrategy = .base64,
+        decimalEncodingStrategy: DictionaryDecimalEncodingStrategy = .deferredToDecimal,
         nonConformingFloatEncodingStrategy: DictionaryNonConformingFloatEncodingStrategy = .throw,
         nilEncodingStrategy: DictionaryNilEncodingStrategy = .useNil,
         keyEncodingStrategy: DictionaryKeyEncodingStrategy = .useDefaultKeys,
@@ -50,6 +56,7 @@ public final class DictionaryEncoder: Sendable {
         let options = DictionaryEncodingOptions(
             dateEncodingStrategy: dateEncodingStrategy,
             dataEncodingStrategy: dataEncodingStrategy,
+            decimalEncodingStrategy: decimalEncodingStrategy,
             nonConformingFloatEncodingStrategy: nonConformingFloatEncodingStrategy,
             nilEncodingStrategy: nilEncodingStrategy,
             keyEncodingStrategy: keyEncodingStrategy
@@ -61,7 +68,10 @@ public final class DictionaryEncoder: Sendable {
 
     // MARK: - Instance Methods
 
-    public func encode<T: Encodable>(_ value: T) throws -> [String: Sendable] {
+    private func encodeRootValue<T>(
+        _ value: T,
+        encoding: (_ encoder: Encoder) throws -> Void
+    ) throws -> [String: Sendable] {
         let options = optionsMutex.withLock { $0 }
 
         let encoder = DictionarySingleValueEncodingContainer(
@@ -70,7 +80,7 @@ public final class DictionaryEncoder: Sendable {
             codingPath: []
         )
 
-        try value.encode(to: encoder)
+        try encoding(encoder)
 
         guard let dictionary = encoder.resolveValue() as? [String: Sendable] else {
             let errorContext = EncodingError.Context(
@@ -84,30 +94,18 @@ public final class DictionaryEncoder: Sendable {
         return dictionary
     }
 
-    @available(macOS 12, iOS 15, tvOS 15, watchOS 8, *)
+    public func encode<T: Encodable>(_ value: T) throws -> [String: Sendable] {
+        try encodeRootValue(value) { encoder in
+            try value.encode(to: encoder)
+        }
+    }
+
     public func encode<T: EncodableWithConfiguration>(
         _ value: T,
         configuration: T.EncodingConfiguration
     ) throws -> [String: Sendable] {
-        let options = optionsMutex.withLock { $0 }
-
-        let encoder = DictionarySingleValueEncodingContainer(
-            options: options,
-            userInfo: userInfo,
-            codingPath: []
-        )
-
-        try value.encode(to: encoder, configuration: configuration)
-
-        guard let dictionary = encoder.resolveValue() as? [String: Sendable] else {
-            let errorContext = EncodingError.Context(
-                codingPath: [],
-                debugDescription: "Root component cannot be encoded in Dictionary"
-            )
-
-            throw EncodingError.invalidValue(value, errorContext)
+        try encodeRootValue(value) { encoder in
+            try value.encode(to: encoder, configuration: configuration)
         }
-
-        return dictionary
     }
 }

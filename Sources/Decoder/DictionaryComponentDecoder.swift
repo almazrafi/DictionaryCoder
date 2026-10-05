@@ -10,22 +10,139 @@ extension DictionaryComponentDecoder {
 
     // MARK: - Instance Methods
 
+    @inline(__always)
     private func decodePrimitiveValue<T: Decodable>(
         of type: T.Type = T.self,
         from component: Any?,
         at codingPath: [CodingKey]
     ) throws -> T {
-        guard let value = component as? T else {
+        guard let component else {
+            return try decodeConvertedNumber(from: component, at: codingPath)
+        }
+
+        let componentType = Swift.type(of: component)
+
+        if componentType == T.self, let value = component as? T {
+            return value
+        }
+
+        if let value = bridgeFoundationComponent(component, of: componentType, to: type) {
+            return value
+        }
+
+        if let value = component as? T {
+            return value
+        }
+
+        return try decodeConvertedNumber(from: component, at: codingPath)
+    }
+
+    // Bridging a Foundation object through `as? T` looks the bridging up on every call,
+    // while bridging one known to be of the class that `T` bridges from calls the same conversion directly.
+    @inline(__always)
+    private func bridgeFoundationComponent<T>(_ component: Any, of componentType: Any.Type, to type: T.Type) -> T? {
+        if T.self == String.self {
+            guard componentType is NSString.Type, let string = component as? NSString else {
+                return nil
+            }
+
+            return string as? T
+        }
+
+        if T.self == Data.self {
+            guard componentType is NSData.Type, let data = component as? NSData else {
+                return nil
+            }
+
+            return data as? T
+        }
+
+        guard componentType is NSNumber.Type, let number = component as? NSNumber else {
+            return nil
+        }
+
+        return number as? T
+    }
+
+    // Numbers of other types are converted the same way as `NSNumber`,
+    // so a dictionary decodes equally whether it holds Swift numbers or `NSNumber` instances.
+    // Unlike `NSNumber`, booleans are not converted to or from numbers here, as in `JSONDecoder`.
+    @inline(never)
+    private func decodeConvertedNumber<T: Decodable>(
+        from component: Any?,
+        at codingPath: [CodingKey]
+    ) throws -> T {
+        let number = component as? NSNumber
+
+        guard let number, !isBoolean(number), !(T.self is Bool.Type), let value = number as? T else {
             throw DecodingError.invalidComponent(component, of: T.self, at: codingPath)
         }
 
         return value
     }
 
-    private func decodeNonPrimitiveValue<T: Decodable>(
+    // Booleans are bridged to `NSNumber` too, so they are told apart by their Core Foundation type.
+    private func isBoolean(_ number: NSNumber) -> Bool {
+        CFGetTypeID(number) == CFBooleanGetTypeID()
+    }
+
+    private func decodeDecimal(from component: Any?, at codingPath: [CodingKey]) throws -> Decimal {
+        let strategy = options.decimalDecodingStrategy
+
+        if strategy.contains(.number) {
+            if let decimal = component as? Decimal {
+                return decimal
+            }
+
+            if let number = component as? NSNumber, !isBoolean(number) {
+                return number.decimalValue
+            }
+        }
+
+        guard strategy.contains(.deferredToDecimal) else {
+            throw DecodingError.invalidComponent(component, of: Decimal.self, at: codingPath)
+        }
+
+        return try decodeNonPrimitiveValue(from: component, at: codingPath)
+    }
+
+#if compiler(>=6.0)
+    // `NSNumber` does not bridge 128-bit integers, so other integers are converted exactly.
+    @available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+    private func decodeWideInteger<T: FixedWidthInteger & Decodable>(
         of type: T.Type = T.self,
         from component: Any?,
         at codingPath: [CodingKey]
+    ) throws -> T {
+        if let value = component as? T {
+            return value
+        }
+
+        let value: T?
+
+        switch component {
+        case let integer as any BinaryInteger:
+            value = T(exactly: integer)
+
+        case let number as NSNumber where !isBoolean(number):
+            value = (number as? Int64).flatMap(T.init(exactly:)) ?? (number as? UInt64).flatMap(T.init(exactly:))
+
+        default:
+            value = nil
+        }
+
+        guard let value else {
+            throw DecodingError.invalidComponent(component, of: T.self, at: codingPath)
+        }
+
+        return value
+    }
+#endif
+
+    private func decodeNonPrimitiveValue<T: Decodable>(
+        of type: T.Type = T.self,
+        from component: consuming Any?,
+        at codingPath: consuming [CodingKey]
     ) throws -> T {
         let decoder = DictionarySingleValueDecodingContainer(
             component: component,
@@ -39,8 +156,8 @@ extension DictionaryComponentDecoder {
 
     private func decodeCustomizedValue<T: Decodable>(
         of type: T.Type = T.self,
-        from component: Any?,
-        at codingPath: [CodingKey],
+        from component: consuming Any?,
+        at codingPath: consuming [CodingKey],
         closure: (_ decoder: Decoder) throws -> T
     ) throws -> T {
         let decoder = DictionarySingleValueDecodingContainer(
@@ -57,8 +174,8 @@ extension DictionaryComponentDecoder {
         from component: Any?,
         at codingPath: [CodingKey]
     ) throws -> T {
-        switch component {
-        case let string as String:
+        // The strategy is checked first, so that numbers are not cast to `String` with the default strategy.
+        if case .convertFromString = options.nonConformingFloatDecodingStrategy, let string = component as? String {
             switch options.nonConformingFloatDecodingStrategy {
             case let .convertFromString(positiveInfinity, _, _) where string == positiveInfinity:
                 return T.infinity
@@ -72,7 +189,9 @@ extension DictionaryComponentDecoder {
             case .convertFromString, .throw:
                 break
             }
+        }
 
+        switch component {
         case let number as T where number.isFinite:
             return number
 
@@ -88,10 +207,22 @@ extension DictionaryComponentDecoder {
             break
         }
 
-        throw DecodingError.invalidComponent(component, of: T.self, at: codingPath)
+        // Numbers of other types are converted, which strings do not survive.
+        let number: T = try decodeConvertedNumber(from: component, at: codingPath)
+
+        guard number.isFinite else {
+            let errorContext = DecodingError.Context(
+                codingPath: codingPath,
+                debugDescription: "Parsed dictionary number \(number) does not fit in \(T.self)."
+            )
+
+            throw DecodingError.dataCorrupted(errorContext)
+        }
+
+        return number
     }
 
-    private func decodeDate(from component: Any?, at codingPath: [CodingKey]) throws -> Date {
+    private func decodeDate(from component: consuming Any?, at codingPath: consuming [CodingKey]) throws -> Date {
         switch options.dateDecodingStrategy {
         case .deferredToDate:
             return try decodeNonPrimitiveValue(from: component, at: codingPath)
@@ -102,14 +233,10 @@ extension DictionaryComponentDecoder {
         case .millisecondsSince1970:
             return Date(timeIntervalSince1970: try decodePrimitiveValue(from: component, at: codingPath) / 1000.0)
 
-        case .iso8601:
-            guard #available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *) else {
-                fatalError("ISO8601DateFormatter is unavailable on this platform.")
-            }
-
+        case let .iso8601(style):
             let formattedDate = try decodePrimitiveValue(of: String.self, from: component, at: codingPath)
 
-            guard let date = ISO8601DateFormatter().date(from: formattedDate) else {
+            guard let date = style.date(from: formattedDate) else {
                 let errorContext = DecodingError.Context(
                     codingPath: codingPath,
                     debugDescription: "Expected date string to be ISO8601-formatted."
@@ -139,7 +266,7 @@ extension DictionaryComponentDecoder {
         }
     }
 
-    private func decodeData(from component: Any?, at codingPath: [CodingKey]) throws -> Data {
+    private func decodeData(from component: consuming Any?, at codingPath: consuming [CodingKey]) throws -> Data {
         switch options.dataDecodingStrategy {
         case .deferredToData:
             return try decodeNonPrimitiveValue(from: component, at: codingPath)
@@ -185,80 +312,120 @@ extension DictionaryComponentDecoder {
 
     // MARK: -
 
+    @inline(__always)
     internal func decodeNilComponent(from component: Any?) -> Bool {
-        component.isNil || component is NSNull
+        guard let component else {
+            return true
+        }
+
+        // Unlike `is NSNull`, checking the type does not bridge Swift values to Objective-C objects.
+        return type(of: component) is NSNull.Type
     }
 
+    @inline(__always)
     internal func decodeComponentValue(from component: Any?, at codingPath: [CodingKey]) throws -> Bool {
         try decodePrimitiveValue(from: component, at: codingPath)
     }
 
+    @inline(__always)
     internal func decodeComponentValue(from component: Any?, at codingPath: [CodingKey]) throws -> Int {
         try decodePrimitiveValue(from: component, at: codingPath)
     }
 
+    @inline(__always)
     internal func decodeComponentValue(from component: Any?, at codingPath: [CodingKey]) throws -> Int8 {
         try decodePrimitiveValue(from: component, at: codingPath)
     }
 
+    @inline(__always)
     internal func decodeComponentValue(from component: Any?, at codingPath: [CodingKey]) throws -> Int16 {
         try decodePrimitiveValue(from: component, at: codingPath)
     }
 
+    @inline(__always)
     internal func decodeComponentValue(from component: Any?, at codingPath: [CodingKey]) throws -> Int32 {
         try decodePrimitiveValue(from: component, at: codingPath)
     }
 
+    @inline(__always)
     internal func decodeComponentValue(from component: Any?, at codingPath: [CodingKey]) throws -> Int64 {
         try decodePrimitiveValue(from: component, at: codingPath)
     }
 
+#if compiler(>=6.0)
+    @available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+    @inline(__always)
+    internal func decodeComponentValue(from component: Any?, at codingPath: [CodingKey]) throws -> Int128 {
+        try decodeWideInteger(from: component, at: codingPath)
+    }
+#endif
+
+    @inline(__always)
     internal func decodeComponentValue(from component: Any?, at codingPath: [CodingKey]) throws -> UInt {
         try decodePrimitiveValue(from: component, at: codingPath)
     }
 
+    @inline(__always)
     internal func decodeComponentValue(from component: Any?, at codingPath: [CodingKey]) throws -> UInt8 {
         try decodePrimitiveValue(from: component, at: codingPath)
     }
 
+    @inline(__always)
     internal func decodeComponentValue(from component: Any?, at codingPath: [CodingKey]) throws -> UInt16 {
         try decodePrimitiveValue(from: component, at: codingPath)
     }
 
+    @inline(__always)
     internal func decodeComponentValue(from component: Any?, at codingPath: [CodingKey]) throws -> UInt32 {
         try decodePrimitiveValue(from: component, at: codingPath)
     }
 
+    @inline(__always)
     internal func decodeComponentValue(from component: Any?, at codingPath: [CodingKey]) throws -> UInt64 {
         try decodePrimitiveValue(from: component, at: codingPath)
     }
 
+#if compiler(>=6.0)
+    @available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+    @inline(__always)
+    internal func decodeComponentValue(from component: Any?, at codingPath: [CodingKey]) throws -> UInt128 {
+        try decodeWideInteger(from: component, at: codingPath)
+    }
+#endif
+
+    @inline(__always)
     internal func decodeComponentValue(from component: Any?, at codingPath: [CodingKey]) throws -> Double {
         try decodeFloatingPointValue(from: component, at: codingPath)
     }
 
+    @inline(__always)
     internal func decodeComponentValue(from component: Any?, at codingPath: [CodingKey]) throws -> Float {
         try decodeFloatingPointValue(from: component, at: codingPath)
     }
 
+    @inline(__always)
     internal func decodeComponentValue(from component: Any?, at codingPath: [CodingKey]) throws -> String {
         try decodePrimitiveValue(from: component, at: codingPath)
     }
 
     internal func decodeComponentValue<T: Decodable>(
         of type: T.Type,
-        from component: Any?,
-        at codingPath: [CodingKey]
+        from component: consuming Any?,
+        at codingPath: consuming [CodingKey]
     ) throws -> T {
-        switch T.self {
-        case is Date.Type:
+        // The type is compared rather than cast, as a cast costs much more and is made for every value.
+        switch ObjectIdentifier(T.self) {
+        case ObjectIdentifier(Date.self):
             return try decodeDate(from: component, at: codingPath) as! T
 
-        case is Data.Type:
+        case ObjectIdentifier(Data.self):
             return try decodeData(from: component, at: codingPath) as! T
 
-        case is URL.Type:
+        case ObjectIdentifier(URL.self):
             return try decodeURL(from: component, at: codingPath) as! T
+
+        case ObjectIdentifier(Decimal.self):
+            return try decodeDecimal(from: component, at: codingPath) as! T
 
         default:
             return try decodeNonPrimitiveValue(from: component, at: codingPath)

@@ -48,6 +48,15 @@ final class DictionaryDecoderStrategiesTests: XCTestCase, DictionaryDecoderTesti
         assertDecoderSucceeds(decoding: DecodableStruct.self, from: dictionary)
     }
 
+    func testThatDecoderSucceedsWhenDecodingCollidingKeysUsingCustomFunctionForKeys() {
+        decoder.keyDecodingStrategy = .custom { _ in AnyCodingKey("foobar") }
+
+        let letters = "abcdefghijklmnopqrstuvwxyz".map(String.init)
+        let dictionary = Dictionary(uniqueKeysWithValues: letters.enumerated().map { ($1, $0) })
+
+        assertDecoderSucceeds(decoding: ["foobar": 0], from: dictionary)
+    }
+
     // MARK: -
 
     func testThatDecoderSucceedsWhenDecodingDate() {
@@ -90,7 +99,6 @@ final class DictionaryDecoderStrategiesTests: XCTestCase, DictionaryDecoderTesti
         assertDecoderSucceeds(decoding: [String: Date].self, from: dictionary)
     }
 
-    @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
     func testThatDecoderSucceedsWhenDecodingDateFromISO8601Format() {
         decoder.dateDecodingStrategy = .iso8601
 
@@ -99,11 +107,74 @@ final class DictionaryDecoderStrategiesTests: XCTestCase, DictionaryDecoderTesti
         assertDecoderSucceeds(decoding: [String: Date].self, from: dictionary)
     }
 
-    @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
     func testThatDecoderFailsWhenDecodingInvalidDateFromISO8601Format() {
         decoder.dateDecodingStrategy = .iso8601
 
         let dictionary = ["foobar": "qwe"]
+
+        assertDecoderFails(decoding: [String: Date].self, from: dictionary) { error in
+            switch error {
+            case DecodingError.dataCorrupted:
+                return true
+
+            default:
+                return false
+            }
+        }
+    }
+
+    func testThatDecoderSucceedsWhenDecodingDateWithTimeZoneFromISO8601Format() {
+        decoder.dateDecodingStrategy = .iso8601
+
+        let dictionary = [
+            "foo": "2001-01-01T01:02:03+01:00",
+            "bar": "2001-01-01T01:02:03 +01:00"
+        ]
+
+        let value = [
+            "foo": Date(timeIntervalSinceReferenceDate: 123),
+            "bar": Date(timeIntervalSinceReferenceDate: 123)
+        ]
+
+        assertDecoderSucceeds(decoding: value, from: dictionary)
+    }
+
+    func testThatDecoderFailsWhenDecodingDateWithFractionalSecondsFromISO8601Format() {
+        decoder.dateDecodingStrategy = .iso8601
+
+        let dictionary = ["foobar": "2001-01-01T00:02:03.5Z"]
+
+        assertDecoderFails(decoding: [String: Date].self, from: dictionary) { error in
+            switch error {
+            case DecodingError.dataCorrupted:
+                return true
+
+            default:
+                return false
+            }
+        }
+    }
+
+    func testThatDecoderSucceedsWhenDecodingDateFromISO8601FormatStyle() {
+        decoder.dateDecodingStrategy = .iso8601(style: .formatStyle)
+
+        let dictionary = [
+            "foo": "2001-01-01T00:02:03Z",
+            "bar": "2001-01-01T00:02:03.5Z"
+        ]
+
+        let value = [
+            "foo": Date(timeIntervalSinceReferenceDate: 123),
+            "bar": Date(timeIntervalSinceReferenceDate: 123.5)
+        ]
+
+        assertDecoderSucceeds(decoding: value, from: dictionary)
+    }
+
+    func testThatDecoderFailsWhenDecodingInvalidDateFromISO8601FormatStyle() {
+        decoder.dateDecodingStrategy = .iso8601(style: .formatStyle)
+
+        let dictionary = ["foobar": "2001-01-01T00:02:03 +01:00"]
 
         assertDecoderFails(decoding: [String: Date].self, from: dictionary) { error in
             switch error {
@@ -291,6 +362,87 @@ final class DictionaryDecoderStrategiesTests: XCTestCase, DictionaryDecoderTesti
     }
 
     // MARK: -
+
+    func testThatDecoderSucceedsWhenDecodingDecimal() throws {
+        let value = [
+            "foo": Decimal(string: "1.5")!,
+            "bar": Decimal(string: "-2.25")!
+        ]
+
+        let dictionary = try DictionaryEncoder().encode(value)
+
+        assertDecoderSucceeds(decoding: value, from: dictionary)
+    }
+
+    func testThatDecoderFailsWhenDecodingInvalidDecimal() {
+        let dictionary = ["foobar": 1.5]
+
+        assertDecoderFails(decoding: [String: Decimal].self, from: dictionary) { error in
+            switch error {
+            case DecodingError.typeMismatch:
+                return true
+
+            default:
+                return false
+            }
+        }
+    }
+
+    func testThatDecoderSucceedsWhenDecodingDecimalFromNumber() {
+        decoder.decimalDecodingStrategy = .number
+
+        let dictionary: [String: Any] = [
+            "foo": Decimal(string: "1.5")!,
+            "bar": NSDecimalNumber(string: "-2.25"),
+            "baz": 0.1,
+            "qux": 3
+        ]
+
+        let value = [
+            "foo": Decimal(string: "1.5")!,
+            "bar": Decimal(string: "-2.25")!,
+            "baz": Decimal(string: "0.1")!,
+            "qux": Decimal(3)
+        ]
+
+        assertDecoderSucceeds(decoding: value, from: dictionary)
+    }
+
+    func testThatDecoderFailsWhenDecodingInvalidDecimalFromNumber() throws {
+        decoder.decimalDecodingStrategy = .number
+
+        let dictionaries: [[String: Any]] = [
+            ["foobar": true],
+            try DictionaryEncoder().encode(["foobar": Decimal(string: "1.5")!])
+        ]
+
+        for dictionary in dictionaries {
+            assertDecoderFails(decoding: [String: Decimal].self, from: dictionary) { error in
+                switch error {
+                case let DecodingError.typeMismatch(type, _) where type is Decimal.Type:
+                    return true
+
+                default:
+                    return false
+                }
+            }
+        }
+    }
+
+    func testThatDecoderSucceedsWhenDecodingDecimalFromNumberOrKeyedRepresentation() throws {
+        decoder.decimalDecodingStrategy = [.deferredToDecimal, .number]
+
+        var dictionary = try DictionaryEncoder().encode(["foo": Decimal(string: "1.5")!])
+
+        dictionary["bar"] = 0.25
+
+        let value = [
+            "foo": Decimal(string: "1.5")!,
+            "bar": Decimal(string: "0.25")!
+        ]
+
+        assertDecoderSucceeds(decoding: value, from: dictionary)
+    }
 
     func testThatDecoderFailsWhenDecodingNonConformingFloat() {
         decoder.nonConformingFloatDecodingStrategy = .throw
