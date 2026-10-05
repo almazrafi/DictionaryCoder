@@ -250,6 +250,6 @@ extension EncodingError {
             Use DictionaryNonConformingFloatEncodingStrategy.convertToString to specify how the value should be encoded.
             """
 
-        return .invalidValue(value, EncodingError.Context(codingPath: codingPath, debugDescription: debugDescription))
+        return .invalidValue(value, Context(codingPath: codingPath, debugDescription: debugDescription))
     }
 }
