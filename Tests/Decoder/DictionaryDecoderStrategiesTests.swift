@@ -299,6 +299,87 @@ final class DictionaryDecoderStrategiesTests: XCTestCase, DictionaryDecoderTesti
 
     // MARK: -
 
+    func testThatDecoderSucceedsWhenDecodingDecimal() throws {
+        let value = [
+            "foo": Decimal(string: "1.5")!,
+            "bar": Decimal(string: "-2.25")!
+        ]
+
+        let dictionary = try DictionaryEncoder().encode(value)
+
+        assertDecoderSucceeds(decoding: value, from: dictionary)
+    }
+
+    func testThatDecoderFailsWhenDecodingInvalidDecimal() {
+        let dictionary = ["foobar": 1.5]
+
+        assertDecoderFails(decoding: [String: Decimal].self, from: dictionary) { error in
+            switch error {
+            case DecodingError.typeMismatch:
+                return true
+
+            default:
+                return false
+            }
+        }
+    }
+
+    func testThatDecoderSucceedsWhenDecodingDecimalFromNumber() {
+        decoder.decimalDecodingStrategy = .number
+
+        let dictionary: [String: Any] = [
+            "foo": Decimal(string: "1.5")!,
+            "bar": NSDecimalNumber(string: "-2.25"),
+            "baz": 0.1,
+            "qux": 3
+        ]
+
+        let value = [
+            "foo": Decimal(string: "1.5")!,
+            "bar": Decimal(string: "-2.25")!,
+            "baz": Decimal(string: "0.1")!,
+            "qux": Decimal(3)
+        ]
+
+        assertDecoderSucceeds(decoding: value, from: dictionary)
+    }
+
+    func testThatDecoderFailsWhenDecodingInvalidDecimalFromNumber() throws {
+        decoder.decimalDecodingStrategy = .number
+
+        let dictionaries: [[String: Any]] = [
+            ["foobar": true],
+            try DictionaryEncoder().encode(["foobar": Decimal(string: "1.5")!])
+        ]
+
+        for dictionary in dictionaries {
+            assertDecoderFails(decoding: [String: Decimal].self, from: dictionary) { error in
+                switch error {
+                case let DecodingError.typeMismatch(type, _) where type is Decimal.Type:
+                    return true
+
+                default:
+                    return false
+                }
+            }
+        }
+    }
+
+    func testThatDecoderSucceedsWhenDecodingDecimalFromNumberOrKeyedRepresentation() throws {
+        decoder.decimalDecodingStrategy = [.deferredToDecimal, .number]
+
+        var dictionary = try DictionaryEncoder().encode(["foo": Decimal(string: "1.5")!])
+
+        dictionary["bar"] = 0.25
+
+        let value = [
+            "foo": Decimal(string: "1.5")!,
+            "bar": Decimal(string: "0.25")!
+        ]
+
+        assertDecoderSucceeds(decoding: value, from: dictionary)
+    }
+
     func testThatDecoderFailsWhenDecodingNonConformingFloat() {
         decoder.nonConformingFloatDecodingStrategy = .throw
 

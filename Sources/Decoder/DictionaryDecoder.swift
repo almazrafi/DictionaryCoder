@@ -17,6 +17,11 @@ public final class DictionaryDecoder: Sendable {
         set { optionsMutex.withLock { $0.dataDecodingStrategy = newValue } }
     }
 
+    public var decimalDecodingStrategy: DictionaryDecimalDecodingStrategy {
+        get { optionsMutex.withLock { $0.decimalDecodingStrategy } }
+        set { optionsMutex.withLock { $0.decimalDecodingStrategy = newValue } }
+    }
+
     public var nonConformingFloatDecodingStrategy: DictionaryNonConformingFloatDecodingStrategy {
         get { optionsMutex.withLock { $0.nonConformingFloatDecodingStrategy } }
         set { optionsMutex.withLock { $0.nonConformingFloatDecodingStrategy = newValue } }
@@ -37,6 +42,7 @@ public final class DictionaryDecoder: Sendable {
     public init(
         dateDecodingStrategy: DictionaryDateDecodingStrategy = .deferredToDate,
         dataDecodingStrategy: DictionaryDataDecodingStrategy = .base64,
+        decimalDecodingStrategy: DictionaryDecimalDecodingStrategy = .deferredToDecimal,
         nonConformingFloatDecodingStrategy: DictionaryNonConformingFloatDecodingStrategy = .throw,
         keyDecodingStrategy: DictionaryKeyDecodingStrategy = .useDefaultKeys,
         userInfo: [CodingUserInfoKey: Sendable] = [:]
@@ -44,6 +50,7 @@ public final class DictionaryDecoder: Sendable {
         let options = DictionaryDecodingOptions(
             dateDecodingStrategy: dateDecodingStrategy,
             dataDecodingStrategy: dataDecodingStrategy,
+            decimalDecodingStrategy: decimalDecodingStrategy,
             nonConformingFloatDecodingStrategy: nonConformingFloatDecodingStrategy,
             keyDecodingStrategy: keyDecodingStrategy
         )

@@ -17,6 +17,11 @@ public final class DictionaryEncoder: Sendable {
         set { optionsMutex.withLock { $0.dataEncodingStrategy = newValue } }
     }
 
+    public var decimalEncodingStrategy: DictionaryDecimalEncodingStrategy {
+        get { optionsMutex.withLock { $0.decimalEncodingStrategy } }
+        set { optionsMutex.withLock { $0.decimalEncodingStrategy = newValue } }
+    }
+
     public var nonConformingFloatEncodingStrategy: DictionaryNonConformingFloatEncodingStrategy {
         get { optionsMutex.withLock { $0.nonConformingFloatEncodingStrategy } }
         set { optionsMutex.withLock { $0.nonConformingFloatEncodingStrategy = newValue } }
@@ -42,6 +47,7 @@ public final class DictionaryEncoder: Sendable {
     public init(
         dateEncodingStrategy: DictionaryDateEncodingStrategy = .deferredToDate,
         dataEncodingStrategy: DictionaryDataEncodingStrategy = .base64,
+        decimalEncodingStrategy: DictionaryDecimalEncodingStrategy = .deferredToDecimal,
         nonConformingFloatEncodingStrategy: DictionaryNonConformingFloatEncodingStrategy = .throw,
         nilEncodingStrategy: DictionaryNilEncodingStrategy = .useNil,
         keyEncodingStrategy: DictionaryKeyEncodingStrategy = .useDefaultKeys,
@@ -50,6 +56,7 @@ public final class DictionaryEncoder: Sendable {
         let options = DictionaryEncodingOptions(
             dateEncodingStrategy: dateEncodingStrategy,
             dataEncodingStrategy: dataEncodingStrategy,
+            decimalEncodingStrategy: decimalEncodingStrategy,
             nonConformingFloatEncodingStrategy: nonConformingFloatEncodingStrategy,
             nilEncodingStrategy: nilEncodingStrategy,
             keyEncodingStrategy: keyEncodingStrategy

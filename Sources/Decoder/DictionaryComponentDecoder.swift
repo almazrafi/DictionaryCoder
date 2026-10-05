@@ -44,6 +44,26 @@ extension DictionaryComponentDecoder {
         CFGetTypeID(number) == CFBooleanGetTypeID()
     }
 
+    private func decodeDecimal(from component: Any?, at codingPath: [CodingKey]) throws -> Decimal {
+        let strategy = options.decimalDecodingStrategy
+
+        if strategy.contains(.number) {
+            if let decimal = component as? Decimal {
+                return decimal
+            }
+
+            if let number = component as? NSNumber, !isBoolean(number) {
+                return number.decimalValue
+            }
+        }
+
+        guard strategy.contains(.deferredToDecimal) else {
+            throw DecodingError.invalidComponent(component, of: Decimal.self, at: codingPath)
+        }
+
+        return try decodeNonPrimitiveValue(from: component, at: codingPath)
+    }
+
     private func decodeNonPrimitiveValue<T: Decodable>(
         of type: T.Type = T.self,
         from component: Any?,
@@ -290,6 +310,9 @@ extension DictionaryComponentDecoder {
 
         case ObjectIdentifier(URL.self):
             return try decodeURL(from: component, at: codingPath) as! T
+
+        case ObjectIdentifier(Decimal.self):
+            return try decodeDecimal(from: component, at: codingPath) as! T
 
         default:
             return try decodeNonPrimitiveValue(from: component, at: codingPath)

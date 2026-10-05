@@ -104,6 +104,16 @@ extension DictionaryComponentEncoder {
         }
     }
 
+    private func encodeDecimal(_ decimal: Decimal, at codingPath: [CodingKey]) throws -> DictionaryComponent {
+        switch options.decimalEncodingStrategy {
+        case .deferredToDecimal:
+            return try encodeNonPrimitiveValue(decimal, at: codingPath)
+
+        case .number:
+            return encodePrimitiveValue(decimal, at: codingPath)
+        }
+    }
+
     private func encodeFloatingPoint<T: FloatingPoint & Encodable>(
         _ value: T,
         at codingPath: [CodingKey]
@@ -207,6 +217,9 @@ extension DictionaryComponentEncoder {
 
         case ObjectIdentifier(URL.self):
             return try encodeURL(value as! URL, at: codingPath)
+
+        case ObjectIdentifier(Decimal.self):
+            return try encodeDecimal(value as! Decimal, at: codingPath)
 
         default:
             return try encodeNonPrimitiveValue(value, at: codingPath)

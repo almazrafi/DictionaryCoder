@@ -137,6 +137,34 @@ final class DictionaryEncoderStrategiesTests: XCTestCase, DictionaryEncoderTesti
 
     // MARK: -
 
+    func testThatEncoderSucceedsWhenEncodingDecimal() throws {
+        struct DeferredDecimal: Encodable {
+            let value: Decimal
+
+            func encode(to encoder: Encoder) throws {
+                try value.encode(to: encoder)
+            }
+        }
+
+        let decimal = Decimal(string: "1.5")!
+        let expectedDictionary = try encoder.encode(["foobar": DeferredDecimal(value: decimal)])
+
+        XCTAssert(expectedDictionary["foobar"] is [String: Any])
+
+        assertEncoderSucceeds(encoding: ["foobar": decimal], expecting: expectedDictionary)
+    }
+
+    func testThatEncoderSucceedsWhenEncodingDecimalToNumber() {
+        encoder.decimalEncodingStrategy = .number
+
+        let value = [
+            "foo": Decimal(string: "1.5")!,
+            "bar": Decimal(string: "-2.25")!
+        ]
+
+        assertEncoderSucceeds(encoding: value, expecting: value)
+    }
+
     func testThatEncoderFailsWhenEncodingPositiveInfinityFloat() {
         encoder.nonConformingFloatEncodingStrategy = .throw
 
