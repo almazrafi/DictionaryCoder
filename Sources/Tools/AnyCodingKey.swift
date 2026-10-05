@@ -1,5 +1,3 @@
-import Foundation
-
 internal struct AnyCodingKey: CodingKey {
 
     // MARK: - Type Properties

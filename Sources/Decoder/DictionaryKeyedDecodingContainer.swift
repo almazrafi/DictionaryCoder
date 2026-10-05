@@ -1,5 +1,3 @@
-import Foundation
-
 internal class DictionaryKeyedDecodingContainer<Key: CodingKey>:
     KeyedDecodingContainerProtocol,
     DictionaryComponentDecoder {
@@ -27,12 +25,12 @@ internal class DictionaryKeyedDecodingContainer<Key: CodingKey>:
         case .useDefaultKeys:
             self.components = components
 
-        case let.custom(closure):
-            let componentKeysAndValues = components.map { key, value in
-                (closure(codingPath.appending(AnyCodingKey(key))).stringValue, value)
-            }
+        case let .custom(closure):
+            let componentKeysAndValues = components
+                .sorted { $0.key < $1.key }
+                .map { key, value in (closure(codingPath.appending(AnyCodingKey(key))).stringValue, value) }
 
-            self.components = Dictionary(componentKeysAndValues) { $1 }
+            self.components = Dictionary(componentKeysAndValues) { first, _ in first }
         }
 
         self.options = options
@@ -100,6 +98,13 @@ internal class DictionaryKeyedDecodingContainer<Key: CodingKey>:
         try decodeComponentValue(from: try component(forKey: key), at: codingPath.appending(key))
     }
 
+#if compiler(>=6.0)
+    @available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+    internal func decode(_ type: Int128.Type, forKey key: Key) throws -> Int128 {
+        try decodeComponentValue(from: try component(forKey: key), at: codingPath.appending(key))
+    }
+#endif
+
     internal func decode(_ type: UInt.Type, forKey key: Key) throws -> UInt {
         try decodeComponentValue(from: try component(forKey: key), at: codingPath.appending(key))
     }
@@ -119,6 +124,13 @@ internal class DictionaryKeyedDecodingContainer<Key: CodingKey>:
     internal func decode(_ type: UInt64.Type, forKey key: Key) throws -> UInt64 {
         try decodeComponentValue(from: try component(forKey: key), at: codingPath.appending(key))
     }
+
+#if compiler(>=6.0)
+    @available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+    internal func decode(_ type: UInt128.Type, forKey key: Key) throws -> UInt128 {
+        try decodeComponentValue(from: try component(forKey: key), at: codingPath.appending(key))
+    }
+#endif
 
     internal func decode(_ type: Double.Type, forKey key: Key) throws -> Double {
         try decodeComponentValue(from: try component(forKey: key), at: codingPath.appending(key))

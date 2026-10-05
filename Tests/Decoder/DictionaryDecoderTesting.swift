@@ -152,12 +152,21 @@ extension DictionaryDateDecodingStrategy {
         case .secondsSince1970:
             return .secondsSince1970
 
-        case .iso8601:
-            guard #available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *) else {
-                fatalError("ISO8601DateFormatter is unavailable on this platform.")
+        case .iso8601(style: .dateFormatter):
+            return .custom { decoder in
+                let container = try decoder.singleValueContainer()
+
+                guard let date = ISO8601DateFormatter().date(from: try container.decode(String.self)) else {
+                    throw DecodingError.dataCorruptedError(in: container, debugDescription: "Invalid date")
+                }
+
+                return date
             }
 
-            return .iso8601
+        case .iso8601(style: .formatStyle):
+            return .custom { decoder in
+                try Date.ISO8601FormatStyle().parse(try decoder.singleValueContainer().decode(String.self))
+            }
 
         case let .formatted(dateFormatter):
             return .formatted(dateFormatter)

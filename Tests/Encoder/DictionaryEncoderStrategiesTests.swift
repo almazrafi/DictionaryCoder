@@ -60,7 +60,6 @@ final class DictionaryEncoderStrategiesTests: XCTestCase, DictionaryEncoderTesti
         assertEncoderSucceeds(encoding: value)
     }
 
-    @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
     func testThatEncoderSucceedsWhenEncodingDateToISO8601Format() {
         encoder.dateEncodingStrategy = .iso8601
 
@@ -69,7 +68,23 @@ final class DictionaryEncoderStrategiesTests: XCTestCase, DictionaryEncoderTesti
         assertEncoderSucceeds(encoding: value)
     }
 
-    @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
+    func testThatEncoderSucceedsWhenEncodingDateWithFractionalSecondsToISO8601Format() {
+        encoder.dateEncodingStrategy = .iso8601
+
+        let value = ["foobar": Date(timeIntervalSince1970: 0.9999)]
+
+        // Dates are rounded to milliseconds before fractions of a second are dropped, as in `ISO8601DateFormatter`.
+        assertEncoderSucceeds(encoding: value, expecting: ["foobar": "1970-01-01T00:00:01Z"])
+    }
+
+    func testThatEncoderSucceedsWhenEncodingDateToISO8601FormatStyle() {
+        encoder.dateEncodingStrategy = .iso8601(style: .formatStyle)
+
+        let value = ["foobar": Date(timeIntervalSince1970: 0.9999)]
+
+        assertEncoderSucceeds(encoding: value, expecting: ["foobar": "1970-01-01T00:00:00Z"])
+    }
+
     func testThatEncoderSucceedsWhenEncodingDateUsingFormatter() {
         let dateFormatter = DateFormatter()
 
@@ -138,6 +153,34 @@ final class DictionaryEncoderStrategiesTests: XCTestCase, DictionaryEncoderTesti
     }
 
     // MARK: -
+
+    func testThatEncoderSucceedsWhenEncodingDecimal() throws {
+        struct DeferredDecimal: Encodable {
+            let value: Decimal
+
+            func encode(to encoder: Encoder) throws {
+                try value.encode(to: encoder)
+            }
+        }
+
+        let decimal = Decimal(string: "1.5")!
+        let expectedDictionary = try encoder.encode(["foobar": DeferredDecimal(value: decimal)])
+
+        XCTAssert(expectedDictionary["foobar"] is [String: Any])
+
+        assertEncoderSucceeds(encoding: ["foobar": decimal], expecting: expectedDictionary)
+    }
+
+    func testThatEncoderSucceedsWhenEncodingDecimalToNumber() {
+        encoder.decimalEncodingStrategy = .number
+
+        let value = [
+            "foo": Decimal(string: "1.5")!,
+            "bar": Decimal(string: "-2.25")!
+        ]
+
+        assertEncoderSucceeds(encoding: value, expecting: value)
+    }
 
     func testThatEncoderFailsWhenEncodingPositiveInfinityFloat() {
         encoder.nonConformingFloatEncodingStrategy = .throw

@@ -71,18 +71,8 @@ extension DictionaryComponentEncoder {
         case .secondsSince1970:
             return encodePrimitiveValue(date.timeIntervalSince1970, at: codingPath)
 
-        case .iso8601:
-            guard #available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *) else {
-                fatalError("ISO8601DateFormatter is unavailable on this platform.")
-            }
-
-            let formattedDate = ISO8601DateFormatter.string(
-                from: date,
-                timeZone: .iso8601TimeZone,
-                formatOptions: .withInternetDateTime
-            )
-
-            return encodePrimitiveValue(formattedDate, at: codingPath)
+        case let .iso8601(style):
+            return encodePrimitiveValue(style.string(from: date), at: codingPath)
 
         case let .formatted(dateFormatter):
             return encodePrimitiveValue(dateFormatter.string(from: date), at: codingPath)
@@ -105,6 +95,16 @@ extension DictionaryComponentEncoder {
 
         case let .custom(closure):
             return try encodeCustomizedValue(data, at: codingPath, closure: closure)
+        }
+    }
+
+    private func encodeDecimal(_ decimal: Decimal, at codingPath: [CodingKey]) throws -> DictionaryComponent {
+        switch options.decimalEncodingStrategy {
+        case .deferredToDecimal:
+            return try encodeNonPrimitiveValue(decimal, at: codingPath)
+
+        case .number:
+            return encodePrimitiveValue(decimal, at: codingPath)
         }
     }
 
@@ -165,6 +165,13 @@ extension DictionaryComponentEncoder {
         encodePrimitiveValue(value, at: codingPath)
     }
 
+#if compiler(>=6.0)
+    @available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+    internal func encodeComponentValue(_ value: Int128, at codingPath: [CodingKey]) -> DictionaryComponent {
+        encodePrimitiveValue(value, at: codingPath)
+    }
+#endif
+
     internal func encodeComponentValue(_ value: UInt, at codingPath: [CodingKey]) -> DictionaryComponent {
         encodePrimitiveValue(value, at: codingPath)
     }
@@ -185,6 +192,13 @@ extension DictionaryComponentEncoder {
         encodePrimitiveValue(value, at: codingPath)
     }
 
+#if compiler(>=6.0)
+    @available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+    internal func encodeComponentValue(_ value: UInt128, at codingPath: [CodingKey]) -> DictionaryComponent {
+        encodePrimitiveValue(value, at: codingPath)
+    }
+#endif
+
     internal func encodeComponentValue(_ value: Double, at codingPath: [CodingKey]) throws -> DictionaryComponent {
         try encodeFloatingPoint(value, at: codingPath)
     }
@@ -201,27 +215,24 @@ extension DictionaryComponentEncoder {
         _ value: T,
         at codingPath: [CodingKey]
     ) throws -> DictionaryComponent {
-        switch value {
-        case let date as Date:
-            return try encodeDate(date, at: codingPath)
+        // The type is compared rather than the value cast, as a cast costs much more and is made for every value.
+        switch ObjectIdentifier(T.self) {
+        case ObjectIdentifier(Date.self):
+            return try encodeDate(value as! Date, at: codingPath)
 
-        case let data as Data:
-            return try encodeData(data, at: codingPath)
+        case ObjectIdentifier(Data.self):
+            return try encodeData(value as! Data, at: codingPath)
 
-        case let url as URL:
-            return try encodeURL(url, at: codingPath)
+        case ObjectIdentifier(URL.self):
+            return try encodeURL(value as! URL, at: codingPath)
+
+        case ObjectIdentifier(Decimal.self):
+            return try encodeDecimal(value as! Decimal, at: codingPath)
 
         default:
             return try encodeNonPrimitiveValue(value, at: codingPath)
         }
     }
-}
-
-extension TimeZone {
-
-    // MARK: - Type Properties
-
-    fileprivate static let iso8601TimeZone = TimeZone(secondsFromGMT: 0)!
 }
 
 extension EncodingError {
@@ -250,6 +261,6 @@ extension EncodingError {
             Use DictionaryNonConformingFloatEncodingStrategy.convertToString to specify how the value should be encoded.
             """
 
-        return .invalidValue(value, EncodingError.Context(codingPath: codingPath, debugDescription: debugDescription))
+        return .invalidValue(value, Context(codingPath: codingPath, debugDescription: debugDescription))
     }
 }

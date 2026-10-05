@@ -118,12 +118,25 @@ extension DictionaryDateEncodingStrategy {
         case .secondsSince1970:
             return .secondsSince1970
 
-        case .iso8601:
-            guard #available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *) else {
-                fatalError("ISO8601DateFormatter is unavailable on this platform.")
+        case .iso8601(style: .dateFormatter):
+            return .custom { date, encoder in
+                var container = encoder.singleValueContainer()
+
+                try container.encode(
+                    ISO8601DateFormatter.string(
+                        from: date,
+                        timeZone: TimeZone(secondsFromGMT: 0)!,
+                        formatOptions: .withInternetDateTime
+                    )
+                )
             }
 
-            return .iso8601
+        case .iso8601(style: .formatStyle):
+            return .custom { date, encoder in
+                var container = encoder.singleValueContainer()
+
+                try container.encode(Date.ISO8601FormatStyle().format(date))
+            }
 
         case let .formatted(dateFormatter):
             return .formatted(dateFormatter)

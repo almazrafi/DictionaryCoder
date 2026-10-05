@@ -1,5 +1,3 @@
-import Foundation
-
 import struct os.os_unfair_lock_t
 import struct os.os_unfair_lock
 

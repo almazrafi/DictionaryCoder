@@ -1,5 +1,3 @@
-import Foundation
-
 internal final class DictionaryUnkeyedEncodingContainer:
     UnkeyedEncodingContainer,
     DictionaryComponentContainer,
@@ -69,6 +67,13 @@ internal final class DictionaryUnkeyedEncodingContainer:
         collectComponent(encodeComponentValue(value, at: currentCodingPath))
     }
 
+#if compiler(>=6.0)
+    @available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+    internal func encode(_ value: Int128) throws {
+        collectComponent(encodeComponentValue(value, at: currentCodingPath))
+    }
+#endif
+
     internal func encode(_ value: UInt) throws {
         collectComponent(encodeComponentValue(value, at: currentCodingPath))
     }
@@ -88,6 +93,13 @@ internal final class DictionaryUnkeyedEncodingContainer:
     internal func encode(_ value: UInt64) throws {
         collectComponent(encodeComponentValue(value, at: currentCodingPath))
     }
+
+#if compiler(>=6.0)
+    @available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+    internal func encode(_ value: UInt128) throws {
+        collectComponent(encodeComponentValue(value, at: currentCodingPath))
+    }
+#endif
 
     internal func encode(_ value: Double) throws {
         collectComponent(try encodeComponentValue(value, at: currentCodingPath))
