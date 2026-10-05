@@ -16,11 +16,52 @@ extension DictionaryComponentDecoder {
         from component: Any?,
         at codingPath: [CodingKey]
     ) throws -> T {
-        guard let value = component as? T else {
+        guard let component else {
             return try decodeConvertedNumber(from: component, at: codingPath)
         }
 
-        return value
+        let componentType = Swift.type(of: component)
+
+        if componentType == T.self, let value = component as? T {
+            return value
+        }
+
+        if let value = bridgeFoundationComponent(component, of: componentType, to: type) {
+            return value
+        }
+
+        if let value = component as? T {
+            return value
+        }
+
+        return try decodeConvertedNumber(from: component, at: codingPath)
+    }
+
+    // Bridging a Foundation object through `as? T` looks the bridging up on every call,
+    // while bridging one known to be of the class that `T` bridges from calls the same conversion directly.
+    @inline(__always)
+    private func bridgeFoundationComponent<T>(_ component: Any, of componentType: Any.Type, to type: T.Type) -> T? {
+        if T.self == String.self {
+            guard componentType is NSString.Type, let string = component as? NSString else {
+                return nil
+            }
+
+            return string as? T
+        }
+
+        if T.self == Data.self {
+            guard componentType is NSData.Type, let data = component as? NSData else {
+                return nil
+            }
+
+            return data as? T
+        }
+
+        guard componentType is NSNumber.Type, let number = component as? NSNumber else {
+            return nil
+        }
+
+        return number as? T
     }
 
     // Numbers of other types are converted the same way as `NSNumber`,

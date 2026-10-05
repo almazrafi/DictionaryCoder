@@ -289,6 +289,50 @@ final class DictionaryDecoderTests: XCTestCase, DictionaryDecoderTesting {
         assertDecoderSucceeds(decoding: value, from: dictionary)
     }
 
+    func testThatDecoderSucceedsWhenDecodingFoundationNumbers() throws {
+        struct DecodableStruct: Decodable, Equatable {
+            let bool: Bool
+            let int: Int
+            let int8: Int8
+            let int16: Int16
+            let int32: Int32
+            let int64: Int64
+            let uint: UInt
+            let uint8: UInt8
+            let uint16: UInt16
+            let uint32: UInt32
+            let uint64: UInt64
+            let double: Double
+            let float: Float
+            let ints: [Int]
+            let doubles: [Double]
+        }
+
+        let object: [String: Any] = [
+            "bool": true,
+            "int": -1,
+            "int8": -2,
+            "int16": -3,
+            "int32": -4,
+            "int64": -5,
+            "uint": 1,
+            "uint8": 2,
+            "uint16": 3,
+            "uint32": 4,
+            "uint64": 5,
+            "double": 1.5,
+            "float": 2.5,
+            "ints": [1, 2, 3],
+            "doubles": [1.5, 2]
+        ]
+
+        // Numbers of `JSONSerialization` output are `NSNumber` instances.
+        let json = try JSONSerialization.data(withJSONObject: object)
+        let dictionary = try XCTUnwrap(JSONSerialization.jsonObject(with: json) as? [String: Any])
+
+        assertDecoderSucceeds(decoding: DecodableStruct.self, from: dictionary)
+    }
+
     func testThatDecoderSucceedsWhenDecodingStructWithURL() {
         struct DecodableStruct: Decodable, Equatable {
             let foobar: URL?
@@ -808,6 +852,20 @@ final class DictionaryDecoderTests: XCTestCase, DictionaryDecoderTesting {
             switch error {
             case let DecodingError.typeMismatch(type, context) where type is Int.Type:
                 return context.codingPath.map(\.stringValue) == ["foo"]
+
+            default:
+                return false
+            }
+        }
+    }
+
+    func testThatDecoderFailsWhenDecodingFoundationNumberThatDoesNotFit() {
+        let dictionary: [String: Any] = ["foobar": NSNumber(value: 300)]
+
+        assertDecoderFails(decoding: [String: Int8].self, from: dictionary) { error in
+            switch error {
+            case let DecodingError.typeMismatch(type, _) where type is Int8.Type:
+                return true
 
             default:
                 return false
