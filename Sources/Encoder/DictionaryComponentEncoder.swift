@@ -171,6 +171,13 @@ extension DictionaryComponentEncoder {
         encodePrimitiveValue(value, at: codingPath)
     }
 
+#if compiler(>=6.0)
+    @available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+    internal func encodeComponentValue(_ value: Int128, at codingPath: [CodingKey]) -> DictionaryComponent {
+        encodePrimitiveValue(value, at: codingPath)
+    }
+#endif
+
     internal func encodeComponentValue(_ value: UInt, at codingPath: [CodingKey]) -> DictionaryComponent {
         encodePrimitiveValue(value, at: codingPath)
     }
@@ -190,6 +197,13 @@ extension DictionaryComponentEncoder {
     internal func encodeComponentValue(_ value: UInt64, at codingPath: [CodingKey]) -> DictionaryComponent {
         encodePrimitiveValue(value, at: codingPath)
     }
+
+#if compiler(>=6.0)
+    @available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+    internal func encodeComponentValue(_ value: UInt128, at codingPath: [CodingKey]) -> DictionaryComponent {
+        encodePrimitiveValue(value, at: codingPath)
+    }
+#endif
 
     internal func encodeComponentValue(_ value: Double, at codingPath: [CodingKey]) throws -> DictionaryComponent {
         try encodeFloatingPoint(value, at: codingPath)

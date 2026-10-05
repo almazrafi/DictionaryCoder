@@ -151,6 +151,32 @@ final class DictionaryDecoderTests: XCTestCase, DictionaryDecoderTesting {
         assertDecoderSucceeds(decoding: DecodableStruct.self, from: dictionary)
     }
 
+#if compiler(>=6.0)
+    func testThatDecoderSucceedsWhenDecodingWideIntegers() throws {
+        guard #available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *) else {
+            throw XCTSkip("Int128 and UInt128 are unavailable")
+        }
+
+        struct DecodableStruct: Decodable, Equatable {
+            let foo: Int128
+            let bar: UInt128
+            let baz: Int128
+            let qux: [UInt128]
+        }
+
+        let dictionary: [String: Any] = [
+            "foo": Int128.max,
+            "bar": UInt128.max,
+            "baz": -123,
+            "qux": [UInt64.max, NSNumber(value: 456)] as [Any]
+        ]
+
+        let value = DecodableStruct(foo: .max, bar: .max, baz: -123, qux: [UInt128(UInt64.max), 456])
+
+        assertDecoderSucceeds(decoding: value, from: dictionary)
+    }
+#endif
+
     func testThatDecoderSucceedsWhenDecodingStringToStringDictionary() {
         let dictionary = [
             "foo": "qwe",
@@ -713,6 +739,26 @@ final class DictionaryDecoderTests: XCTestCase, DictionaryDecoderTesting {
             }
         }
     }
+
+#if compiler(>=6.0)
+    func testThatDecoderFailsWhenDecodingWideIntegerThatDoesNotFit() throws {
+        guard #available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *) else {
+            throw XCTSkip("Int128 and UInt128 are unavailable")
+        }
+
+        let dictionary = ["foobar": 1.5]
+
+        assertDecoderFails(decoding: [String: Int128].self, from: dictionary) { error in
+            switch error {
+            case let DecodingError.typeMismatch(type, _) where type is Int128.Type:
+                return true
+
+            default:
+                return false
+            }
+        }
+    }
+#endif
 
     func testThatDecoderFailsWhenDecodingBoolFromNumber() {
         let dictionary = ["foobar": 1]

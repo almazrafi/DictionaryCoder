@@ -64,6 +64,39 @@ extension DictionaryComponentDecoder {
         return try decodeNonPrimitiveValue(from: component, at: codingPath)
     }
 
+#if compiler(>=6.0)
+    // `NSNumber` does not bridge 128-bit integers, so other integers are converted exactly.
+    @available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+    private func decodeWideInteger<T: FixedWidthInteger & Decodable>(
+        of type: T.Type = T.self,
+        from component: Any?,
+        at codingPath: [CodingKey]
+    ) throws -> T {
+        if let value = component as? T {
+            return value
+        }
+
+        let value: T?
+
+        switch component {
+        case let integer as any BinaryInteger:
+            value = T(exactly: integer)
+
+        case let number as NSNumber where !isBoolean(number):
+            value = (number as? Int64).flatMap(T.init(exactly:)) ?? (number as? UInt64).flatMap(T.init(exactly:))
+
+        default:
+            value = nil
+        }
+
+        guard let value else {
+            throw DecodingError.invalidComponent(component, of: T.self, at: codingPath)
+        }
+
+        return value
+    }
+#endif
+
     private func decodeNonPrimitiveValue<T: Decodable>(
         of type: T.Type = T.self,
         from component: Any?,
@@ -263,6 +296,13 @@ extension DictionaryComponentDecoder {
         try decodePrimitiveValue(from: component, at: codingPath)
     }
 
+#if compiler(>=6.0)
+    @available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+    internal func decodeComponentValue(from component: Any?, at codingPath: [CodingKey]) throws -> Int128 {
+        try decodeWideInteger(from: component, at: codingPath)
+    }
+#endif
+
     internal func decodeComponentValue(from component: Any?, at codingPath: [CodingKey]) throws -> UInt {
         try decodePrimitiveValue(from: component, at: codingPath)
     }
@@ -282,6 +322,13 @@ extension DictionaryComponentDecoder {
     internal func decodeComponentValue(from component: Any?, at codingPath: [CodingKey]) throws -> UInt64 {
         try decodePrimitiveValue(from: component, at: codingPath)
     }
+
+#if compiler(>=6.0)
+    @available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+    internal func decodeComponentValue(from component: Any?, at codingPath: [CodingKey]) throws -> UInt128 {
+        try decodeWideInteger(from: component, at: codingPath)
+    }
+#endif
 
     internal func decodeComponentValue(from component: Any?, at codingPath: [CodingKey]) throws -> Double {
         try decodeFloatingPointValue(from: component, at: codingPath)
