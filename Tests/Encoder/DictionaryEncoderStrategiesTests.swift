@@ -68,6 +68,23 @@ final class DictionaryEncoderStrategiesTests: XCTestCase, DictionaryEncoderTesti
         assertEncoderSucceeds(encoding: value)
     }
 
+    func testThatEncoderSucceedsWhenEncodingDateWithFractionalSecondsToISO8601Format() {
+        encoder.dateEncodingStrategy = .iso8601
+
+        let value = ["foobar": Date(timeIntervalSince1970: 0.9999)]
+
+        // Dates are rounded to milliseconds before fractions of a second are dropped, as in `ISO8601DateFormatter`.
+        assertEncoderSucceeds(encoding: value, expecting: ["foobar": "1970-01-01T00:00:01Z"])
+    }
+
+    func testThatEncoderSucceedsWhenEncodingDateToISO8601FormatStyle() {
+        encoder.dateEncodingStrategy = .iso8601(style: .formatStyle)
+
+        let value = ["foobar": Date(timeIntervalSince1970: 0.9999)]
+
+        assertEncoderSucceeds(encoding: value, expecting: ["foobar": "1970-01-01T00:00:00Z"])
+    }
+
     func testThatEncoderSucceedsWhenEncodingDateUsingFormatter() {
         let dateFormatter = DateFormatter()
 

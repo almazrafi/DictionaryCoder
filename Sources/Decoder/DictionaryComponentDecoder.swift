@@ -189,10 +189,10 @@ extension DictionaryComponentDecoder {
         case .millisecondsSince1970:
             return Date(timeIntervalSince1970: try decodePrimitiveValue(from: component, at: codingPath) / 1000.0)
 
-        case .iso8601:
+        case let .iso8601(style):
             let formattedDate = try decodePrimitiveValue(of: String.self, from: component, at: codingPath)
 
-            guard let date = ISO8601DateFormatter().date(from: formattedDate) else {
+            guard let date = style.date(from: formattedDate) else {
                 let errorContext = DecodingError.Context(
                     codingPath: codingPath,
                     debugDescription: "Expected date string to be ISO8601-formatted."

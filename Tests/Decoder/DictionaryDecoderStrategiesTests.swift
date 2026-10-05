@@ -123,6 +123,70 @@ final class DictionaryDecoderStrategiesTests: XCTestCase, DictionaryDecoderTesti
         }
     }
 
+    func testThatDecoderSucceedsWhenDecodingDateWithTimeZoneFromISO8601Format() {
+        decoder.dateDecodingStrategy = .iso8601
+
+        let dictionary = [
+            "foo": "2001-01-01T01:02:03+01:00",
+            "bar": "2001-01-01T01:02:03 +01:00"
+        ]
+
+        let value = [
+            "foo": Date(timeIntervalSinceReferenceDate: 123),
+            "bar": Date(timeIntervalSinceReferenceDate: 123)
+        ]
+
+        assertDecoderSucceeds(decoding: value, from: dictionary)
+    }
+
+    func testThatDecoderFailsWhenDecodingDateWithFractionalSecondsFromISO8601Format() {
+        decoder.dateDecodingStrategy = .iso8601
+
+        let dictionary = ["foobar": "2001-01-01T00:02:03.5Z"]
+
+        assertDecoderFails(decoding: [String: Date].self, from: dictionary) { error in
+            switch error {
+            case DecodingError.dataCorrupted:
+                return true
+
+            default:
+                return false
+            }
+        }
+    }
+
+    func testThatDecoderSucceedsWhenDecodingDateFromISO8601FormatStyle() {
+        decoder.dateDecodingStrategy = .iso8601(style: .formatStyle)
+
+        let dictionary = [
+            "foo": "2001-01-01T00:02:03Z",
+            "bar": "2001-01-01T00:02:03.5Z"
+        ]
+
+        let value = [
+            "foo": Date(timeIntervalSinceReferenceDate: 123),
+            "bar": Date(timeIntervalSinceReferenceDate: 123.5)
+        ]
+
+        assertDecoderSucceeds(decoding: value, from: dictionary)
+    }
+
+    func testThatDecoderFailsWhenDecodingInvalidDateFromISO8601FormatStyle() {
+        decoder.dateDecodingStrategy = .iso8601(style: .formatStyle)
+
+        let dictionary = ["foobar": "2001-01-01T00:02:03 +01:00"]
+
+        assertDecoderFails(decoding: [String: Date].self, from: dictionary) { error in
+            switch error {
+            case DecodingError.dataCorrupted:
+                return true
+
+            default:
+                return false
+            }
+        }
+    }
+
     func testThatDecoderSucceedsWhenDecodingDateUsingFormatter() {
         let dateFormatter = DateFormatter()
 

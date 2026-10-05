@@ -118,8 +118,25 @@ extension DictionaryDateEncodingStrategy {
         case .secondsSince1970:
             return .secondsSince1970
 
-        case .iso8601:
-            return .iso8601
+        case .iso8601(style: .dateFormatter):
+            return .custom { date, encoder in
+                var container = encoder.singleValueContainer()
+
+                try container.encode(
+                    ISO8601DateFormatter.string(
+                        from: date,
+                        timeZone: TimeZone(secondsFromGMT: 0)!,
+                        formatOptions: .withInternetDateTime
+                    )
+                )
+            }
+
+        case .iso8601(style: .formatStyle):
+            return .custom { date, encoder in
+                var container = encoder.singleValueContainer()
+
+                try container.encode(Date.ISO8601FormatStyle().format(date))
+            }
 
         case let .formatted(dateFormatter):
             return .formatted(dateFormatter)

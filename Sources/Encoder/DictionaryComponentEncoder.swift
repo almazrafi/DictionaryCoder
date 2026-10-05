@@ -71,14 +71,8 @@ extension DictionaryComponentEncoder {
         case .secondsSince1970:
             return encodePrimitiveValue(date.timeIntervalSince1970, at: codingPath)
 
-        case .iso8601:
-            let formattedDate = ISO8601DateFormatter.string(
-                from: date,
-                timeZone: .iso8601TimeZone,
-                formatOptions: .withInternetDateTime
-            )
-
-            return encodePrimitiveValue(formattedDate, at: codingPath)
+        case let .iso8601(style):
+            return encodePrimitiveValue(style.string(from: date), at: codingPath)
 
         case let .formatted(dateFormatter):
             return encodePrimitiveValue(dateFormatter.string(from: date), at: codingPath)
@@ -239,13 +233,6 @@ extension DictionaryComponentEncoder {
             return try encodeNonPrimitiveValue(value, at: codingPath)
         }
     }
-}
-
-extension TimeZone {
-
-    // MARK: - Type Properties
-
-    fileprivate static let iso8601TimeZone = TimeZone(secondsFromGMT: 0)!
 }
 
 extension EncodingError {
